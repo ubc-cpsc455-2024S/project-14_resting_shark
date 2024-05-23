@@ -6,6 +6,21 @@
 
 {Add your stuff here}
 
+## Minimal Requirement Breakdown
+
+### 1. Have a working lesson for user to learn from.
+- Develop the lesson flow.
+- Create the starting and ending pages.
+- Design the necessary implementation to generate questions using OpenAI.
+- Manage responses for correct and incorrect answers.
+
+### 2. Create dashboard menu for the lessons
+- Design a dashboard interface for accessing different question modes and pages.
+- Display all available lessons to the user.
+- Enable functionalities to add, delete, and optionally edit questions.
+- Show the user profile of the logged-in user.
+- Incorporate a search functionality to find specific lessons from the dashboard.
+
 ## Team Members
 
 - Person 1: one sentence about you!
