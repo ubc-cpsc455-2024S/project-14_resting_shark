@@ -21,6 +21,29 @@
 - Show the user profile of the logged-in user.
 - Incorporate a search functionality to find specific lessons from the dashboard.
 
+## Project task requirements:
+### 3-5 minimal requirements 
+- Working lesson with:
+  - True/false
+  - Fill in the blank
+  - Multiple choice/select all that applies
+  - Long answer (AI study buddy)
+- User authentication and Profile
+-  Streaks/Leagues (reward system of some kind)
+- Home page/Menu
+### 3-7 “standard” requirements 
+- Verbal exam
+- Lesson of the day
+- Hints/Explanations
+- Lives
+### 2-3 stretch requirements 
+- Diagram questions
+- Real time multiplayer
+- Community
+- Leaderboard
+- Stats
+
+
 ## Team Members
 
 - Person 1: one sentence about you!
