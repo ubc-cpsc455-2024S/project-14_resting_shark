@@ -52,7 +52,7 @@ This project aims to be a comprehensive tool for learners to deepen their unders
 
 ## Team Members
 
-- Person 1: one sentence about you!
+- Daichi Furukawa: Currently in my fourth year, studying Cognitive Systems - Computational Intelligence & Design (CS Stream)! A fun fact about me is that I can name any (or at least most...) dinosaur from a picture!
 - Person 2: one sentence about you!
 - Person 3: one sentence about you!
 - Person 4: one sentence about you!
