@@ -58,7 +58,7 @@ This project aims to be a comprehensive tool for learners to deepen their unders
 
 - Daichi Furukawa: Currently in my fourth year, studying Cognitive Systems - Computational Intelligence & Design (CS Stream)! A fun fact about me is that I can name any (or at least most...) dinosaur from a picture!
 - Emma Huang: one sentence about you!
-- Maggie Weng: I'm going into my third year as a Computer Science student and I like ducks.
+- Maggie Weng: I'm going into my third year as a Computer Science student and I like ducks and digital art.
 - Antonia Tykei: I am second degree BCS student and I absolutely love the outdoors and crafting!
 
 ## Images
