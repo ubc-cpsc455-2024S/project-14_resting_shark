@@ -57,9 +57,9 @@ This project aims to be a comprehensive tool for learners to deepen their unders
 ## Team Members
 
 - Daichi Furukawa: Currently in my fourth year, studying Cognitive Systems - Computational Intelligence & Design (CS Stream)! A fun fact about me is that I can name any (or at least most...) dinosaur from a picture!
-- Person 2: one sentence about you!
-- Person 3: one sentence about you!
-- Person 4: one sentence about you!
+- Emma Huang: one sentence about you!
+- Maggie Weng: one sentence about you!
+- Antonia Tykei: I am second degree BCS student and I absolutely love the outdoors and crafting!
 
 ## Images
 
