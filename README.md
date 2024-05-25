@@ -10,21 +10,6 @@ Depending on time constraints, other additional functionalities may include diag
 
 This project aims to be a comprehensive tool for learners to deepen their understanding of certain subject matters and retain information more effectively.
 
-## Minimal Requirement Breakdown
-
-### 1. Have a working lesson for user to learn from.
-- Develop the lesson flow.
-- Create the starting and ending pages.
-- Design the necessary implementation to generate questions using OpenAI.
-- Manage responses for correct and incorrect answers.
-
-### 2. Create dashboard menu for the lessons
-- Design a dashboard interface for accessing different question modes and pages.
-- Display all available lessons to the user.
-- Enable functionalities to add, delete, and optionally edit questions.
-- Show the user profile of the logged-in user.
-- Incorporate a search functionality to find specific lessons from the dashboard.
-
 ## Project task requirements:
 ### 3-5 minimal requirements
 - Working lesson with:
@@ -46,6 +31,21 @@ This project aims to be a comprehensive tool for learners to deepen their unders
 - Community
 - Leaderboard
 - Stats
+
+## Minimal Requirement Breakdown
+
+### 1. Have a working lesson for user to learn from.
+- Develop the lesson flow.
+- Create the starting and ending pages.
+- Design the necessary implementation to generate questions using OpenAI.
+- Manage responses for correct and incorrect answers.
+
+### 2. Create dashboard menu for the lessons
+- Design a dashboard interface for accessing different question modes and pages.
+- Display all available lessons to the user.
+- Enable functionalities to add, delete, and optionally edit questions.
+- Show the user profile of the logged-in user.
+- Incorporate a search functionality to find specific lessons from the dashboard.
 
 ## Prototypes
 <img src="images/prototype.jpg" width="400px">
