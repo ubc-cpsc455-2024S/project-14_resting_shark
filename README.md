@@ -1,6 +1,4 @@
-# Group YY - {Short snappy Title of your project}
-
-- Your title can change over time.
+# Group 14 - StudySwan
 
 ## Describe your topic/interest in about 150-200 words
 
@@ -57,7 +55,7 @@ This project aims to be a comprehensive tool for learners to deepen their unders
 ## Team Members
 
 - Daichi Furukawa: Currently in my fourth year, studying Cognitive Systems - Computational Intelligence & Design (CS Stream)! A fun fact about me is that I can name any (or at least most...) dinosaur from a picture!
-- Emma Huang: one sentence about you!
+- Emma Huang: I'm a Computer Science student going into my 3rd year this fall, and I like playing piano and hiking!
 - Maggie Weng: I'm going into my third year as a Computer Science student and I like ducks and digital art.
 - Antonia Tykei: I am second degree BCS student and I absolutely love the outdoors and crafting!
 
