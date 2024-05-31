@@ -7,15 +7,41 @@ import {
   LuPenSquare,
   LuX,
 } from "react-icons/lu";
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import {
+  Content,
+  DragAndDrop,
+  Info,
+  Intro,
+  Matching,
+  MultipleChoice,
+} from "../class/Content";
+import Information from "../components/Information";
+import DragAndDropQuestion from "../components/DragAndDrop";
+import MatchingQuestion from "../components/Matching";
+import MultipleChoiceQuestion from "../components/MultipleChoice";
 
-export default function Lesson({ contentList }: { contentList: any[] }) {
+export default function Lesson({ contentList }: { contentList: Content[] }) {
   const [pageNumber, setPageNumber] = useState(0);
-  let currentPage = contentList[pageNumber];
 
-  useEffect(() => {
-    currentPage = contentList[pageNumber];
-  }, [pageNumber]);
+  // returns the content as a React Component
+  const renderPage = (page: Content) => {
+    if (page.type === "intro") {
+      return <Information page={page as Intro} />;
+    } else if (page.type === "info") {
+      return <Information page={page as Info} />;
+    } else if (page.type === "dnd") {
+      return <DragAndDropQuestion page={page as DragAndDrop} />;
+    } else if (page.type === "matching") {
+      return <MatchingQuestion page={page as Matching} />;
+    } else if (page.type === "mc") {
+      return <MultipleChoiceQuestion page={page as MultipleChoice} />;
+    } else {
+      return null;
+    }
+  };
+
+  let renderedPage = renderPage(contentList[pageNumber]);
 
   return (
     <div className="container">
@@ -25,6 +51,18 @@ export default function Lesson({ contentList }: { contentList: any[] }) {
   );
 
   function Header() {
+    const onNextButtonPress = () => {
+      if (pageNumber + 1 < contentList.length) {
+        setPageNumber(pageNumber + 1);
+      }
+    };
+
+    const onBackButtonPress = () => {
+      if (pageNumber - 1 >= 0) {
+        setPageNumber(pageNumber - 1);
+      }
+    };
+
     return (
       <div className="head">
         <div className=" left-head">
@@ -52,14 +90,24 @@ export default function Lesson({ contentList }: { contentList: any[] }) {
               <div></div>
             </div>
             <div className="progress-bar-container">
-              <button>
-                <LuChevronLeft className="inactive-icon" size={28} />
+              <button onClick={onBackButtonPress}>
+                <LuChevronLeft
+                  className={pageNumber == 0 ? "inactive-icon" : "active-icon"}
+                  size={28}
+                />
               </button>
               <div className="progress-bar">
                 <div className="progress-tracker"></div>
               </div>
-              <button>
-                <LuChevronRight className="active-icon" size={28} />
+              <button onClick={onNextButtonPress}>
+                <LuChevronRight
+                  className={
+                    pageNumber + 1 == contentList.length
+                      ? "inactive-icon"
+                      : "active-icon"
+                  }
+                  size={28}
+                />
               </button>
             </div>
           </div>
@@ -76,8 +124,13 @@ export default function Lesson({ contentList }: { contentList: any[] }) {
 
   function Body() {
     const onNextButtonPress = () => {
-      setPageNumber(pageNumber + 1);
+      setTimeout(() => {
+        if (pageNumber + 1 < contentList.length) {
+          setPageNumber(pageNumber + 1);
+        }
+      }, 100);
     };
+
     return (
       <div className="body">
         <div className="left-body">
@@ -96,15 +149,14 @@ export default function Lesson({ contentList }: { contentList: any[] }) {
           </div>
         </div>
         <div className="middle-body">
-          <div className="main-display"></div>
-          <button className="next-button">
+          <div className="main-display">{renderedPage}</div>
+          <button className="next-button" onClick={onNextButtonPress}>
             <div className="inner-button">Let's Go!</div>
           </button>
         </div>
         <div className="right-body">
           <div className="ai-container">
             <div className="header">Need Help?</div>
-            {/*I did this instead of setting a bottom border cuz i thought it looked better*/}
             <div className="chat-bottom-border">
               <div className="chat-container">
                 <div className="chat">

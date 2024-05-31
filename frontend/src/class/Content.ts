@@ -34,20 +34,17 @@ export class Info implements Content {
   }
 }
 
-// content: numbers for blank, string for sentences
-// draggable: draggable strings
-// answer: key is the blank number, value is its corresponding draggable string
+// content: 0-indexed numbers for blank, string for sentences
+// draggable: value is the blank number (-1 if it does not belong in a blank), key is its corresponding draggable string
 export class DragAndDrop implements Content {
   type: "dnd";
   content: any[];
-  draggable: string[];
-  answer: Map<number, string>;
+  draggable: Map<string, number>;
 
-  constructor(content: any[], draggable: any[], answer: Map<number, string>) {
+  constructor(content: any[], draggable: Map<string, number>) {
     this.type = "dnd";
     this.content = content;
     this.draggable = draggable;
-    this.answer = answer;
   }
 }
 
@@ -64,21 +61,15 @@ export class MultipleChoice implements Content {
   }
 }
 
-// answers: key is term, value is its corresponding definition
+// terms and their corresponding definitions have the same 0-indexed number value
 export class Matching implements Content {
   type: "matching";
-  terms: string[];
-  definitions: string[];
-  answers: Map<string, string>;
+  terms: Map<string, number>;
+  definitions: Map<string, number>;
 
-  constructor(
-    terms: string[],
-    definitions: string[],
-    answers: Map<string, string>
-  ) {
+  constructor(terms: Map<string, number>, definitions: Map<string, number>) {
     this.type = "matching";
     this.terms = terms;
     this.definitions = definitions;
-    this.answers = answers;
   }
 }
