@@ -1,4 +1,5 @@
 import { MultipleChoice } from "../class/Content";
+import Choice from "./Choices"; // Import the Choice component
 import "./MultipleChoice.css"; // PUT YOUR CSS IN THIS FILE
 
 // Multiple Choice question component
@@ -12,6 +13,8 @@ export default function MultipleChoiceQuestion({
   // a string
   const question = page.question;
 
+  console.log(question);
+
   // a Map<string, boolean> with choices as the key; the correct answer will have a true value and wrong ones will have a false value
   const options = page.options;
 
@@ -22,14 +25,11 @@ export default function MultipleChoiceQuestion({
   return (
     <div className="container">
       <h1>{question}</h1>
-      {optionKeys.map((option, index) => (
-        <p key={index}>
-          This choice: <b>{option}</b> is{" "}
-          <b>
-            <b>{options.get(option) ? "correct" : "incorrect"}</b>
-          </b>
-        </p>
-      ))}
+      <div className="choices-grid">
+        {optionKeys.map((option, index) => (
+          <Choice key={index} option={option} isCorrect={options.get(option) ?? false} index={index} />
+        ))}
+      </div>
     </div>
   );
 }
