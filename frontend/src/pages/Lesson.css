@@ -154,7 +154,6 @@
 
 .progress-tracker {
   height: 100%;
-  width: 20%;
   background-color: var(--primary-color);
   border-radius: 30px;
 }

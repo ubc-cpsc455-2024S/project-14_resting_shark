@@ -20,10 +20,12 @@ import Information from "../components/Information";
 import DragAndDropQuestion from "../components/DragAndDrop";
 import MatchingQuestion from "../components/Matching";
 import MultipleChoiceQuestion from "../components/MultipleChoice";
+import { motion, AnimatePresence } from "framer-motion";
 
 export default function Lesson({ contentList }: { contentList: Content[] }) {
   const [pageNumber, setPageNumber] = useState(0);
   const [buttonText, setButtonText] = useState("Let's Go!");
+  const [direction, setDirection] = useState("");
 
   useEffect(() => {
     if (contentList[pageNumber].type === "intro") {
@@ -84,12 +86,14 @@ export default function Lesson({ contentList }: { contentList: Content[] }) {
   function Header() {
     const onNextButtonPress = () => {
       if (pageNumber + 1 < contentList.length) {
+        setDirection("forward");
         setPageNumber(pageNumber + 1);
       }
     };
 
-    const onBackButtonPress = () => {
+    const onBackButtonPress = async () => {
       if (pageNumber - 1 >= 0) {
+        setDirection("backward");
         setPageNumber(pageNumber - 1);
       }
     };
@@ -130,7 +134,23 @@ export default function Lesson({ contentList }: { contentList: Content[] }) {
                 />
               </button>
               <div className="progress-bar">
-                <div className="progress-tracker"></div>
+                <AnimatePresence>
+                  <motion.div
+                    className="progress-tracker"
+                    initial={{
+                      width:
+                        direction === "forward"
+                          ? `${(pageNumber / contentList.length) * 100}%`
+                          : `${((pageNumber + 2) / contentList.length) * 100}%`,
+                    }}
+                    animate={{
+                      width: `${
+                        ((pageNumber + 1) / contentList.length) * 100
+                      }%`,
+                    }}
+                    transition={{ duration: 0.5 }}
+                  />
+                </AnimatePresence>
               </div>
               <button onClick={onNextButtonPress}>
                 <LuChevronRight
@@ -185,9 +205,14 @@ export default function Lesson({ contentList }: { contentList: Content[] }) {
         </div>
         <div className="middle-body">
           <div className="main-display">{renderedPage}</div>
-          <button className="next-button" onClick={onNextButtonPress}>
+          <motion.button
+            layout
+            transition={{ duration: 0.2 }}
+            className="next-button"
+            onClick={onNextButtonPress}
+          >
             <div className="inner-button">{buttonText}</div>
-          </button>
+          </motion.button>
         </div>
         <div className="right-body">
           <div className="ai-container">
