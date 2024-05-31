@@ -1,5 +1,5 @@
 .container {
-  padding-left: 3vw;
+  padding-left: 0vw;
   padding-right: 3vw;
   padding-top: 2.6vh;
   padding-bottom: 2.6vh;
@@ -16,6 +16,13 @@
   --true-color: #29cc60;
 }
 
+.main-container {
+  flex: 1;
+  padding-left: 3.6em;
+  padding-right: 3.6em;
+  padding-top: 1.8em;
+}
+
 /*Header Section*/
 .head {
   width: 100%;
@@ -26,6 +33,10 @@
 /*Left Header*/
 .left-head {
   width: 25%;
+}
+
+.left-container {
+  padding-left: 2vw;
 }
 
 .exit-link {
@@ -239,7 +250,7 @@
 .main-display {
   border-radius: 30px;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   justify-content: center;
   height: 70vh;
   width: 95%;

@@ -7,7 +7,7 @@ import {
   LuPenSquare,
   LuX,
 } from "react-icons/lu";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Content,
   DragAndDrop,
@@ -23,19 +23,50 @@ import MultipleChoiceQuestion from "../components/MultipleChoice";
 
 export default function Lesson({ contentList }: { contentList: Content[] }) {
   const [pageNumber, setPageNumber] = useState(0);
+  const [buttonText, setButtonText] = useState("Let's Go!");
+
+  useEffect(() => {
+    if (contentList[pageNumber].type === "intro") {
+      setButtonText("Let's Go!");
+    } else if (contentList[pageNumber].type === "info") {
+      setButtonText("Next");
+    } else {
+      setButtonText("Check");
+    }
+  }, [pageNumber]);
 
   // returns the content as a React Component
   const renderPage = (page: Content) => {
     if (page.type === "intro") {
-      return <Information page={page as Intro} />;
+      return (
+        <div className="main-container">
+          <Information page={page as Intro} />
+        </div>
+      );
     } else if (page.type === "info") {
-      return <Information page={page as Info} />;
+      return (
+        <div className="main-container">
+          <Information page={page as Info} />
+        </div>
+      );
     } else if (page.type === "dnd") {
-      return <DragAndDropQuestion page={page as DragAndDrop} />;
+      return (
+        <div className="main-container">
+          <DragAndDropQuestion page={page as DragAndDrop} />
+        </div>
+      );
     } else if (page.type === "matching") {
-      return <MatchingQuestion page={page as Matching} />;
+      return (
+        <div className="main-container">
+          <MatchingQuestion page={page as Matching} />
+        </div>
+      );
     } else if (page.type === "mc") {
-      return <MultipleChoiceQuestion page={page as MultipleChoice} />;
+      return (
+        <div className="main-container">
+          <MultipleChoiceQuestion page={page as MultipleChoice} />
+        </div>
+      );
     } else {
       return null;
     }
@@ -66,12 +97,14 @@ export default function Lesson({ contentList }: { contentList: Content[] }) {
     return (
       <div className="head">
         <div className=" left-head">
-          <Link className="exit-link" to="/">
-            <button className="exit-button">
-              <LuX size={22} color={"#4369ee"} />
-              <span>Exit</span>
-            </button>
-          </Link>
+          <div className="left-container">
+            <Link className="exit-link" to="/">
+              <button className="exit-button">
+                <LuX size={22} color={"#4369ee"} />
+                <span>Exit</span>
+              </button>
+            </Link>
+          </div>
         </div>
         <div className="middle-head">
           <div className="progress-container">
@@ -128,30 +161,32 @@ export default function Lesson({ contentList }: { contentList: Content[] }) {
         if (pageNumber + 1 < contentList.length) {
           setPageNumber(pageNumber + 1);
         }
-      }, 100);
+      }, 150);
     };
 
     return (
       <div className="body">
         <div className="left-body">
-          <div className="chapters">
-            <h1>Astronomy</h1>
-            <div className="list-container">
-              <ul>
-                <li className="active">Intro</li>
-                <li>The Sun</li>
-                <li>Galaxies</li>
-                <li>The Solar System</li>
-                <li>Planets</li>
-                <li>Stars</li>
-              </ul>
+          <div className="left-container">
+            <div className="chapters">
+              <h1>Astronomy</h1>
+              <div className="list-container">
+                <ul>
+                  <li className="active">Intro</li>
+                  <li>The Sun</li>
+                  <li>Galaxies</li>
+                  <li>The Solar System</li>
+                  <li>Planets</li>
+                  <li>Stars</li>
+                </ul>
+              </div>
             </div>
           </div>
         </div>
         <div className="middle-body">
           <div className="main-display">{renderedPage}</div>
           <button className="next-button" onClick={onNextButtonPress}>
-            <div className="inner-button">Let's Go!</div>
+            <div className="inner-button">{buttonText}</div>
           </button>
         </div>
         <div className="right-body">
