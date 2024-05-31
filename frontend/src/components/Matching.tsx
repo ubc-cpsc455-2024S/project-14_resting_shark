@@ -4,6 +4,7 @@ export default function MatchingQuestion({ page }: { page: Matching }) {
   return (
     <div>
       <div>Matching Question</div>
+      <div>{page.type}</div>
     </div>
   );
 }

@@ -35,7 +35,7 @@ export default function Lesson({ contentList }: { contentList: Content[] }) {
     } else {
       setButtonText("Check");
     }
-  }, [pageNumber]);
+  }, [pageNumber, contentList]);
 
   // returns the content as a React Component
   const renderPage = (page: Content) => {
@@ -74,7 +74,7 @@ export default function Lesson({ contentList }: { contentList: Content[] }) {
     }
   };
 
-  let renderedPage = renderPage(contentList[pageNumber]);
+  const renderedPage = renderPage(contentList[pageNumber]);
 
   return (
     <div className="container">
@@ -178,6 +178,7 @@ export default function Lesson({ contentList }: { contentList: Content[] }) {
   function Body() {
     const onNextButtonPress = () => {
       setTimeout(() => {
+        setDirection("forward");
         if (pageNumber + 1 < contentList.length) {
           setPageNumber(pageNumber + 1);
         }
