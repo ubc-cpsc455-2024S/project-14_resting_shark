@@ -1,6 +1,9 @@
 import { MultipleChoice } from "../class/Content";
-import Choice from "./Choices"; // Import the Choice component
+import { motion } from "framer-motion";
+import Choice from "./Choices";
+import Modal from "./Modal"; // Import the Modal component
 import "./MultipleChoice.css"; // PUT YOUR CSS IN THIS FILE
+import { useState } from "react";
 
 // Multiple Choice question component
 export default function MultipleChoiceQuestion({
@@ -9,11 +12,13 @@ export default function MultipleChoiceQuestion({
   page: MultipleChoice;
 }) {
   // *check class/Content.ts if you want more info about the classes
+  const [selectedChoice, setSelectedChoice] = useState<number | null>(null);
+  const [showResult, setShowResult] = useState<boolean>(false);
+  const [modalMessage, setModalMessage] = useState<string>("");
+  const [modalBackgroundColor, setModalBackgroundColor] = useState<string>("");
 
   // a string
   const question = page.question;
-
-  console.log(question);
 
   // a Map<string, boolean> with choices as the key; the correct answer will have a true value and wrong ones will have a false value
   const options = page.options;
@@ -21,15 +26,62 @@ export default function MultipleChoiceQuestion({
   // just the string choices as an array (with no boolean value that represents correctness)
   const optionKeys = Array.from(options.keys());
 
+  const handleChoiceClick = (index: number) => {
+    setSelectedChoice(index);
+    setShowResult(false); // Reset result when a new choice is selected
+    setModalMessage(""); // Reset modal message
+  };
+
+  const handleNextButtonPress = () => {
+    if (selectedChoice !== null) {
+      const selectedOption = optionKeys[selectedChoice];
+      const isCorrect = options.get(selectedOption) ?? false;
+      setShowResult(true);
+      if (isCorrect) {
+        setModalMessage("Great job!");
+        setModalBackgroundColor("green");
+      } else {
+        setModalMessage("Good try!");
+        setModalBackgroundColor("red");
+      }
+    }
+  };
+
+  const closeModal = () => {
+    setModalMessage("");
+  };
+
   // I put all the content that you need onto the screen for you
   return (
     <div className="container">
       <h1>{question}</h1>
       <div className="choices-grid">
         {optionKeys.map((option, index) => (
-          <Choice key={index} option={option} isCorrect={options.get(option) ?? false} index={index} />
+          <Choice
+            key={index}
+            option={option}
+            isCorrect={options.get(option) ?? false}
+            index={index}
+            isSelected={selectedChoice === index}
+            showResult={showResult}
+            onChoiceClick={() => handleChoiceClick(index)}
+          />
         ))}
       </div>
+      <motion.button
+        layout
+        transition={{ duration: 0.2 }}
+        className="next-button"
+        onClick={handleNextButtonPress}
+      >
+        <div className="inner-button">Next</div>
+      </motion.button>
+      <Modal
+        show={modalMessage !== ""}
+        message={modalMessage}
+        backgroundColor={modalBackgroundColor}
+        onClose={closeModal}
+      />
     </div>
   );
 }

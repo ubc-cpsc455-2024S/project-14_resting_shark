@@ -38,37 +38,3 @@ h1 {
     font-size: 0.9em;
   }
 }
-
-/* Choice Component CSS */
-
-.choice {
-  border: 2px solid #4369ee;
-  border-radius: 10px;
-  padding: 20px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-  flex-direction: column;
-}
-
-.choice-label {
-  font-weight: bold;
-  color: #4369ee;
-  margin-bottom: 10px;
-}
-
-.choice-text {
-  background-color: white;
-  padding: 10px;
-  border-radius: 10px;
-}
-
-.choice.correct {
-  border-color: green;
-}
-
-.choice.incorrect {
-  border-color: red;
-}

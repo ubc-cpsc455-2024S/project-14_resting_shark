@@ -1,0 +1,48 @@
+/* Choice Component CSS */
+
+.choice {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    flex-direction: column;
+}
+
+.choice-label {
+    font-weight: bold;
+    color: gray;
+    margin-bottom: 10px;
+}
+
+.choice-text {
+    background-color: white;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.choice.selected {
+    border: 2px solid #4369ee;
+}
+
+.choice.correct {
+    border: 2px solid green;
+}
+
+.choice.incorrect {
+    border: 2px solid red;
+}
+
+.next-button {
+    margin-top: 3rem;
+    background-color: var(--secondary-color);
+    border: none;
+    display: flex;
+    height: 6.9vh;
+    border-radius: 20px;
+    padding: 0;
+    cursor: pointer;
+}
