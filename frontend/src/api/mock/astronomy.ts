@@ -5,7 +5,7 @@ import {
   Intro,
   Matching,
   MultipleChoice,
-} from "../class/Content";
+} from "../../class/Content";
 
 // mock data for astronomy lesson
 export const AstronomyLesson: Content[] = [
