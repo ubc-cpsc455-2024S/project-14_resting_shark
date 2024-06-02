@@ -3,6 +3,7 @@ import "./App.css";
 import Dashboard from "./pages/Dashboard";
 import Lesson from "./pages/Lesson";
 import { AstronomyLesson } from "./mock/astronomy";
+import PageNotFound from "./pages/PageNotFound";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
           path="/lesson"
           element={<Lesson contentList={AstronomyLesson} />}
         />
+        <Route path="*" element={<PageNotFound />} />
       </Routes>
     </Router>
   );
