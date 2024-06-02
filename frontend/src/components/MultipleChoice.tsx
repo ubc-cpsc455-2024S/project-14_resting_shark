@@ -12,11 +12,11 @@ export default function MultipleChoiceQuestion({
   // a string
   const question = page.question;
 
-  // a Map<string, boolean> with choices as the key; the correct answer will have a true value and wrong ones will have a false value
+  // an object with choices as the key; the correct answer will have a true value and wrong ones will have a false value
   const options = page.options;
 
   // just the string choices as an array (with no boolean value that represents correctness)
-  const optionKeys = Array.from(options.keys());
+  const optionKeys = Object.keys(options);
 
   // I put all the content that you need onto the screen for you
   return (
@@ -26,7 +26,7 @@ export default function MultipleChoiceQuestion({
         <p key={index}>
           This choice: <b>{option}</b> is{" "}
           <b>
-            <b>{options.get(option) ? "correct" : "incorrect"}</b>
+            <b>{options[option] ? "correct" : "incorrect"}</b>
           </b>
         </p>
       ))}

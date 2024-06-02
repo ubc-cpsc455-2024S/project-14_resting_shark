@@ -39,9 +39,12 @@ export class Info implements Content {
 export class DragAndDrop implements Content {
   type: "dnd";
   content: string[] | number[];
-  draggable: Map<string, number>;
+  draggable: { [key: string]: number };
 
-  constructor(content: string[] | number[], draggable: Map<string, number>) {
+  constructor(
+    content: string[] | number[],
+    draggable: { [key: string]: number }
+  ) {
     this.type = "dnd";
     this.content = content;
     this.draggable = draggable;
@@ -52,9 +55,9 @@ export class DragAndDrop implements Content {
 export class MultipleChoice implements Content {
   type: "mc";
   question: string;
-  options: Map<string, boolean>;
+  options: { [key: string]: boolean };
 
-  constructor(question: string, options: Map<string, boolean>) {
+  constructor(question: string, options: { [key: string]: boolean }) {
     this.type = "mc";
     this.question = question;
     this.options = options;
@@ -64,10 +67,13 @@ export class MultipleChoice implements Content {
 // terms and their corresponding definitions have the same 0-indexed number value
 export class Matching implements Content {
   type: "matching";
-  terms: Map<string, number>;
-  definitions: Map<string, number>;
+  terms: { [key: string]: number };
+  definitions: { [key: string]: number };
 
-  constructor(terms: Map<string, number>, definitions: Map<string, number>) {
+  constructor(
+    terms: { [key: string]: number },
+    definitions: { [key: string]: number }
+  ) {
     this.type = "matching";
     this.terms = terms;
     this.definitions = definitions;

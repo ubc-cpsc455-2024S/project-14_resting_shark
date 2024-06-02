@@ -1,10 +1,4 @@
-import {
-  ReactElement,
-  JSXElementConstructor,
-  ReactNode,
-  ReactPortal,
-  useState,
-} from "react";
+import { useState } from "react";
 import { DragAndDrop } from "../class/Content";
 import "./DragAndDrop.css";
 import { DndContext, useDraggable, useDroppable } from "@dnd-kit/core";
@@ -12,24 +6,14 @@ import { CSS } from "@dnd-kit/utilities";
 
 export default function DragAndDropQuestion({ page }: { page: DragAndDrop }) {
   const content = page.content;
-  const draggableMap = page.draggable;
+  const draggableObject = page.draggable;
   const [parents, setParents] = useState<{ [key: string]: string | null }>({});
 
-  const draggableKeys = Array.from(draggableMap.keys());
+  const draggableKeys = Object.keys(draggableObject);
 
   return (
     <DndContext onDragEnd={handleDragEnd}>
       <div>Drag and Drop to complete the sentence.</div>
-      <div className="options-container">
-        {draggableKeys.map(
-          (option) =>
-            !Object.values(parents).includes(option) && (
-              <Draggable key={option} id={option}>
-                <b>{option}</b>
-              </Draggable>
-            )
-        )}
-      </div>
       <p className="blank-container">
         {content.map((option, index) => {
           if (typeof option === "string") {
@@ -50,6 +34,16 @@ export default function DragAndDropQuestion({ page }: { page: DragAndDrop }) {
           }
         })}
       </p>
+      <div className="options-container">
+        {draggableKeys.map(
+          (option) =>
+            !Object.values(parents).includes(option) && (
+              <Draggable key={option} id={option}>
+                <b>{option}</b>
+              </Draggable>
+            )
+        )}
+      </div>
     </DndContext>
   );
 
@@ -75,49 +69,19 @@ export default function DragAndDropQuestion({ page }: { page: DragAndDrop }) {
   }
 }
 
-function Droppable(props: {
-  id: any;
-  children:
-    | string
-    | number
-    | boolean
-    | ReactElement<any, string | JSXElementConstructor<any>>
-    | Iterable<ReactNode>
-    | ReactPortal
-    | null
-    | undefined;
-}) {
+function Droppable(props: { id: any; children: any }) {
   const { isOver, setNodeRef } = useDroppable({
     id: props.id,
   });
-  const style = {
-    opacity: isOver ? 1 : 0.5,
-    minHeight: "2rem", // Ensure the droppable area has some height
-    border: "1px dashed #ccc",
-    display: "inline-block",
-    margin: "0 5px",
-    padding: "0 5px",
-  };
 
   return (
-    <span ref={setNodeRef} style={style}>
+    <span ref={setNodeRef} className="droppable">
       {props.children}
     </span>
   );
 }
 
-function Draggable(props: {
-  id: any;
-  children:
-    | string
-    | number
-    | boolean
-    | ReactElement<any, string | JSXElementConstructor<any>>
-    | Iterable<ReactNode>
-    | ReactPortal
-    | null
-    | undefined;
-}) {
+function Draggable(props: { id: any; children: any }) {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: props.id,
   });
