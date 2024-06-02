@@ -2,4 +2,42 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  width: 100%;
+}
+
+.fact-box {
+  display: flex;
+  flex-direction: column; /* Stack children vertically */
+  align-items: center;
+  background-color: #7683fe;
+  color: white;
+  border-radius: 20px;
+  padding: 2em;
+  width: 52%;
+  margin-top: 8%;
+}
+
+.fact-title {
+  display: flex;
+  flex-direction: row; /* Ensure title and image are side by side */
+  align-items: center;
+  width: 100%; /* Ensure it spans the width of the fact container */
+  justify-content: flex-start; /* Align title and image to the start (left) */
+  margin-bottom: 1rem; /* Add some space below the title */
+}
+
+.fact-title h2 {
+  margin: 0; 
+}
+
+.fact-title img {
+  filter: invert(100%);
+  width: 24px; 
+  height: 24px; 
+  margin-left: 8px; 
+}
+
+.fact-content {
+  text-align: left; 
+  width: 100%; /* Ensure it spans the width of the fact container */
 }

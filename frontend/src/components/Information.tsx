@@ -7,10 +7,9 @@ export default function Information({ page }: { page: Info | Intro }) {
   const content = page.content; // a list of strings, each list item represents a paragraph
   const fact = page.fact; // a string representing the fun fact
 
-  // I put all the content you need onto the screen for you
-  // put all your css in Information.css
+
   return (
-    <div>
+    <div className="">
       <div>
         <h1>{title}</h1>
         <div>
@@ -19,7 +18,17 @@ export default function Information({ page }: { page: Info | Intro }) {
           ))}
         </div>
       </div>
-      <div className="fact-container">{fact}</div>
+      <div className="fact-container">
+      <div className="fact-box">
+        <div className="fact-title">
+          <h2>Did You Know?</h2>
+          <img src="/Lesson/funfact.png" alt="funfact" />
+        </div>
+        <div className="fact-content">
+          {fact}
+        </div>
+      </div>
+      </div>
     </div>
   );
 }
