@@ -11,5 +11,9 @@ export const handlers = [
     });
   }),
 
-  // http.get()
+  http.get(BASE_URL + '/lesson/:id', () => {
+    return HttpResponse.json({
+      data: "testTestTesttest hahaha test TEST",
+    });
+  }),
 ]
