@@ -70,7 +70,7 @@ export default function DragAndDropQuestion({ page }: { page: DragAndDrop }) {
 }
 
 function Droppable(props: { id: any; children: any }) {
-  const { isOver, setNodeRef } = useDroppable({
+  const { setNodeRef } = useDroppable({
     id: props.id,
   });
 
