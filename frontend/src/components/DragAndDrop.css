@@ -1,2 +1,7 @@
 .options-container {
 }
+
+.blank-container {
+  display: flex;
+  flex-wrap: wrap;
+}
