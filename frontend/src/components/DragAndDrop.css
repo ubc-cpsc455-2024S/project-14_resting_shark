@@ -1,0 +1,20 @@
+.options-container {
+  --primary-color: #4369ee;
+  --secondary-color: #7683fe;
+  --grey: #e7eaf6;
+  --dark-grey: #b5bddc;
+  --false-color: #ff278a;
+  --true-color: #29cc60;
+}
+
+.blank-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.droppable {
+  height: 2rem;
+  border-radius: 20px;
+  background: var(--grey);
+  display: flex;
+}
