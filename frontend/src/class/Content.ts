@@ -38,10 +38,10 @@ export class Info implements Content {
 // draggable: value is the blank number (-1 if it does not belong in a blank), key is its corresponding draggable string
 export class DragAndDrop implements Content {
   type: "dnd";
-  content: string | number[];
+  content: string[] | number[];
   draggable: Map<string, number>;
 
-  constructor(content: string | number[], draggable: Map<string, number>) {
+  constructor(content: string[] | number[], draggable: Map<string, number>) {
     this.type = "dnd";
     this.content = content;
     this.draggable = draggable;
