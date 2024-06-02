@@ -4,6 +4,7 @@ import Dashboard from "./pages/Dashboard";
 import Lesson from "./pages/Lesson";
 import { AstronomyLesson } from "./mock/astronomy";
 import PageNotFound from "./pages/PageNotFound";
+import Test from "./mock/Test";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
           element={<Lesson contentList={AstronomyLesson} />}
         />
         <Route path="*" element={<PageNotFound />} />
+        <Route path="/test" element={<Test />} />
       </Routes>
     </Router>
   );
