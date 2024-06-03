@@ -29,11 +29,11 @@
 }
 
 .choice.correct {
-    border: 2px solid green;
+    border: 2px solid #29CC60;
 }
 
 .choice.incorrect {
-    border: 2px solid red;
+    border: 2px solid #FF278A;
 }
 
 .next-button {

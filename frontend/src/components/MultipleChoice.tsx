@@ -39,10 +39,10 @@ export default function MultipleChoiceQuestion({
       setShowResult(true);
       if (isCorrect) {
         setModalMessage("Great job!");
-        setModalBackgroundColor("green");
+        setModalBackgroundColor("#29CC60");
       } else {
         setModalMessage("Good try!");
-        setModalBackgroundColor("red");
+        setModalBackgroundColor("#FF278A");
       }
     }
   };
