@@ -12,6 +12,10 @@ export default function MultipleChoiceQuestion({
   page: MultipleChoice;
 }) {
   // *check class/Content.ts if you want more info about the classes
+  /* Syntax Break Down
+  - Initial state value = Null 
+  - <number | null> = SelectedChoice can either be a number or null.
+  */
   const [selectedChoice, setSelectedChoice] = useState<number | null>(null);
   const [showResult, setShowResult] = useState<boolean>(false);
   const [modalMessage, setModalMessage] = useState<string>("");
@@ -32,6 +36,10 @@ export default function MultipleChoiceQuestion({
     setModalMessage(""); // Reset modal message
   };
 
+  /* ChatGPT 3.5 assisted in generating this method on May 31st, 2024.
+  The prompt I provided was: "I want the Choice Component to turn blue when selected and the submit button to reveal if the answer is correct."
+  It generated a helper method template to manage the state for the selected choice and the result.
+  Using this as a reference, I manually edited state names to match our case. */
   const handleNextButtonPress = () => {
     if (selectedChoice !== null) {
       const selectedOption = optionKeys[selectedChoice];

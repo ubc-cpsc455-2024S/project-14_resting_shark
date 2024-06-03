@@ -13,7 +13,7 @@ h1 {
 .choices-grid {
   display: grid;
   grid-template-columns: 1fr 1fr; /* Two columns by default */
-  gap: 10px;
+  gap: 25px;
 }
 
 /* Responsive styles */
