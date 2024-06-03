@@ -28,7 +28,7 @@ export default function MultipleChoiceQuestion({
   const options = page.options;
 
   // just the string choices as an array (with no boolean value that represents correctness)
-  const optionKeys = Array.from(options.keys());
+  const optionKeys = Object.keys(options)
 
   const handleChoiceClick = (index: number) => {
     setSelectedChoice(index);
@@ -43,7 +43,7 @@ export default function MultipleChoiceQuestion({
   const handleNextButtonPress = () => {
     if (selectedChoice !== null) {
       const selectedOption = optionKeys[selectedChoice];
-      const isCorrect = options.get(selectedOption) ?? false;
+      const isCorrect = options[selectedOption] ?? false;
       setShowResult(true);
       if (isCorrect) {
         setModalMessage("Great job!");
@@ -68,7 +68,7 @@ export default function MultipleChoiceQuestion({
           <Choice
             key={index}
             option={option}
-            isCorrect={options.get(option) ?? false}
+            isCorrect={options[option] ?? false}
             index={index}
             isSelected={selectedChoice === index}
             showResult={showResult}
