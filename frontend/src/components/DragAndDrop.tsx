@@ -54,20 +54,32 @@ export default function DragAndDropQuestion({ page }: { page: DragAndDrop }) {
 
   function handleDragEnd(event: { active: any; over: any }) {
     const { active, over } = event;
+
     if (over) {
-      setParents((prevParent) => ({
-        ...prevParent,
-        [over.id]: active.id,
-      }));
-    } else {
-      setParents((prevParent) => {
-        const newParent = { ...prevParent };
-        for (const key in newParent) {
-          if (newParent[key] === active.id) {
-            newParent[key] = null;
+      setParents((prevParents) => {
+        const newParents = { ...prevParents };
+
+        for (const key in newParents) {
+          if (newParents[key] === active.id) {
+            newParents[key] = null;
           }
         }
-        return newParent;
+
+        newParents[over.id] = active.id;
+
+        return newParents;
+      });
+    } else {
+      setParents((prevParents) => {
+        const newParents = { ...prevParents };
+
+        for (const key in newParents) {
+          if (newParents[key] === active.id) {
+            newParents[key] = null;
+          }
+        }
+
+        return newParents;
       });
     }
   }
