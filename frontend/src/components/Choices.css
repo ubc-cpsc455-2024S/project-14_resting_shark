@@ -1,0 +1,54 @@
+/* Choice Component CSS */
+
+.choice-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5px;
+    padding-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    margin-bottom: 30px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+    background-color: #E7EAF6;
+}
+
+.choice-container.selected {
+    border: 2px solid #4369ee;
+}
+
+.choice-container.correct {
+    border: 2px solid #29CC60;
+}
+
+.choice-container.incorrect {
+    border: 2px solid #FF278A;
+}
+
+.choice-label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+/* ChatGPT 4.0 assisted in generating this method on June 2nd, 2024.
+The prompt I provided was: "Add a box within the container that has the options in it and make sure the labels are above the text box"
+It generated a CSS template with a box component that contains a text box.
+Using this as a reference, I manually edited the layout and the label class. */
+.choice-box {
+    width: 90%;
+    height: 5rem;
+    padding: 5px;
+    background-color: #fff;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.choice-text {
+    font-size: 16px;
+    text-align: center;
+}
