@@ -1,3 +1,4 @@
+import { LuBadgeHelp } from "react-icons/lu";
 import { Info, Intro } from "../class/Content";
 import "./Information.css";
 
@@ -7,10 +8,9 @@ export default function Information({ page }: { page: Info | Intro }) {
   const content = page.content; // a list of strings, each list item represents a paragraph
   const fact = page.fact; // a string representing the fun fact
 
-
   return (
-    <div className="">
-      <div>
+    <div className="padded-container-2">
+      <div className="title-container">
         <h1>{title}</h1>
         <div>
           {content.map((paragraph, index) => (
@@ -19,15 +19,13 @@ export default function Information({ page }: { page: Info | Intro }) {
         </div>
       </div>
       <div className="fact-container">
-      <div className="fact-box">
-        <div className="fact-title">
-          <h2>Did You Know?</h2>
-          <img src="/Lesson/funfact.png" alt="funfact" />
+        <div className="fact-box">
+          <div className="fact-title">
+            <h2>Did You Know?</h2>
+            <LuBadgeHelp size={25} />
+          </div>
+          <div className="fact-content">{fact}</div>
         </div>
-        <div className="fact-content">
-          {fact}
-        </div>
-      </div>
       </div>
     </div>
   );

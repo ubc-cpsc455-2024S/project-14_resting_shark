@@ -1,8 +1,32 @@
+.padded-container-2 {
+  padding-left: 3.7vw;
+  padding-right: 3.7vw;
+  padding-bottom: 6.5vh;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.title-container {
+  padding-top: 5vh;
+}
+
 .fact-container {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
+  flex-grow: 1;
+  padding-bottom: 4%;
+}
+
+.padded-container-2 h1 {
+  font-size: 2.1rem;
+  font-weight: 700;
+}
+
+.padded-container-2 h2 {
+  font-size: 1.3rem;
+  font-weight: 600;
 }
 
 .fact-box {
@@ -14,7 +38,9 @@
   border-radius: 20px;
   padding: 2em;
   width: 52%;
-  margin-top: 8%;
+  line-height: 140%;
+  font-weight: 400;
+  font-size: 0.95rem;
 }
 
 .fact-title {
@@ -23,21 +49,22 @@
   align-items: center;
   width: 100%; /* Ensure it spans the width of the fact container */
   justify-content: flex-start; /* Align title and image to the start (left) */
-  margin-bottom: 1rem; /* Add some space below the title */
+  margin-bottom: 0.5em; /* Add some space below the title */
+  gap: 0.5em;
 }
 
 .fact-title h2 {
-  margin: 0; 
+  margin: 0;
 }
 
 .fact-title img {
   filter: invert(100%);
-  width: 24px; 
-  height: 24px; 
-  margin-left: 8px; 
+  width: 24px;
+  height: 24px;
+  margin-left: 8px;
 }
 
 .fact-content {
-  text-align: left; 
+  text-align: left;
   width: 100%; /* Ensure it spans the width of the fact container */
 }
