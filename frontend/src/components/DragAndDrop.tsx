@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { DragAndDrop } from "../class/Content";
 import "./DragAndDrop.css";
 import { DndContext, useDraggable, useDroppable } from "@dnd-kit/core";
@@ -12,39 +12,44 @@ export default function DragAndDropQuestion({ page }: { page: DragAndDrop }) {
   const draggableKeys = Object.keys(draggableObject);
 
   return (
-    <DndContext onDragEnd={handleDragEnd}>
-      <div>Drag and Drop to complete the sentence.</div>
-      <p className="blank-container">
-        {content.map((option, index) => {
-          if (typeof option === "string") {
-            return <span key={index}>{option}</span>;
-          } else {
-            const blankId = `blank-${index}`;
-            return (
-              <Droppable key={blankId} id={blankId}>
-                {parents[blankId] ? (
-                  <Draggable id={parents[blankId]}>
-                    <b>{parents[blankId]}</b>
-                  </Draggable>
-                ) : (
-                  "Blank"
-                )}
-              </Droppable>
-            );
-          }
-        })}
-      </p>
-      <div className="options-container">
-        {draggableKeys.map(
-          (option) =>
-            !Object.values(parents).includes(option) && (
-              <Draggable key={option} id={option}>
+    <div className="outer-container">
+      <DndContext onDragEnd={handleDragEnd}>
+        <div className="padded-container">
+          <div>Drag and Drop to complete the sentence.</div>
+          <div className="blank-container-container">
+            <p className="blank-container">
+              {content.map((option, index) => {
+                if (typeof option === "string") {
+                  return <span key={index}>{option}</span>;
+                } else {
+                  const blankId = `blank-${index}`;
+                  return (
+                    <Droppable key={blankId} id={blankId}>
+                      {parents[blankId] ? (
+                        <Draggable dropped={true} id={parents[blankId]}>
+                          <b>{parents[blankId]}</b>
+                        </Draggable>
+                      ) : (
+                        ""
+                      )}
+                    </Droppable>
+                  );
+                }
+              })}
+            </p>
+          </div>
+        </div>
+        <div className="options-container">
+          {draggableKeys.map((option) => (
+            <DraggableContainer key={option} option={option} parents={parents}>
+              <Draggable id={option} dropped={false}>
                 <b>{option}</b>
               </Draggable>
-            )
-        )}
-      </div>
-    </DndContext>
+            </DraggableContainer>
+          ))}
+        </div>
+      </DndContext>
+    </div>
   );
 
   function handleDragEnd(event: { active: any; over: any }) {
@@ -55,7 +60,6 @@ export default function DragAndDropQuestion({ page }: { page: DragAndDrop }) {
         [over.id]: active.id,
       }));
     } else {
-      // If there's no `over` element, remove the item from the parent
       setParents((prevParent) => {
         const newParent = { ...prevParent };
         for (const key in newParent) {
@@ -81,7 +85,7 @@ function Droppable(props: { id: any; children: any }) {
   );
 }
 
-function Draggable(props: { id: any; children: any }) {
+function Draggable(props: { id: any; children: any; dropped: boolean }) {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: props.id,
   });
@@ -91,8 +95,44 @@ function Draggable(props: { id: any; children: any }) {
   };
 
   return (
-    <button ref={setNodeRef} style={style} {...listeners} {...attributes}>
+    <button
+      className={props.dropped ? "draggable" : "draggable not-dropped"}
+      ref={setNodeRef}
+      style={style}
+      {...listeners}
+      {...attributes}
+    >
       {props.children}
     </button>
+  );
+}
+
+function DraggableContainer({
+  option,
+  parents,
+  children,
+}: {
+  option: string;
+  parents: { [key: string]: string | null };
+  children: React.ReactNode;
+}) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [width, setWidth] = useState<number | null>(null);
+
+  // + 0.1 since the padding makes multiple words become two lines without
+  useEffect(() => {
+    if (ref.current) {
+      setWidth(ref.current.offsetWidth + 0.1);
+    }
+  }, [ref, parents]);
+
+  return (
+    <div
+      ref={ref}
+      className="draggable-container"
+      style={{ width: width ? `${width}px` : "auto" }}
+    >
+      {!Object.values(parents).includes(option) && children}
+    </div>
   );
 }

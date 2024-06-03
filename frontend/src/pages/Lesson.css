@@ -18,9 +18,14 @@
 
 .main-container {
   flex: 1;
-  padding-left: 3.6em;
-  padding-right: 3.6em;
-  padding-top: 1.8em;
+  height: 100%;
+}
+
+.padded-container {
+  padding-left: 3.7vw;
+  padding-right: 3.7vw;
+  padding-top: 6.5vh;
+  padding-top: 6.5vh;
 }
 
 /*Header Section*/
