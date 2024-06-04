@@ -27,6 +27,11 @@ jobs:
         cd frontend
         npm install
 
+    - name: Install specific ESLint version
+      run: |
+        cd frontend
+        npm install eslint@8.45.0 --save-dev
+
     - name: Run ESLint
       run: npx eslint .
 
