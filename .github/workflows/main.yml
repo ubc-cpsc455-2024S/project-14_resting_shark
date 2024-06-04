@@ -32,8 +32,10 @@ jobs:
       run: npm install eslint@8.45.0 --save-dev
 
     - name: Ensure ESLint plugins are installed
-      run: npm install @typescript-eslint/eslint-plugin@latest --save-dev
-
+      run: |
+          npm install @typescript-eslint/eslint-plugin@latest --save-dev
+          npm install eslint-plugin-react-hooks@latest --save-dev
+          
     - name: Run ESLint
       run: npx eslint .
 
