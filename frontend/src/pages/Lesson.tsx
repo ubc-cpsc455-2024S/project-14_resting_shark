@@ -8,19 +8,17 @@ import {
   LuX,
 } from "react-icons/lu";
 import { useEffect, useState } from "react";
-import {
-  Content,
-  DragAndDrop,
-  Info,
-  Intro,
-  Matching,
-  MultipleChoice,
-} from "../class/Content";
+import Content from "../class/Content";
 import Information from "../components/Information";
 import DragAndDropQuestion from "../components/DragAndDrop";
 import MatchingQuestion from "../components/Matching";
 import MultipleChoiceQuestion from "../components/MultipleChoice";
 import { motion, AnimatePresence } from "framer-motion";
+import DragAndDrop from "../class/DragAndDrop";
+import Info from "../class/Info";
+import Intro from "../class/Intro";
+import Matching from "../class/Matching";
+import MultipleChoice from "../class/MultipleChoice";
 
 export default function Lesson({ contentList }: { contentList: Content[] }) {
   const [pageNumber, setPageNumber] = useState(0);

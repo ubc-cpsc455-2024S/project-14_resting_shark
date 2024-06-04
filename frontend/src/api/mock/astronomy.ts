@@ -1,11 +1,10 @@
-import {
-  Content,
-  DragAndDrop,
-  Info,
-  Intro,
-  Matching,
-  MultipleChoice,
-} from "../../class/Content";
+import Content from "../../class/Content";
+import DragAndDrop from "../../class/DragAndDrop";
+import Info from "../../class/Info";
+import Intro from "../../class/Intro";
+import Matching from "../../class/Matching";
+import MultipleChoice from "../../class/MultipleChoice";
+
 
 // mock data for astronomy lesson
 export const AstronomyLesson: Content[] = [
