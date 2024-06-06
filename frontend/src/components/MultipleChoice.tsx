@@ -1,4 +1,4 @@
-import { MultipleChoice } from "../class/Content";
+import MultipleChoice from "../class/MultipleChoice";
 import { motion } from "framer-motion";
 import Choice from "./Choices";
 import Modal from "./Modal"; // Import the Modal component
@@ -82,7 +82,7 @@ export default function MultipleChoiceQuestion({
         className="next-button"
         onClick={handleNextButtonPress}
       >
-        <div className="inner-button">Next</div>
+        <div className="inner-button">Submit</div>
       </motion.button>
       <Modal
         show={modalMessage !== ""}
