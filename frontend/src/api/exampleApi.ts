@@ -1,10 +1,10 @@
 import { requests } from "./requestTemplate";
 
-export const lessonApi = {
-  getLesson,
+export const exampleApi = {
+  getMessage,
 };
 
-async function getLesson(token: string) {
+async function getMessage(token: string) {
   const data = await requests.getRequest(token, "/test");
   return data;
 }
