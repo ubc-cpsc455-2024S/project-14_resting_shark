@@ -1,10 +1,10 @@
-.container {
+.mc-container {
   padding: 20px;
   max-width: 100%;
   margin: 0 auto;
 }
 
-h1 {
+.mc-container h1 {
   font-size: 1.5em;
   text-align: center;
   margin-bottom: 20px;
@@ -22,7 +22,7 @@ h1 {
     grid-template-columns: 1fr; /* One column on small screens */
   }
 
-  h1 {
+  mc-container h1 {
     font-size: 1.2em;
   }
 

@@ -51,6 +51,10 @@
   vertical-align: middle;
 }
 
+.droppable-over {
+  background: var(--secondary-color);
+}
+
 .draggable-container {
   height: 2.7rem;
   background-color: var(--dark-grey);
@@ -60,7 +64,7 @@
 
 .draggable {
   height: 2.7rem;
-  border: 2px solid var(--dark-grey);
+  border: 2px solid var(--secondary-color);
   outline: none;
   border-radius: 20px;
   background-color: white;
@@ -74,4 +78,5 @@
 
 .not-dropped {
   box-shadow: 0 3px var(--dark-grey);
+  border: 2px solid var(--dark-grey);
 }
