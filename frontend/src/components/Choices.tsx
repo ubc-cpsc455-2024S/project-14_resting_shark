@@ -18,6 +18,7 @@ const Choice: React.FC<ChoiceProps> = ({
   showResult,
   onChoiceClick
 }) => {
+    // Assuming that there is only four choices in MC questions.
   const letters = ["A", "B", "C", "D"];
 
   return (
