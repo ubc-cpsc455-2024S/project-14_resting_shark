@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { lessonApi } from "../lessonApi";
+import { exampleApi } from "../exampleApi";
 
 
 export default function Test() {
@@ -8,7 +8,7 @@ export default function Test() {
   useEffect(() => {
     async function fetchLesson() {
       try {
-        const response = await lessonApi.getLesson("jwtTokenPlaceholder");
+        const response = await exampleApi.getMessage("jwtTokenPlaceholder");
         setTestData(response.data);
       } catch (e: any) {
         console.log("Test: " + e.message);
