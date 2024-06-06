@@ -86,12 +86,15 @@ export default function DragAndDropQuestion({ page }: { page: DragAndDrop }) {
 }
 
 function Droppable(props: { id: any; children: any }) {
-  const { setNodeRef } = useDroppable({
+  const { setNodeRef, isOver } = useDroppable({
     id: props.id,
   });
 
   return (
-    <span ref={setNodeRef} className="droppable">
+    <span
+      ref={setNodeRef}
+      className={`${isOver ? "droppable-over" : ""} droppable`}
+    >
       {props.children}
     </span>
   );

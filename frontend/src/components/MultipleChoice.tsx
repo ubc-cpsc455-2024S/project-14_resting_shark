@@ -13,7 +13,7 @@ export default function MultipleChoiceQuestion({
 }) {
   // *check class/Content.ts if you want more info about the classes
   /* Syntax Break Down
-  - Initial state value = Null 
+  - Initial state value = Null
   - <number | null> = SelectedChoice can either be a number or null.
   */
   const [selectedChoice, setSelectedChoice] = useState<number | null>(null);
@@ -28,7 +28,7 @@ export default function MultipleChoiceQuestion({
   const options = page.options;
 
   // just the string choices as an array (with no boolean value that represents correctness)
-  const optionKeys = Object.keys(options)
+  const optionKeys = Object.keys(options);
 
   const handleChoiceClick = (index: number) => {
     setSelectedChoice(index);
@@ -61,7 +61,7 @@ export default function MultipleChoiceQuestion({
 
   // I put all the content that you need onto the screen for you
   return (
-    <div className="container">
+    <div className="mc-container">
       <h1>{question}</h1>
       <div className="choices-grid">
         {optionKeys.map((option, index) => (
