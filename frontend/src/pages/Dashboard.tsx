@@ -57,3 +57,28 @@ export default Dashboard
 //     </>
 //   );
 // }
+
+
+// LessonSlice
+import {redux, createAsyncThunk} from '@reduxjs/toolkit';
+
+const initalState = []
+
+export const fetchLesson = createAsyncThunk('/users', async () => {
+  const response = await axios.get("http://localhost:3000/users");
+  return response.data;
+})
+
+const lessonSlice = createSlice({
+  ...
+})
+
+
+// GlobalLesson
+const GlobalLesson = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchLesson());
+  }, [dispatch]);
+}
