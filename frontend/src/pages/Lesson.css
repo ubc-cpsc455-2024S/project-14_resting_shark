@@ -39,8 +39,23 @@
   width: 25%;
 }
 
+.burger {
+  display: none;
+}
+
 .left-container {
   padding-left: 2vw;
+}
+
+.sidebar {
+  display: none;
+  position: fixed;
+  width: 250px;
+  height: 100%;
+  background-color: white;
+  z-index: 10;
+  padding: 10px;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
 }
 
 .exit-link {
@@ -255,11 +270,29 @@
   display: flex;
   align-items: flex-start;
   justify-content: center;
-  height: 70vh;
+  height: auto;
   width: 95%;
   border: 2px solid var(--grey);
 }
 
+@media only screen and (max-width: 600px) {
+.sidebar, .ai-container {
+  display: none;
+}
+
+.middle-body {
+  width: 100%;
+}
+
+.burger {
+  display: block;
+}
+
+.sidebar.active {
+  display: block;
+}
+
+}
 .next-button {
   background-color: var(--secondary-color);
   border: none;

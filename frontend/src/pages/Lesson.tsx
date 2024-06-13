@@ -6,6 +6,7 @@ import {
   LuChevronRight,
   LuPenSquare,
   LuX,
+  LuMenu
 } from "react-icons/lu";
 import { useEffect, useState } from "react";
 import Content from "../class/Content";
@@ -24,6 +25,8 @@ export default function Lesson({ contentList }: { contentList: Content[] }) {
   const [pageNumber, setPageNumber] = useState(0);
   const [buttonText, setButtonText] = useState("Let's Go!");
   const [direction, setDirection] = useState("forward");
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
 
   // Changes button text
   useEffect(() => {
@@ -83,11 +86,15 @@ export default function Lesson({ contentList }: { contentList: Content[] }) {
     </div>
   );
 
+
   function Header() {
     return (
       <div className="head">
         <div className=" left-head">
           <ExitButton />
+          <button className="burger" onClick={() => {setSidebarOpen(true)}}>
+            <LuMenu size={28} />
+          </button>
         </div>
         <div className="middle-head">
           <ProgressHeader />
@@ -215,6 +222,11 @@ export default function Lesson({ contentList }: { contentList: Content[] }) {
 
   function ChaptersNav() {
     return (
+      
+      <div className={`sidebar ${sidebarOpen ? "active" : ""}`} id="mySidebar">
+          <button className="close-button" onClick={() => setSidebarOpen(false)}>
+            Close &times;
+          </button>
       <div className="left-container">
         <div className="chapters">
           <h1>Astronomy</h1>
@@ -229,6 +241,7 @@ export default function Lesson({ contentList }: { contentList: Content[] }) {
             </ul>
           </div>
         </div>
+      </div>
       </div>
     );
   }
