@@ -15,7 +15,7 @@ export default function Test() {
       }
     }
     fetchLesson();
-   }, []);
+  }, []);
 
   return (
     <div>{testData}</div>
