@@ -1,0 +1,45 @@
+Database Design
+
+User: {
+  userId: String,
+  dailyStreakLastUpdateTime: Date,
+  dailyStreakCount: Integer,
+  lessons: Array<String>              // Lesson ids
+}
+
+Lesson: {
+  id: String,
+  name: String,
+  lives: Integer,
+  livesLastZeroTime: Date,            // the timestamp of when the user's lives hit zero
+  streakCount: Integer,
+  info: String,                       // Info id
+  chapters: Array<String>             // Chapter ids
+}
+
+Info: {
+  id: String,
+  title: String,
+  content: Array<String>,
+  fact: String
+}
+
+Chapter: {
+  id: String,
+  name: String,
+  info: String,                       // Info id
+  questions: Array<String>            // Question ids
+}
+
+Question: {
+    id: String,
+    type: String,                     // Is one of: "DragAndDrop", "MultipleChoice", or "Matching"
+    ...                               // additional fields depending on type. Refer to classes in frontend/src/class for fields
+}
+
+LessonConfig: {
+  id: String,
+  name: String,                       // we can have multiple lesson configs if we want
+  livesPerLesson: Integer,
+  livesRefreshCooldown: Integer,      // cooldown period, seconds
+}
