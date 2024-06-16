@@ -1,45 +1,76 @@
 Database Design
 
 User: {
-  userId: String,
+  id: string,
+  username: string,
+  password: string,
+  profile: string,                    // Profile id
+  history: string,                    // history id
   dailyStreakLastUpdateTime: Date,
   dailyStreakCount: Integer,
-  lessons: Array<String>              // Lesson ids
+  longestStreak: Integer,
+  lessons: string[]                   // Lesson ids
+}
+
+Profile: {
+  id: string,
+  bgColor: string,                    // hex code
+  baseImage: string,                  // image url (ex canadian goose, the white goose, the cute brown one)
+  accessory: string,                  // image url 
+  heldItem: string,                   // image url (knife, teddy bear, SHARK STUFFY WITH EYES CLOSED)
 }
 
 Lesson: {
-  id: String,
-  name: String,
+  id: string,
+  name: string,
+  author: string                      // userId
   lives: Integer,
   livesLastZeroTime: Date,            // the timestamp of when the user's lives hit zero
   streakCount: Integer,
-  info: String,                       // Info id
-  chapters: Array<String>             // Chapter ids
+  pageProgress: Integer,              // the furthest page the user has progressed to
+  highScore: Integer,
+  currentScore: Integer,              // the current score of the user as they progress through the quiz score. 
+  info: string,                       // Info id
+  chapters: string[]                  // Chapter ids
 }
 
 Info: {
-  id: String,
-  title: String,
-  content: Array<String>,
-  fact: String
+  id: string,
+  title: string,
+  content: string[],
+  fact: string
 }
 
 Chapter: {
-  id: String,
-  name: String,
-  info: String,                       // Info id
-  questions: Array<String>            // Question ids
+  id: string,
+  name: string,
+  info: string,                       // Info id
+  questions: string[]                 // Question ids
 }
 
 Question: {
-    id: String,
-    type: String,                     // Is one of: "DragAndDrop", "MultipleChoice", or "Matching"
+    id: string,
+    type: string,                     // Is one of: "DragAndDrop", "MultipleChoice", or "Matching"
     ...                               // additional fields depending on type. Refer to classes in frontend/src/class for fields
 }
 
 LessonConfig: {
-  id: String,
-  name: String,                       // we can have multiple lesson configs if we want
   livesPerLesson: Integer,
   livesRefreshCooldown: Integer,      // cooldown period, seconds
+  scoreMultiplier: Integer,           // Either 100 or 1000. scoreMultiplier * (streakCount/2 + 1) = points for each question 
+}
+
+profilePictureConfig: {
+  baseImage: string[],                 // image url (ex canadian goose, the white goose, the cute brown one)
+  accessory: string[],                 // image url 
+  heldItem: string[],                  // image url (knife, teddy bear, SHARK STUFFY WITH EYES CLOSED)
+}
+
+GlobalHistory: {
+  lessons: string[],                  // lesson of the day ids history
+}
+
+UserHistory: {
+  id: string,
+  lessonsPerDay: Integer[],           // number of lessons per day, array of length 7. arr[0] is sunday, arr[1], ... this is to display in user stats
 }
