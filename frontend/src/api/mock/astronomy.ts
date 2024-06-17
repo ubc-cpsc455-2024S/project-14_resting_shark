@@ -65,7 +65,7 @@ const AstronomyLessonContent: Content[] = [
     },
   } as Matching,
   {
-    id: "astronomy-matching-id",
+    id: "astronomy-mc-id",
     type: "mc",
     question: 'Which planet is known as the "Red Planet"?',
     options: {
@@ -83,7 +83,7 @@ export const AstronomyLesson: any = {
   name: "Astronomy Lesson",
   author: "some-user-id",
   lives: 3,
-  livesLastZeroTime: Date,
+  livesLastZeroTime: new Date(2000, 0, 1), // placeholder data
   streakCount: 0,
   pageProgress: 0,
   highScore: 0,
