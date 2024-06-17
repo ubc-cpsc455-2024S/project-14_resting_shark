@@ -8,7 +8,7 @@ export const requests = {
 }
 
 // performs a get request to the given url with the given jwt token. Throws an error on faliure
-async function getRequest(token: string, url: string) {
+async function getRequest(token?: string, url?: string) {
   // req headers
   const headers = {
     'Authorization': `Bearer ${token}`,
@@ -38,7 +38,7 @@ async function getRequest(token: string, url: string) {
 
 // performs a post request to the given url with the given jwt token and body. Throws an error on faliure
 // body must be a json object
-async function postRequest(token: string, url: string, body: any) {
+async function postRequest(token?: string, url?: string, body?: any) {
   console.log("post")
   // req headers
   const headers = {
@@ -70,7 +70,7 @@ async function postRequest(token: string, url: string, body: any) {
 }
 
 // performs a put request to the given url with the given jwt token. Throws an error on faliure
-async function putRequest(token: string, url: string, body: any) {
+async function putRequest(token?: string, url?: string, body?: any) {
   // req headers
   const headers = {
     'Authorization': `Bearer ${token}`,
@@ -101,7 +101,7 @@ async function putRequest(token: string, url: string, body: any) {
 }
 
 // performs a delete request to the given url with the given jwt token. Throws an error on faliure
-async function deleteRequest(token: string, url: string) {
+async function deleteRequest(token?: string, url?: string) {
   // req headers
   const headers = {
     'Authorization': `Bearer ${token}`,

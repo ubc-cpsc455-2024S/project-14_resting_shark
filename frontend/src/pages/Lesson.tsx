@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import "./Lesson.css";
 import {
   LuBot,
@@ -20,20 +20,34 @@ import Intro from "../class/Intro";
 import Matching from "../class/Matching";
 import MultipleChoice from "../class/MultipleChoice";
 
-import { AstronomyLesson } from "../api/mock/astronomy";
+import { lessonApi } from "../api/lessonApi";
 
 export default function Lesson() {
-  const [lesson, setLession] = useState({});
+  const { lessonId } = useParams();
+  const [lesson, setLesson] = useState({});
   const [contentList, setContentList] = useState<Content[]>([]);
   const [pageNumber, setPageNumber] = useState(0);
   const [buttonText, setButtonText] = useState("Let's Go!");
   const [direction, setDirection] = useState("forward");
 
+  // fetch lesson data
+  useEffect(() => {
+    async function fetchLesson() {
+      try {
+        const response = await lessonApi.getFullLesson("jwtTokenPlaceholder", lessonId);
+        const { content, ...lessonMetadata} = response;
+        setLesson(lessonMetadata);
+        setContentList(content);
+      } catch (e: any) {
+        console.log("Lesson: " + e.message);
+      }
+    }
+    fetchLesson();
+  }, []);
+
   // Changes button text
   useEffect(() => {
-    setContentList(AstronomyLesson.content);
-
-    if (!contentList[pageNumber]) {
+    if (contentList.length === 0) {
       // if content list is still loading, do not set button
       return;
     } else if (contentList[pageNumber].type === "intro") {
@@ -48,9 +62,10 @@ export default function Lesson() {
   // returns the content as a React Component
   const renderPage = (page: Content) => {
     if (!page) {
+      // return an empty loading page when waiting for backend to return data
       return (
         <div>
-          // empty loading page
+          Loading...
         </div>
       )
     } else if (page.type === "intro") {
