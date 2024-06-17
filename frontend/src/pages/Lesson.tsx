@@ -20,14 +20,23 @@ import Intro from "../class/Intro";
 import Matching from "../class/Matching";
 import MultipleChoice from "../class/MultipleChoice";
 
-export default function Lesson({ contentList }: { contentList: Content[] }) {
+import { AstronomyLesson } from "../api/mock/astronomy";
+
+export default function Lesson() {
+  const [lesson, setLession] = useState({});
+  const [contentList, setContentList] = useState<Content[]>([]);
   const [pageNumber, setPageNumber] = useState(0);
   const [buttonText, setButtonText] = useState("Let's Go!");
   const [direction, setDirection] = useState("forward");
 
   // Changes button text
   useEffect(() => {
-    if (contentList[pageNumber].type === "intro") {
+    setContentList(AstronomyLesson.content);
+
+    if (!contentList[pageNumber]) {
+      // if content list is still loading, do not set button
+      return;
+    } else if (contentList[pageNumber].type === "intro") {
       setButtonText("Let's Go!");
     } else if (contentList[pageNumber].type === "info") {
       setButtonText("Next");
@@ -38,7 +47,13 @@ export default function Lesson({ contentList }: { contentList: Content[] }) {
 
   // returns the content as a React Component
   const renderPage = (page: Content) => {
-    if (page.type === "intro") {
+    if (!page) {
+      return (
+        <div>
+          // empty loading page
+        </div>
+      )
+    } else if (page.type === "intro") {
       return (
         <div className="main-container">
           <Information page={page as Intro} />

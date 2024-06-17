@@ -4,12 +4,14 @@ import DeserializationError from "../exceptions/deserializationError";
 // content: each array item is one paragraph
 // fact: fun fact
 export default class Info implements Content {
+  id: string;
   type: "info";
   title: string;
   content: string[];
   fact: string;
 
-  constructor(title: string, content: string[], fact: string) {
+  constructor(id: string, title: string, content: string[], fact: string) {
+    this.id = id;
     this.type = "info";
     this.title = title;
     this.content = content;
@@ -19,6 +21,7 @@ export default class Info implements Content {
   // Info to json
   static serialize(instance: Info): string {
     return JSON.stringify({
+      id: instance.id,
       type: instance.type,
       title: instance.title,
       content: instance.content,
@@ -54,6 +57,6 @@ export default class Info implements Content {
       throw new DeserializationError("Fact must be a string", "Info");
     }
 
-    return new Info(obj.title, obj.content, obj.fact);
+    return new Info(obj.id, obj.title, obj.content, obj.fact);
   }
 }

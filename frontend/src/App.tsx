@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import "./App.css";
-import Dashboard from "./pages/Dashboard";
+import Dashboard from "./pages/dashboard/Dashboard";
 import Lesson from "./pages/Lesson";
 import { AstronomyLesson } from "./api/mock/astronomy";
 import PageNotFound from "./pages/PageNotFound";
@@ -12,8 +12,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Dashboard />} />
         <Route
-          path="/lesson"
-          element={<Lesson contentList={AstronomyLesson} />}
+          path="/lesson/:lessonId"
+          element={<Lesson />}
         />
         <Route path="*" element={<PageNotFound />} />
         <Route path="/test" element={<Test />} />
