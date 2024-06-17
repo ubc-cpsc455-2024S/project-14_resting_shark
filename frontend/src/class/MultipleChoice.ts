@@ -3,11 +3,13 @@ import DeserializationError from "../exceptions/deserializationError";
 
 // options: value is true if the key is the correct answer, otherwise false
 export default class MultipleChoice implements Content {
+  id: string;
   type: "mc";
   question: string;
   options: { [key: string]: boolean };
 
-  constructor(question: string, options: { [key: string]: boolean }) {
+  constructor(id: string, question: string, options: { [key: string]: boolean }) {
+    this.id = id;
     this.type = "mc";
     this.question = question;
     this.options = options;
@@ -49,6 +51,6 @@ export default class MultipleChoice implements Content {
       throw new DeserializationError("options must be an object with keys as strings and values as booleans", "MultipleChoice");
     }
 
-    return new MultipleChoice(obj.question, obj.options);
+    return new MultipleChoice(obj.id, obj.question, obj.options);
   }
 }

@@ -5,10 +5,10 @@ import Intro from "../../class/Intro";
 import Matching from "../../class/Matching";
 import MultipleChoice from "../../class/MultipleChoice";
 
-
-// mock data for astronomy lesson
-export const AstronomyLesson: Content[] = [
+// backend will aggregate all questions, info, and whatever else into an array like this
+const AstronomyLessonContent: Content[] = [
   {
+    id: "astronomy-intro-id",
     type: "intro",
     title: "Astronomy",
     content: [
@@ -17,6 +17,7 @@ export const AstronomyLesson: Content[] = [
     fact: "One day on Venus is longer than one year on Venus. Venus takes about 243 Earth days to rotate once on its axis but only 225 Earth days to orbit the Sun.",
   } as Intro,
   {
+    id: "astronomy-info-id",
     type: "info",
     title: "The Sun",
     content: [
@@ -27,6 +28,7 @@ export const AstronomyLesson: Content[] = [
     fact: "The Sun accounts for about 99.86% of the total mass of the solar system!",
   } as Info,
   {
+    id: "astronomy-dnd-id",
     type: "dnd",
     content: [
       "The Sun is primarily composed of ",
@@ -46,6 +48,7 @@ export const AstronomyLesson: Content[] = [
     },
   } as DragAndDrop,
   {
+    id: "astronomy-matching-id",
     type: "matching",
     terms: {
       "Spiral Galaxy": 0,
@@ -62,6 +65,7 @@ export const AstronomyLesson: Content[] = [
     },
   } as Matching,
   {
+    id: "astronomy-matching-id",
     type: "mc",
     question: 'Which planet is known as the "Red Planet"?',
     options: {
@@ -72,3 +76,17 @@ export const AstronomyLesson: Content[] = [
     },
   } as MultipleChoice,
 ];
+
+// mock data for astronomy lesson
+export const AstronomyLesson: any = {
+  id: "astronomy-lesson-id",
+  name: "Astronomy Lesson",
+  author: "some-user-id",
+  lives: 3,
+  livesLastZeroTime: Date,
+  streakCount: 0,
+  pageProgress: 0,
+  highScore: 0,
+  currentScore: 0,
+  content: AstronomyLessonContent, 
+};

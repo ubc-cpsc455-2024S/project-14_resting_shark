@@ -3,14 +3,17 @@ import DeserializationError from "../exceptions/deserializationError";
 
 // terms and their corresponding definitions have the same 0-indexed number value
 export default class Matching implements Content {
+  id: string;
   type: "matching";
   terms: { [key: string]: number };
   definitions: { [key: string]: number };
 
   constructor(
+    id: string,
     terms: { [key: string]: number },
     definitions: { [key: string]: number }
   ) {
+    this.id = id;
     this.type = "matching";
     this.terms = terms;
     this.definitions = definitions;
@@ -58,6 +61,6 @@ export default class Matching implements Content {
       throw new DeserializationError("Definitions must be an object with keys as strings and values as integers", "Matching");
     }
 
-    return new Matching(obj.terms, obj.definitions);
+    return new Matching(obj.id, obj.terms, obj.definitions);
   }
 }

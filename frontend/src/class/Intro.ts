@@ -4,16 +4,18 @@ import DeserializationError from "../exceptions/deserializationError";
 // content: each array item is one paragraph
 // fact: fun fact
 export default class Intro implements Content {
+  id: string;
   type: "intro";
   title: string;
   content: string[];
   fact: string;
 
-  constructor(title: string, content: string[], fact: string) {
+  constructor(id: string, title: string, content: string[], fact: string) {
     this.type = "intro";
     this.title = title;
     this.content = content;
     this.fact = fact;
+    this.id = id;
   }
 
   // Intro to json
@@ -54,6 +56,6 @@ static deserialize(json: string): Intro {
     throw new DeserializationError("Fact must be a string", "Intro");
   }
 
-  return new Intro(obj.title, obj.content, obj.fact);
+  return new Intro(obj.id, obj.title, obj.content, obj.fact);
 }
 }
