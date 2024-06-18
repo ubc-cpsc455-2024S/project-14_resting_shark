@@ -26,9 +26,7 @@ export const handlers = [
       },
     ];
 
-    return HttpResponse.json({
-      data: lessons,
-    });
+    return HttpResponse.json(lessons);
   }),
 
   // given a lesson id, get full content for that lesson

@@ -1,11 +1,13 @@
 import { configureStore } from '@reduxjs/toolkit'
 import lessonPageReducer from "./slices/lessonPageSlice";
 import dashboardPageReducer from "./slices/dashboardSlice"
+import fullLessonSlice from './slices/fullLessonSlice';
 
 const store = configureStore({
   reducer: {
     lessonPage: lessonPageReducer,
     dashboardPage: dashboardPageReducer,
+    fullLesson: fullLessonSlice,
   }
 });
 
