@@ -7,7 +7,7 @@ import {
   LuPenSquare,
   LuX,
 } from "react-icons/lu";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import Content from "../class/Content";
 import Information from "../components/Information";
 import DragAndDropQuestion from "../components/DragAndDrop";
@@ -28,7 +28,6 @@ import { lessonApi } from "../api/lessonApi";
 
 export default function Lesson() {
   const { lessonId } = useParams();
-  const lesson = useAppSelector(state => state.fullLesson.lesson);
   const contentList = useAppSelector(state => state.fullLesson.contentList);
   const pageNumber = useAppSelector(state => state.lessonPage.pageNumber);
   const direction = useAppSelector(state => state.lessonPage.direction);
@@ -39,7 +38,7 @@ export default function Lesson() {
   // fetch lesson data
   useEffect(() => {
     dispatch(lessonApi.fetchFullLesson({token: "exampleJWTtoken", lessonId: lessonId}));
-  }, [dispatch]);
+  }, [lessonId, dispatch]);
 
   // Changes button text
   useEffect(() => {
@@ -53,7 +52,7 @@ export default function Lesson() {
     } else {
       dispatch(setButtonText("Check"));
     }
-  }, [pageNumber, contentList]);
+  }, [pageNumber, contentList, dispatch]);
 
   // returns the content as a React Component
   const renderPage = (page: Content) => {

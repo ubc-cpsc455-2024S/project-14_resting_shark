@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 
 import { lessonApi } from "../../api/lessonApi";
@@ -35,9 +35,6 @@ const dashboardPageSlice = createSlice({
     })
   }
 });
-
-// Export actions
-export const { } = dashboardPageSlice.actions;
 
 // Selectors
 export const selectLessons = (state: RootState) => state.dashboardPage.lessons;
