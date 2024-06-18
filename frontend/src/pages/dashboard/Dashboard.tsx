@@ -13,7 +13,6 @@ export default function Dashboard() {
       dispatch(lessonApi.fetchLessons("jwtTokenPlaceholder"));
     }, [dispatch]);
 
-    console.log(lessons);
   const lessonCards = lessons.map((item, key) => <LessonCard key={key} lesson={item}/>);
 
   return (

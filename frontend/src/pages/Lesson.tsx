@@ -28,9 +28,8 @@ import { lessonApi } from "../api/lessonApi";
 
 export default function Lesson() {
   const { lessonId } = useParams();
-  const [lesson, setLesson] = useState({});
-  const [contentList, setContentList] = useState<Content[]>([]);
-
+  const lesson = useAppSelector(state => state.fullLesson.lesson);
+  const contentList = useAppSelector(state => state.fullLesson.contentList);
   const pageNumber = useAppSelector(state => state.lessonPage.pageNumber);
   const direction = useAppSelector(state => state.lessonPage.direction);
   const buttonText = useAppSelector(state => state.lessonPage.buttonText);
@@ -39,18 +38,8 @@ export default function Lesson() {
 
   // fetch lesson data
   useEffect(() => {
-    async function fetchLesson() {
-      try {
-        const response = await lessonApi.getFullLesson("jwtTokenPlaceholder", lessonId);
-        const { content, ...lessonMetadata} = response;
-        setLesson(lessonMetadata);
-        setContentList(content);
-      } catch (e: any) {
-        console.log("Lesson: " + e.message);
-      }
-    }
-    fetchLesson();
-  }, []);
+    dispatch(lessonApi.fetchFullLesson({token: "exampleJWTtoken", lessonId: lessonId}));
+  }, [dispatch]);
 
   // Changes button text
   useEffect(() => {
