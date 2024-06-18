@@ -20,15 +20,22 @@ import Intro from "../class/Intro";
 import Matching from "../class/Matching";
 import MultipleChoice from "../class/MultipleChoice";
 
+import { useAppSelector, useAppDispatch } from "../redux/hooks";
+
+import { setPageNumber, setButtonText } from "../redux/slices/lessonPageSlice";
+
 import { lessonApi } from "../api/lessonApi";
 
 export default function Lesson() {
   const { lessonId } = useParams();
   const [lesson, setLesson] = useState({});
   const [contentList, setContentList] = useState<Content[]>([]);
-  const [pageNumber, setPageNumber] = useState(0);
-  const [buttonText, setButtonText] = useState("Let's Go!");
-  const [direction, setDirection] = useState("forward");
+
+  const pageNumber = useAppSelector(state => state.lessonPage.pageNumber);
+  const direction = useAppSelector(state => state.lessonPage.direction);
+  const buttonText = useAppSelector(state => state.lessonPage.buttonText);
+
+  const dispatch = useAppDispatch();
 
   // fetch lesson data
   useEffect(() => {
@@ -51,11 +58,11 @@ export default function Lesson() {
       // if content list is still loading, do not set button
       return;
     } else if (contentList[pageNumber].type === "intro") {
-      setButtonText("Let's Go!");
+      dispatch(setButtonText("Let's Go!"));
     } else if (contentList[pageNumber].type === "info") {
-      setButtonText("Next");
+      dispatch(setButtonText("Next"));
     } else {
-      setButtonText("Check");
+      dispatch(setButtonText("Check"));
     }
   }, [pageNumber, contentList]);
 
@@ -167,15 +174,13 @@ export default function Lesson() {
   function ProgressBar() {
     const onNextButtonPress = () => {
       if (pageNumber + 1 < contentList.length) {
-        setDirection("forward");
-        setPageNumber(pageNumber + 1);
+        dispatch(setPageNumber(pageNumber + 1));
       }
     };
 
     const onBackButtonPress = async () => {
       if (pageNumber - 1 >= 0) {
-        setDirection("backward");
-        setPageNumber(pageNumber - 1);
+        dispatch(setPageNumber(pageNumber - 1));
       }
     };
 
@@ -266,9 +271,8 @@ export default function Lesson() {
   function MainDisplay() {
     const onNextButtonPress = () => {
       setTimeout(() => {
-        setDirection("forward");
         if (pageNumber + 1 < contentList.length) {
-          setPageNumber(pageNumber + 1);
+          dispatch(setPageNumber(pageNumber + 1));
         }
       }, 150);
     };
