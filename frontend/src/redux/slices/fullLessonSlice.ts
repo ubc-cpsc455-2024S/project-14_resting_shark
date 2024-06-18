@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { RootState } from '../store';
 
 import { lessonApi } from "../../api/lessonApi";
@@ -42,9 +42,6 @@ const fullLessonSlice = createSlice({
     })
   }
 });
-
-// Export actions
-export const { } = fullLessonSlice.actions;
 
 // Selectors
 export const selectLesson = (state: RootState) => state.fullLesson.lesson;
