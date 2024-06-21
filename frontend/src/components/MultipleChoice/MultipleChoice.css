@@ -20,12 +20,6 @@
   width: 100%; /* Ensuring the grid takes full width */
 }
 
-.next-button {
-  margin-top: 20px; /* Adding some space above the button */
-  width: 100%; /* Making the button take full width of its container */
-  max-width: 300px; /* Limiting the maximum width of the button */
-}
-
 .next-button .inner-button {
   text-align: center;
   width: 100%; /* Ensuring the inner content takes full width */

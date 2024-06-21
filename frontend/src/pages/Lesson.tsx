@@ -9,10 +9,9 @@ import {
 } from "react-icons/lu";
 import { useEffect } from "react";
 import Content from "../class/Content";
-import Information from "../components/Information";
-import DragAndDropQuestion from "../components/DragAndDrop";
-import MatchingQuestion from "../components/Matching";
-import MultipleChoiceQuestion from "../components/MultipleChoice";
+import DragAndDropQuestion from "../components/DragAndDrop/DragAndDrop";
+import MatchingQuestion from "../components/Matching/Matching";
+import MultipleChoiceQuestion from "../components/MultipleChoice/MultipleChoice";
 import { motion, AnimatePresence } from "framer-motion";
 import DragAndDrop from "../class/DragAndDrop";
 import Info from "../class/Info";
@@ -25,19 +24,25 @@ import { useAppSelector, useAppDispatch } from "../redux/hooks";
 import { setPageNumber, setButtonText } from "../redux/slices/lessonPageSlice";
 
 import { lessonApi } from "../api/lessonApi";
+import Information from "../components/Information/Information";
 
 export default function Lesson() {
   const { lessonId } = useParams();
-  const contentList = useAppSelector(state => state.fullLesson.contentList);
-  const pageNumber = useAppSelector(state => state.lessonPage.pageNumber);
-  const direction = useAppSelector(state => state.lessonPage.direction);
-  const buttonText = useAppSelector(state => state.lessonPage.buttonText);
+  const contentList = useAppSelector((state) => state.fullLesson.contentList);
+  const pageNumber = useAppSelector((state) => state.lessonPage.pageNumber);
+  const direction = useAppSelector((state) => state.lessonPage.direction);
+  const buttonText = useAppSelector((state) => state.lessonPage.buttonText);
 
   const dispatch = useAppDispatch();
 
   // fetch lesson data
   useEffect(() => {
-    dispatch(lessonApi.fetchFullLesson({token: "exampleJWTtoken", lessonId: lessonId}));
+    dispatch(
+      lessonApi.fetchFullLesson({
+        token: "exampleJWTtoken",
+        lessonId: lessonId,
+      })
+    );
   }, [lessonId, dispatch]);
 
   // Changes button text
@@ -58,11 +63,7 @@ export default function Lesson() {
   const renderPage = (page: Content) => {
     if (!page) {
       // return an empty loading page when waiting for backend to return data
-      return (
-        <div>
-          Loading...
-        </div>
-      )
+      return <div>Loading...</div>;
     } else if (page.type === "intro") {
       return (
         <div className="main-container">

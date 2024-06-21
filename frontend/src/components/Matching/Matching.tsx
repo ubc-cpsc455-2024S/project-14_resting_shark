@@ -2,7 +2,7 @@ import { LuGripVertical } from "react-icons/lu";
 import "./Matching.css";
 import { useState } from "react";
 import { Reorder } from "framer-motion";
-import Matching from "../class/Matching";
+import Matching from "../../class/Matching";
 
 export default function MatchingQuestion({ page }: { page: Matching }) {
   const termsObject = page.terms;

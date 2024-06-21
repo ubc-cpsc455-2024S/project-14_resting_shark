@@ -1,7 +1,7 @@
-import MultipleChoice from "../class/MultipleChoice";
+import MultipleChoice from "../../class/MultipleChoice";
 import { motion } from "framer-motion";
-import Choice from "./Choices";
-import Modal from "./Modal"; // Import the Modal component
+import Choice from "../Choices/Choices";
+import Modal from "../Modal/Modal"; // Import the Modal component
 import "./MultipleChoice.css"; // PUT YOUR CSS IN THIS FILE
 import { useState } from "react";
 

@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { DragAndDrop } from "../class/Content";
 import "./DragAndDrop.css";
 import { DndContext, useDraggable, useDroppable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
+import DragAndDrop from "../../class/DragAndDrop";
 
 export default function DragAndDropQuestion({ page }: { page: DragAndDrop }) {
   const content = page.content;
