@@ -1,6 +1,5 @@
 .mc-container {
-  padding: 20px;
-  max-width: 100%;
+  width: 100%;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -24,6 +23,7 @@
   margin-top: 20px; /* Adding some space above the button */
   width: 100%; /* Making the button take full width of its container */
   max-width: 300px; /* Limiting the maximum width of the button */
+  align-self: center; /* Centering the button */
 }
 
 .next-button .inner-button {
