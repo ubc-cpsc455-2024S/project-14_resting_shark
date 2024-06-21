@@ -8,8 +8,12 @@ import { useState } from "react";
 // Multiple Choice question component
 export default function MultipleChoiceQuestion({
   page,
+  updateStreak,
+  updateLives, 
 }: {
   page: MultipleChoice;
+  updateStreak: (isCorrect: boolean) => void;
+  updateLives: (decrease: boolean) => void; 
 }) {
   // *check class/Content.ts if you want more info about the classes
   /* Syntax Break Down
@@ -20,6 +24,7 @@ export default function MultipleChoiceQuestion({
   const [showResult, setShowResult] = useState<boolean>(false);
   const [modalMessage, setModalMessage] = useState<string>("");
   const [modalBackgroundColor, setModalBackgroundColor] = useState<string>("");
+  const [pendingUpdate, setPendingUpdate] = useState<boolean | null>(null); // Change to allow for null value
 
   // a string
   const question = page.question;
@@ -45,6 +50,7 @@ export default function MultipleChoiceQuestion({
       const selectedOption = optionKeys[selectedChoice];
       const isCorrect = options[selectedOption] ?? false;
       setShowResult(true);
+      setPendingUpdate(isCorrect); // Store the correctness for later update
       if (isCorrect) {
         setModalMessage("Great job!");
         setModalBackgroundColor("#29CC60");
@@ -56,9 +62,18 @@ export default function MultipleChoiceQuestion({
   };
 
   const closeModal = () => {
+    if (pendingUpdate !== null) { // Only update streak if there's a pending update
+      updateStreak(pendingUpdate);
+      if (!pendingUpdate) {
+        updateLives(true); // Decrease lives by 1 if the answer was incorrect
+      }
+    }
     setModalMessage("");
+    setShowResult(false);
+    setSelectedChoice(null); // Reset selected choice
+    setPendingUpdate(null); // Reset pending update flag
   };
-
+  
   // I put all the content that you need onto the screen for you
   return (
     <div className="mc-container">

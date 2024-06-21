@@ -7,7 +7,7 @@ import {
   LuPenSquare,
   LuX,
 } from "react-icons/lu";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Content from "../class/Content";
 import Information from "../components/Information";
 import DragAndDropQuestion from "../components/DragAndDrop";
@@ -19,6 +19,7 @@ import Info from "../class/Info";
 import Intro from "../class/Intro";
 import Matching from "../class/Matching";
 import MultipleChoice from "../class/MultipleChoice";
+import Modal from "../components/Modal";
 
 import { useAppSelector, useAppDispatch } from "../redux/hooks";
 
@@ -28,16 +29,24 @@ import { lessonApi } from "../api/lessonApi";
 
 export default function Lesson() {
   const { lessonId } = useParams();
-  const contentList = useAppSelector(state => state.fullLesson.contentList);
-  const pageNumber = useAppSelector(state => state.lessonPage.pageNumber);
-  const direction = useAppSelector(state => state.lessonPage.direction);
-  const buttonText = useAppSelector(state => state.lessonPage.buttonText);
+  const contentList = useAppSelector((state) => state.fullLesson.contentList);
+  const pageNumber = useAppSelector((state) => state.lessonPage.pageNumber);
+  const direction = useAppSelector((state) => state.lessonPage.direction);
+  const buttonText = useAppSelector((state) => state.lessonPage.buttonText);
+  const [streakCount, setStreakCount] = useState(0);
+  const [lives, setLives] = useState(3);
+  const [showGameOver, setShowGameOver] = useState(false);
 
   const dispatch = useAppDispatch();
 
   // fetch lesson data
   useEffect(() => {
-    dispatch(lessonApi.fetchFullLesson({token: "exampleJWTtoken", lessonId: lessonId}));
+    dispatch(
+      lessonApi.fetchFullLesson({
+        token: "exampleJWTtoken",
+        lessonId: lessonId,
+      })
+    );
   }, [lessonId, dispatch]);
 
   // Changes button text
@@ -54,15 +63,34 @@ export default function Lesson() {
     }
   }, [pageNumber, contentList, dispatch]);
 
+  // Updates the streak count when user answers correctly.
+  const updateStreak = (isCorrect: boolean) => {
+    setStreakCount(isCorrect ? streakCount + 1 : 0);
+  };
+  // Decrease the lives count when user answers incorrectly.
+  const updateLives = (decrease: boolean) => {
+    if (decrease) {
+      setLives((prevLives) => {
+        const newLives = prevLives - 1;
+        if (newLives <= 0) {
+          setShowGameOver(true);
+        }
+        return newLives;
+      });
+    }
+  };
+  // Closes the GameOver Modal that pops up when your life goes to 0
+  const closeGameOverModal = () => {
+    setShowGameOver(false);
+    setLives(3); // Reset lives or any other action on game over
+    setStreakCount(0); // Reset streak or any other action on game over
+  };
+
   // returns the content as a React Component
   const renderPage = (page: Content) => {
     if (!page) {
       // return an empty loading page when waiting for backend to return data
-      return (
-        <div>
-          Loading...
-        </div>
-      )
+      return <div>Loading...</div>;
     } else if (page.type === "intro") {
       return (
         <div className="main-container">
@@ -90,7 +118,11 @@ export default function Lesson() {
     } else if (page.type === "mc") {
       return (
         <div className="main-container">
-          <MultipleChoiceQuestion page={page as MultipleChoice} />
+          <MultipleChoiceQuestion
+            page={page as MultipleChoice}
+            updateStreak={updateStreak}
+            updateLives={updateLives}
+          />
         </div>
       );
     } else {
@@ -143,18 +175,24 @@ export default function Lesson() {
         <div className="progress-stats">
           <div className="stat">
             <img src="/Lesson/heart.png" alt="heart" />
-            <span>3</span>
+            <span>{lives}</span>
           </div>
           <div className="page-count">
             {pageNumber + 1}/{contentList.length}
           </div>
           <div className="stat">
             <img src="/Lesson/streak.png" alt="streak" />
-            <span>0</span>
+            <span>{streakCount}</span>
           </div>
           <div></div>
         </div>
         <ProgressBar />
+        <Modal
+          show={showGameOver}
+          message="Game Over"
+          backgroundColor="#FF0000"
+          onClose={closeGameOverModal}
+        />
       </div>
     );
   }
