@@ -9,23 +9,24 @@ import {
 } from "react-icons/lu";
 import { useEffect, useState } from "react";
 import Content from "../class/Content";
-import Information from "../components/Information";
-import DragAndDropQuestion from "../components/DragAndDrop";
-import MatchingQuestion from "../components/Matching";
-import MultipleChoiceQuestion from "../components/MultipleChoice";
+import DragAndDropQuestion from "../components/DragAndDrop/DragAndDrop";
+import MatchingQuestion from "../components/Matching/Matching";
+import MultipleChoiceQuestion from "../components/MultipleChoice/MultipleChoice";
 import { motion, AnimatePresence } from "framer-motion";
 import DragAndDrop from "../class/DragAndDrop";
 import Info from "../class/Info";
 import Intro from "../class/Intro";
 import Matching from "../class/Matching";
 import MultipleChoice from "../class/MultipleChoice";
-import Modal from "../components/Modal";
 
 import { useAppSelector, useAppDispatch } from "../redux/hooks";
 
 import { setPageNumber, setButtonText } from "../redux/slices/lessonPageSlice";
 
 import { lessonApi } from "../api/lessonApi";
+import Information from "../components/Information/Information";
+import { LessonProvider, useLessonContext } from "../context/LessonProvider";
+import Modal from "../components/Modal/Modal";
 
 export default function Lesson() {
   const { lessonId } = useParams();
@@ -134,10 +135,12 @@ export default function Lesson() {
 
   // Main Page
   return (
-    <div className="container">
-      <Header />
-      <Body />
-    </div>
+    <LessonProvider>
+      <div className="container">
+        <Header />
+        <Body />
+      </div>
+    </LessonProvider>
   );
 
   function Header() {
@@ -295,10 +298,39 @@ export default function Lesson() {
   }
 
   function MainDisplay() {
+    const {
+      farthestPage,
+      canProgress,
+      isQuestionPage,
+      setFarthestPage,
+      canCheckAnswers,
+    } = useLessonContext();
+
     const onNextButtonPress = () => {
       setTimeout(() => {
-        if (pageNumber + 1 < contentList.length) {
-          dispatch(setPageNumber(pageNumber + 1));
+        if (!isQuestionPage) {
+          if (pageNumber + 1 < contentList.length) {
+            dispatch(setPageNumber(pageNumber + 1));
+            if (pageNumber + 1 < farthestPage) {
+              setFarthestPage(farthestPage + 1);
+            }
+          }
+        } else {
+          if (pageNumber + 1 <= farthestPage) {
+            dispatch(setPageNumber(pageNumber + 1));
+          } else {
+            if (canCheckAnswers) {
+              if (canProgress) {
+                setFarthestPage(farthestPage + 1);
+                dispatch(setPageNumber(pageNumber + 1));
+                alert("good job!");
+              } else {
+                alert("try again");
+              }
+            } else {
+              alert("bruh");
+            }
+          }
         }
       }, 150);
     };
