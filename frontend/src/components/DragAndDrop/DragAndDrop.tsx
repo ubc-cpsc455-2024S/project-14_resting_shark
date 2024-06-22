@@ -45,7 +45,7 @@ export default function DragAndDropQuestion({ page }: { page: DragAndDrop }) {
     }
 
     setCanProgress(allCorrect);
-  }, [canCheckAnswers, parents, draggableObject, setCanProgress]);
+  }, [canCheckAnswers, content, parents, draggableObject, setCanProgress]);
 
   return (
     <div className="outer-container">
