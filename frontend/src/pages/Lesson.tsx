@@ -25,6 +25,7 @@ import { setPageNumber, setButtonText } from "../redux/slices/lessonPageSlice";
 
 import { lessonApi } from "../api/lessonApi";
 import Information from "../components/Information/Information";
+import { LessonProvider, useLessonContext } from "../context/LessonProvider";
 
 export default function Lesson() {
   const { lessonId } = useParams();
@@ -103,10 +104,12 @@ export default function Lesson() {
 
   // Main Page
   return (
-    <div className="container">
-      <Header />
-      <Body />
-    </div>
+    <LessonProvider>
+      <div className="container">
+        <Header />
+        <Body />
+      </div>
+    </LessonProvider>
   );
 
   function Header() {
@@ -258,10 +261,39 @@ export default function Lesson() {
   }
 
   function MainDisplay() {
+    const {
+      farthestPage,
+      canProgress,
+      isQuestionPage,
+      setFarthestPage,
+      canCheckAnswers,
+    } = useLessonContext();
+
     const onNextButtonPress = () => {
       setTimeout(() => {
-        if (pageNumber + 1 < contentList.length) {
-          dispatch(setPageNumber(pageNumber + 1));
+        if (!isQuestionPage) {
+          if (pageNumber + 1 < contentList.length) {
+            dispatch(setPageNumber(pageNumber + 1));
+            if (pageNumber + 1 < farthestPage) {
+              setFarthestPage(farthestPage + 1);
+            }
+          }
+        } else {
+          if (pageNumber + 1 <= farthestPage) {
+            dispatch(setPageNumber(pageNumber + 1));
+          } else {
+            if (canCheckAnswers) {
+              if (canProgress) {
+                setFarthestPage(farthestPage + 1);
+                dispatch(setPageNumber(pageNumber + 1));
+                alert("good job!");
+              } else {
+                alert("try again");
+              }
+            } else {
+              alert("bruh");
+            }
+          }
         }
       }, 150);
     };

@@ -3,6 +3,7 @@ import "./DragAndDrop.css";
 import { DndContext, useDraggable, useDroppable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
 import DragAndDrop from "../../class/DragAndDrop";
+import { useLessonContext } from "../../context/LessonProvider";
 
 export default function DragAndDropQuestion({ page }: { page: DragAndDrop }) {
   const content = page.content;
@@ -10,6 +11,41 @@ export default function DragAndDropQuestion({ page }: { page: DragAndDrop }) {
   const [parents, setParents] = useState<{ [key: string]: string | null }>({});
 
   const draggableKeys = Object.keys(draggableObject);
+
+  const {
+    setCanProgress,
+    setIsQuestionPage,
+    setCanCheckAnswers,
+    canCheckAnswers,
+  } = useLessonContext();
+
+  useEffect(() => {
+    setCanProgress(false);
+    setIsQuestionPage(true);
+    setCanCheckAnswers(true);
+  }, [setCanProgress, setIsQuestionPage, setCanCheckAnswers]);
+
+  useEffect(() => {
+    let allCorrect = true;
+    for (let i = 0; i < content.length; i++) {
+      if (typeof content[i] !== "string") {
+        const blankId = content[i];
+        const currentDraggable = parents[blankId];
+        if (currentDraggable) {
+          const correctId = draggableObject[currentDraggable];
+          if (correctId !== blankId) {
+            allCorrect = false;
+            break;
+          }
+        } else {
+          allCorrect = false;
+          break;
+        }
+      }
+    }
+
+    setCanProgress(allCorrect);
+  }, [canCheckAnswers, parents, draggableObject, setCanProgress]);
 
   return (
     <div className="outer-container">
@@ -20,14 +56,14 @@ export default function DragAndDropQuestion({ page }: { page: DragAndDrop }) {
             <p className="blank-container">
               {content.map((option, index) => {
                 if (typeof option === "string") {
-                  return <span key={index}>{option}</span>;
+                  const id = `string-${index}`;
+                  return <span key={id}>{option}</span>;
                 } else {
-                  const blankId = `blank-${index}`;
                   return (
-                    <Droppable key={blankId} id={blankId}>
-                      {parents[blankId] ? (
-                        <Draggable dropped={true} id={parents[blankId]}>
-                          <b>{parents[blankId]}</b>
+                    <Droppable key={option} id={option}>
+                      {parents[option] ? (
+                        <Draggable dropped={true} id={parents[option]}>
+                          <b>{parents[option]}</b>
                         </Draggable>
                       ) : (
                         ""
