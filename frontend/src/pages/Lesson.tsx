@@ -18,7 +18,6 @@ import Info from "../class/Info";
 import Intro from "../class/Intro";
 import Matching from "../class/Matching";
 import MultipleChoice from "../class/MultipleChoice";
-import Modal from "../components/Modal";
 
 import { useAppSelector, useAppDispatch } from "../redux/hooks";
 
@@ -27,6 +26,7 @@ import { setPageNumber, setButtonText } from "../redux/slices/lessonPageSlice";
 import { lessonApi } from "../api/lessonApi";
 import Information from "../components/Information/Information";
 import { LessonProvider, useLessonContext } from "../context/LessonProvider";
+import Modal from "../components/Modal/Modal";
 
 export default function Lesson() {
   const { lessonId } = useParams();
