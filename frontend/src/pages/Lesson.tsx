@@ -14,6 +14,8 @@ import MatchingQuestion from "../components/Matching/Matching";
 import MultipleChoiceQuestion from "../components/MultipleChoice/MultipleChoice";
 import { motion, AnimatePresence } from "framer-motion";
 import DragAndDrop from "../class/DragAndDrop";
+import Info from "../class/Info";
+import Intro from "../class/Intro";
 import Matching from "../class/Matching";
 import MultipleChoice from "../class/MultipleChoice";
 
@@ -98,17 +100,18 @@ export default function Lesson() {
   // returns the content as a React Component
   const renderPage = (page: Content) => {
     if (!page) {
+      // return an empty loading page when waiting for backend to return data
       return <div>Loading...</div>;
     } else if (page.type === "intro") {
       return (
         <div className="main-container">
-          <Information page={page} />
+          <Information page={page as Intro} />
         </div>
       );
     } else if (page.type === "info") {
       return (
         <div className="main-container">
-          <Information page={page} />
+          <Information page={page as Info} />
         </div>
       );
     } else if (page.type === "dnd") {
