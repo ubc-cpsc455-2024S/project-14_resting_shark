@@ -37,6 +37,16 @@ export default function Lesson() {
   const [streakCount, setStreakCount] = useState(0);
   const [lives, setLives] = useState(3);
   const [showGameOver, setShowGameOver] = useState(false);
+  // *check class/Content.ts if you want more info about the classes
+  /* Syntax Break Down
+  - Initial state value = Null
+  - <number | null> = SelectedChoice can either be a number or null.
+  */
+  const [selectedChoice, setSelectedChoice] = useState<number | null>(null);
+  const [showResult, setShowResult] = useState<boolean>(false);
+  const [modalMessage, setModalMessage] = useState<string>("");
+  const [modalBackgroundColor, setModalBackgroundColor] = useState<string>("");
+  const [pendingUpdate, setPendingUpdate] = useState<boolean | null>(null); // Change to allow for null value
 
   const dispatch = useAppDispatch();
 
@@ -90,18 +100,17 @@ export default function Lesson() {
   // returns the content as a React Component
   const renderPage = (page: Content) => {
     if (!page) {
-      // return an empty loading page when waiting for backend to return data
       return <div>Loading...</div>;
     } else if (page.type === "intro") {
       return (
         <div className="main-container">
-          <Information page={page as Intro} />
+          <Information page={page} />
         </div>
       );
     } else if (page.type === "info") {
       return (
         <div className="main-container">
-          <Information page={page as Info} />
+          <Information page={page} />
         </div>
       );
     } else if (page.type === "dnd") {
@@ -121,8 +130,12 @@ export default function Lesson() {
         <div className="main-container">
           <MultipleChoiceQuestion
             page={page as MultipleChoice}
-            updateStreak={updateStreak}
-            updateLives={updateLives}
+            onOptionSelect={setSelectedChoice}
+            selectedOption={selectedChoice}
+            showResult={showResult}
+            modalMessage={modalMessage}
+            modalBackgroundColor={modalBackgroundColor}
+            closeModal={closeGameOverModal}
           />
         </div>
       );
@@ -300,39 +313,98 @@ export default function Lesson() {
   function MainDisplay() {
     const {
       farthestPage,
-      canProgress,
       isQuestionPage,
       setFarthestPage,
-      canCheckAnswers,
     } = useLessonContext();
 
     const onNextButtonPress = () => {
-      setTimeout(() => {
-        if (!isQuestionPage) {
-          if (pageNumber + 1 < contentList.length) {
-            dispatch(setPageNumber(pageNumber + 1));
-            if (pageNumber + 1 < farthestPage) {
-              setFarthestPage(farthestPage + 1);
-            }
-          }
-        } else {
-          if (pageNumber + 1 <= farthestPage) {
-            dispatch(setPageNumber(pageNumber + 1));
-          } else {
-            if (canCheckAnswers) {
-              if (canProgress) {
-                setFarthestPage(farthestPage + 1);
-                dispatch(setPageNumber(pageNumber + 1));
-                alert("good job!");
-              } else {
-                alert("try again");
-              }
-            } else {
-              alert("bruh");
-            }
-          }
+      if (isQuestionPage) {
+        const currentPage = contentList[pageNumber];
+
+        switch (currentPage.type) {
+          case "mc":
+            handleMultipleChoiceSubmit(currentPage as MultipleChoice);
+            break;
+          case "dnd":
+            handleDragAndDropSubmit(currentPage as DragAndDrop);
+            break;
+          case "matching":
+            handleMatchingSubmit(currentPage as Matching);
+            break;
+          default:
+            proceedToNextPage();
+            break;
         }
-      }, 150);
+      } else {
+        proceedToNextPage();
+      }
+    };
+
+    /* ChatGPT 3.5 assisted in generating this method on May 31st, 2024.
+    The prompt I provided was: "I want the Choice Component to turn blue when selected and the submit button to reveal if the answer is correct."
+    It generated a helper method template to manage the state for the selected choice and the result.
+    Using this as a reference, I manually edited state names to match our case. */
+    const handleMultipleChoiceSubmit = (page: MultipleChoice) => {
+      const options = page.options;
+      const optionKeys = Object.keys(options);
+
+      if (selectedChoice !== null) {
+        const selectedOption = optionKeys[selectedChoice];
+        const isCorrect = options[selectedOption] ?? false;
+        setShowResult(true);
+        updateStreak(isCorrect);
+        if (!isCorrect) {
+          updateLives(true);
+        }
+        setModalMessage(isCorrect ? "Great job!" : "Good try!");
+        setModalBackgroundColor(isCorrect ? "#29CC60" : "#FF278A");
+      } else {
+        alert("Please select an option");
+      }
+    };
+
+    const handleDragAndDropSubmit = (page: DragAndDrop) => {
+      // Add your drag and drop submit logic here
+      // Example:
+      const isCorrect = false; // checkDragAndDropAnswer(page);
+      if (isCorrect) {
+        alert("Drag and Drop Correct");
+      } else {
+        alert("Drag and Drop Incorrect");
+      }
+    };
+
+    const handleMatchingSubmit = (page: Matching) => {
+      // Add your matching submit logic here
+      // Example:
+      const isCorrect = false; // checkMatchingAnswer(page);
+      if (isCorrect) {
+        alert("Matching Correct");
+      } else {
+        alert("Matching Incorrect");
+      }
+    };
+
+    const proceedToNextPage = () => {
+      if (pageNumber + 1 < contentList.length) {
+        setPageNumber(pageNumber + 1);
+        if (pageNumber + 1 > farthestPage) {
+          setFarthestPage(pageNumber + 1);
+        }
+      }
+    };
+
+    const closeModal = () => {
+      if (pendingUpdate !== null) {
+        updateStreak(pendingUpdate);
+        if (!pendingUpdate) {
+          updateLives(true); // Decrease lives by 1 if the answer was incorrect
+        }
+      }
+      setModalMessage("");
+      setShowResult(false);
+      setSelectedChoice(null); // Reset selected choice
+      setPendingUpdate(null); // Reset pending update flag
     };
 
     return (
@@ -346,6 +418,12 @@ export default function Lesson() {
         >
           <div className="inner-button">{buttonText}</div>
         </motion.button>
+        <Modal
+          show={modalMessage !== ""}
+          message={modalMessage}
+          backgroundColor={modalBackgroundColor}
+          onClose={closeModal}
+        />
       </>
     );
   }
