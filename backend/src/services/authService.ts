@@ -1,4 +1,5 @@
 import jwt from 'jsonwebtoken';
+import crypto from 'crypto';
 import User from '../models/User';
 
 class AuthService {
@@ -11,11 +12,18 @@ class AuthService {
       throw new Error('Username already exists');
       }
 
-      const newUser = await User.create({ username, password });
+      const hashedPassword = crypto.createHash('sha256').update(password).digest('hex');
+
+      await User.create({ username: username, password: hashedPassword });
       const foundUser = await User.findOne({ username });
       const token = this.getJwtToken(foundUser?._id, foundUser?.username);
 
-      return newUser;
+      return {
+        token: token, 
+        id: foundUser?._id, 
+        username: username
+      };
+
     } catch (error: any) {
       console.error('Error:', error);
       throw new Error(error.message.toString());
@@ -26,8 +34,9 @@ class AuthService {
   public async loginUser(username: string, password: string) {
     try {
       const foundUser = await User.findOne({ username });
+      const hashedPassword = crypto.createHash('sha256').update(password).digest('hex');
 
-      if (!foundUser || foundUser.password !== password) {
+      if (!foundUser || foundUser.password !== hashedPassword) {
         throw new Error('Invalid credentials');
       }
 
