@@ -14,8 +14,6 @@ import MatchingQuestion from "../components/Matching/Matching";
 import MultipleChoiceQuestion from "../components/MultipleChoice/MultipleChoice";
 import { motion, AnimatePresence } from "framer-motion";
 import DragAndDrop from "../class/DragAndDrop";
-import Info from "../class/Info";
-import Intro from "../class/Intro";
 import Matching from "../class/Matching";
 import MultipleChoice from "../class/MultipleChoice";
 
