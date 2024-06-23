@@ -164,7 +164,6 @@ app.get("/protectedRoute", authMiddleware, (req, res) => {
 
   // Destructure username from req.user
   const { username } = req.user;
-  console.log(username);
 
   // Return only non-sensitive information
   res.status(200).json({
