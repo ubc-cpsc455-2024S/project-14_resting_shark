@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+const { Schema } = mongoose;
+const { ObjectId } = Schema.Types;
 
 const LessonSchema = new mongoose.Schema({
   name: {
@@ -6,7 +8,8 @@ const LessonSchema = new mongoose.Schema({
     required: true,
   },
   author: {                                     // userId
-    type: String,
+    type: ObjectId,
+    ref: 'User',
     required: true,
   },
   lives: {
@@ -15,7 +18,6 @@ const LessonSchema = new mongoose.Schema({
   },
   livesLastZeroTime: {                          // the timestamp of when the user's lives hit zero
     type: Date,
-    required: true
   },
   streakCount: {
     type: Number,
@@ -35,11 +37,11 @@ const LessonSchema = new mongoose.Schema({
   },
   info: {                                       // Info id
     type: String,
-    required: true
+    // required: true
   },
   chapters: {                                   // Chapter ids
     type: [String],
-    required: true
+    // required: true
   }
 });
 

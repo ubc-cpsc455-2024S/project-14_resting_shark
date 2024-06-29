@@ -5,6 +5,7 @@ import dotenv from "dotenv";
 
 import { authRouter } from './routes/auth';
 import { protectedRouter } from "./routes/protectedRoute";
+import { lessonsRouter } from "./routes/lesson";
 import { connectDB } from "./db/mongoConnection";
 
 
@@ -23,6 +24,8 @@ app.use(
 // routes
 app.use('/auth', authRouter);
 app.use('/protected', protectedRouter);
+app.use('/lesson', lessonsRouter);
+
 
 // server port
 const PORT: number = 3000;
