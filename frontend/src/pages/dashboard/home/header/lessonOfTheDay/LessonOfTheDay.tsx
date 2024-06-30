@@ -3,7 +3,7 @@ import s from "./LessonOfTheDay.module.css"
 
 export default function LessonOfTheDay() {
   return (
-    <div>
+    <div className={s.lessonOfTheDayContainer}>
       <LessonsDisplay />
       <LessonInfo />
     </div>
@@ -12,7 +12,7 @@ export default function LessonOfTheDay() {
 
 function LessonsDisplay() {
   return (
-    <div>
+    <div className={s.lessonDisplay}>
       placeholder lessons image
     </div>
   )
@@ -35,7 +35,7 @@ function LessonInfo() {
   })
 
   return (
-    <div>
+    <div className={s.lessonInfoContainer}>
       <div>
         <LuSparkles />
         <div>Lesson Of The Day</div>
