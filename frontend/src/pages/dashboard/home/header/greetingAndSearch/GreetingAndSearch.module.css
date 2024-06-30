@@ -2,3 +2,20 @@
   display: flex;
   flex-direction: column;
 }
+
+.greetingContainer {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1.6vw;
+}
+
+.greeting {
+  font-size: 1.9rem;
+  font-weight: 600;
+}
+
+.searchContainer {
+  background-color: pink;
+  padding: 1em;
+}
