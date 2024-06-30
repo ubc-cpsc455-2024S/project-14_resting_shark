@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;700&display=swap");
+
 .greetingAndSearchContainer {
   display: flex;
   flex-direction: column;
@@ -15,7 +17,44 @@
   font-weight: 600;
 }
 
+.containerShadow {
+  background: #e7eaf6;
+  padding-bottom: 5px;
+  border-radius: 18px;
+}
+
 .searchContainer {
-  background-color: pink;
+  border: solid 2px #e7eaf6;
+  border-radius: 18px;
+  background: white;
   padding: 1em;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.searchBar {
+  border: solid 2px #e7eaf6;
+  border-radius: 20px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  padding-left: 1.5vw;
+  padding-right: 1.5vw;
+  flex: 1;
+}
+
+.searchInput {
+  border: none;
+  font-size: 0.9rem;
+  font-family: "Fira Sans", sans-serif;
+}
+
+.sortButton {
+  margin-left: 1vw;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-size: 1.15rem;
+  color: #6f7797;
 }
