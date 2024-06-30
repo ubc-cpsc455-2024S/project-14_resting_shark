@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+const { Schema } = mongoose;
+const { ObjectId } = Schema.Types;
 
 
 const ChaptersSchema = new mongoose.Schema(

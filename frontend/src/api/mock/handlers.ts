@@ -12,6 +12,20 @@ export const handlers = [
   }),
 
 
+  // AUTH INTERCEPTORS ----------------------------------------------------------------------------------------------------------
+  http.post(BASE_URL + '/auth/login', () => {
+    return HttpResponse.json({
+      token: "mock-server-token",
+    })
+  }),
+
+  http.post(BASE_URL + '/auth/register', () => {
+    return HttpResponse.json({
+      token: "mock-server-token",
+    })
+  }),
+
+
   // LESSON INTERCEPTORS ----------------------------------------------------------------------------------------------------------
   // fetch all lessons for the current user
   http.get(BASE_URL + '/lesson', () => {
