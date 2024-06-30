@@ -4,11 +4,13 @@ import Dashboard from "./pages/dashboard/Dashboard";
 import Lesson from "./pages/Lesson";
 import PageNotFound from "./pages/PageNotFound";
 import Test from "./api/mock/Test";
+import Login from "./pages/Auth/Login"
 
 function App() {
   return (
     <Router>
       <Routes>
+        <Route path="login" element={<Login />} />
         <Route path="/" element={<Dashboard />} />
         <Route
           path="/lesson/:lessonId"
