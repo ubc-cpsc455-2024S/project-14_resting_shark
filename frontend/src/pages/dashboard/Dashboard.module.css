@@ -1,0 +1,10 @@
+.mainPage {
+  display: flex;
+  flex-direction: row;
+}
+
+.navbarContainer {
+  display: flex;
+  height: 98vh;
+  align-items: center;
+}
