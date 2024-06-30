@@ -1,3 +1,4 @@
+import { LuSlidersHorizontal } from "react-icons/lu";
 import Profile from "../../../../../components/picture/Profile";
 import s from "./GreetingAndSearch.module.css";
 
@@ -15,9 +16,14 @@ export default function GreetingAndSearch() {
 
 function SearchBar() {
   return (
-    <div className={s.searchContainer}>
-      <div className={s.searchBar}>
-        <input />
+    <div className={s.containerShadow}>
+      <div className={s.searchContainer}>
+        <div className={s.searchBar}>
+          <input className={s.searchInput} placeholder="Search..." />
+        </div>
+        <button className={s.sortButton}>
+          <LuSlidersHorizontal />
+        </button>
       </div>
     </div>
   );
