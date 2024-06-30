@@ -1,3 +1,4 @@
+import Content from "./content/Content";
 import Header from "./header/Header";
 import s from "./Home.module.css";
 import Upload from "./upload/Upload";
@@ -7,6 +8,7 @@ export default function Home() {
     <div className={`${s.homeContainer}`}>
       <Header />
       <Upload />
+      <Content />
     </div>
   );
 }
