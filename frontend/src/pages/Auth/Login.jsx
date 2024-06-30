@@ -10,10 +10,11 @@ import { authApi } from "../../api/authApi";
 export default function Login() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const isUserLoggedIn = useAppSelector(state => state.auth.isUserLoggedIn);
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+
+  const token = useAppSelector(state => state.auth.jwtToken);
 
   const handleLogin = async () => {
     try {
