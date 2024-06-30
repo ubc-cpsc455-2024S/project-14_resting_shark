@@ -5,7 +5,6 @@ const router: Router = express.Router();
 
 // user registration
 router.post('/register', async (req, res) => {
-  console.log("called register")
   try {
     const { username, password } = req.body;
 
@@ -22,6 +21,7 @@ router.post('/register', async (req, res) => {
 
 // user login
 router.post('/login', async (req, res) => {
+  console.log("called login")
   try {
     const { username, password } = req.body;
 

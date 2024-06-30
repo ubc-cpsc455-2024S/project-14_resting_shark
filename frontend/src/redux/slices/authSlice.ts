@@ -4,14 +4,16 @@ import { authApi } from '../../api/authApi';
 
 interface AuthSliceState {
   jwtToken: string | undefined,
+  isAuthenticated: boolean,
   tokenStatus: string,
   error: string | undefined,
 }
 
 const initialState: AuthSliceState = {
-  jwtToken: "",
+  jwtToken: undefined,
+  isAuthenticated: false,
   tokenStatus: "idle",
-  error: "",
+  error: undefined,
 };
 
 const authSlice = createSlice({
@@ -27,6 +29,9 @@ const authSlice = createSlice({
     .addCase(authApi.login.fulfilled, (state, action) => {
       state.tokenStatus = "suceeded";
       state.jwtToken = action.payload.token;
+      if (state.jwtToken) {
+        state.isAuthenticated = true;
+      }
     })
     .addCase(authApi.login.rejected, (state, action) => {
       state.tokenStatus = "failed";
@@ -40,6 +45,9 @@ const authSlice = createSlice({
     .addCase(authApi.register.fulfilled, (state, action) => {
       state.tokenStatus = "suceeded";
       state.jwtToken = action.payload.token;
+      if (state.jwtToken) {
+        state.isAuthenticated = true;
+      }
     })
     .addCase(authApi.register.rejected, (state, action) => {
       state.tokenStatus = "failed";
@@ -50,6 +58,6 @@ const authSlice = createSlice({
 
 // Selectors
 export const selectJwtToken = (state: RootState) => state.auth.jwtToken;
-export const isUserLoggedIn = (state: RootState) => state.auth.jwtToken == undefined;
+export const isAuthenticated = (state: RootState) => state.auth.isAuthenticated;
 
 export default authSlice.reducer;
