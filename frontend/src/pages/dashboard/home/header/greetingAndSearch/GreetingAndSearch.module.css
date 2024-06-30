@@ -52,6 +52,11 @@
   border: none;
   font-size: 0.9rem;
   font-family: "Fira Sans", sans-serif;
+  width: 100%;
+}
+
+.searchInput:focus {
+  outline: none;
 }
 
 .sortButton {
@@ -61,4 +66,5 @@
   cursor: pointer;
   font-size: 1.15rem;
   color: #6f7797;
+  margin-right: 0.3vw;
 }

@@ -6,10 +6,12 @@ import PageNotFound from "./pages/PageNotFound";
 import Test from "./api/mock/Test";
 import Login from "./pages/Auth/Login";
 import ProtectedRoute from "./pages/Auth/ProtectedRoute";
+import BackgroundUpdater from "./context/BackgroundUpdater";
 
 function App() {
   return (
     <Router>
+      <BackgroundUpdater />
       <Routes>
         <Route path="login" element={<Login />} />
         <Route path="*" element={<PageNotFound />} />
