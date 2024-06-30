@@ -1,8 +1,11 @@
 import { useEffect } from "react";
 import { useAppSelector, useAppDispatch } from "../../redux/hooks";
+import './Dashboard.css'
 
 import { lessonApi } from "../../api/lessonApi";
 import LessonCard from "./LessonCard";
+import Home from "./home/Home";
+import Navbar from "./navbar/Navbar";
 
 export default function Dashboard() {
   const lessons = useAppSelector(state => state.dashboardPage.lessons);
@@ -18,7 +21,11 @@ export default function Dashboard() {
 
   return (
     <>
-      {lessonCards}
+      <div className="mainPage">
+        <Navbar />
+        <Home />
+      </div>
     </>
   );
 }
+
