@@ -2,4 +2,23 @@
   background-color: white;
   width: 32.5%;
   aspect-ratio: 493/191;
+  border-radius: 20px;
+  box-shadow: 0 0 30px 5px rgba(40, 8, 167, 0.03);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 1vh;
+}
+
+.status {
+  font-size: 0.9rem;
+}
+
+.startButton {
+  border: none;
+  background: none;
+  color: #4369ee;
+  text-decoration: underline;
+  font-size: 0.9rem;
 }
