@@ -1,4 +1,4 @@
-# Group 14 - StudySwan
+# Group 14 - Mangoose
 
 ## Describe your topic/interest in about 150-200 words
 
@@ -16,20 +16,19 @@ This project aims to be a comprehensive tool for learners to deepen their unders
   - True/false
   - Fill in the blank
   - Multiple choice/select all that applies
-  - Long answer (AI study buddy)
 - User authentication and Profile
 -  Streaks/Leagues (reward system of some kind)
 - Home page/Menu
 ### 3-7 “standard” requirements
+- Long answer question (AI study buddy)
 - Verbal exam
 - Lesson of the day
 - Hints/Explanations
 - Lives
 ### 2-3 stretch requirements
-- Diagram questions
+- customizable profile picture
 - Real time multiplayer
 - Community
-- Leaderboard
 - Stats
 
 ## Minimal Requirement Breakdown
