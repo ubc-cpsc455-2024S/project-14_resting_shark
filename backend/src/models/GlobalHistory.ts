@@ -1,8 +1,11 @@
 import mongoose from "mongoose";
+const { Schema } = mongoose;
+const { ObjectId } = Schema.Types;
 
 const GlobalHistorySchema = new mongoose.Schema({
   lessons: [{                   // lesson of the day ids history
-    type: String,
+    type: ObjectId,
+    ref: "Lesson",
     }],
 });
 

@@ -35,13 +35,15 @@ const LessonSchema = new mongoose.Schema({
     type: Number,
     required: true
   },
-  info: {                                       // Info id
-    type: String,
-    // required: true
+  info: {    
+    type: ObjectId,                              // Info id
+    ref: 'Info'                                 
   },
   chapters: {                                   // Chapter ids
-    type: [String],
-    // required: true
+    type: [{
+      type: ObjectId,
+      ref: "Chapters"
+    }],
   }
 });
 
