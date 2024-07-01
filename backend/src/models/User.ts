@@ -1,4 +1,6 @@
 import mongoose from "mongoose";
+const { Schema } = mongoose;
+const { ObjectId } = Schema.Types;
 
 const UserSchema = new mongoose.Schema(
   {
@@ -11,13 +13,20 @@ const UserSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    profile: String,                    // Profile id
-    history: String,                    // history id
+    profile: {                          // Profile id
+      type: ObjectId,
+      ref: "Profile"
+    },                   
+    history: {                          // history id
+      type: ObjectId,
+      ref: "UserHistory"
+    },                   
     dailyStreakLastUpdateTime: Date,
     dailyStreakCount: Number,
     longestStreak: Number,
     lessons: [{                         // Lesson ids       
-      type: String, 
+      type: ObjectId, 
+      ref: "Lesson"
     }],                 
   },
   { timestamps: true }

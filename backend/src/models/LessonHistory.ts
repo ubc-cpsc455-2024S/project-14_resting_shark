@@ -1,8 +1,11 @@
 import mongoose from "mongoose";
+const { Schema } = mongoose;
+const { ObjectId } = Schema.Types;
 
 const LessonHistorySchema = new mongoose.Schema({
     userId: {
-        type: String,
+        type: ObjectId,
+        ref: "User",
         required: true,
         },
     lessonId: String,
