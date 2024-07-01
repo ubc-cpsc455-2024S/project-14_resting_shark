@@ -6,11 +6,12 @@
 
 .recentLessonsLabel {
   font-weight: 400;
+  margin-bottom: 1.5em;
 }
 
 .lessonCards {
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  grid-template-rows: auto;
-  gap: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1.3vw;
 }

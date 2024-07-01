@@ -1,6 +1,86 @@
 .container {
   background-color: white;
   border-radius: 15px;
-  border: 2px solid black;
-  padding: 15px;
+  padding: 1.5em;
+  width: 180px;
+  aspect-ratio: 290/277;
+  text-decoration: none;
+  box-shadow: 0 0 30px 5px rgba(40, 8, 167, 0.03);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.bottomContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.name {
+  font-weight: 500;
+  font-size: 1.15rem;
+  margin-bottom: 0.25em;
+}
+
+.totalQuestions {
+  font-size: 0.8rem;
+  margin-bottom: 0.45em;
+}
+
+.link {
+  text-decoration: none;
+  color: black;
+}
+
+.progressContainer {
+  background-color: #e7eaf6;
+  height: 5px;
+  border-radius: 30px;
+  width: 90%;
+}
+
+.progressBarContainer {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+  gap: 0.4em;
+}
+
+.progressIndicator {
+  background-color: #7683fe;
+  height: 100%;
+  border-radius: 30px;
+}
+
+.percentage {
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.continueToLearnButton {
+  border: none;
+  background-color: #e7eaf6;
+  padding-top: 1em;
+  padding-bottom: 1em;
+  border-radius: 30px;
+  margin-top: 0.8em;
+  cursor: pointer;
+}
+
+.heart {
+  color: #ff278a;
+  font-size: 0.95rem;
+  margin-right: 0.3em;
+}
+
+.dot {
+  color: #ff278a;
+  font-size: 1.2rem;
+  margin-right: -0.1em;
+}
+
+.livesContainer {
+  display: flex;
+  align-items: center;
 }
