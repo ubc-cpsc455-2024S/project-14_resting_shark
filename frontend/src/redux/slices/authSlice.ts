@@ -19,7 +19,13 @@ const initialState: AuthSliceState = {
 const authSlice = createSlice({
   name: 'authSlice',
   initialState,
-  reducers: {},
+  reducers: {
+    logout: (state) => {
+      state.jwtToken = undefined;
+      state.isAuthenticated = false;
+      localStorage.removeItem('jwtToken');
+    }
+  },
   extraReducers: (builder) => {
     builder
     // LOGIN-------------------------------
@@ -62,5 +68,7 @@ const authSlice = createSlice({
 // Selectors
 export const selectJwtToken = (state: RootState) => state.auth.jwtToken;
 export const isAuthenticated = (state: RootState) => state.auth.isAuthenticated;
+
+export const { logout } = authSlice.actions;
 
 export default authSlice.reducer;
