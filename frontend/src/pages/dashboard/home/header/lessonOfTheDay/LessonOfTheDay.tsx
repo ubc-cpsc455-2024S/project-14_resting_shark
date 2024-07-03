@@ -18,15 +18,15 @@ function LessonsDisplay() {
 
 function LessonInfo() {
   const activity = [1, 1, 0, 0, 0, 0, 0];
-  const streakIndicator = activity.map((item) => {
+  const streakIndicator = activity.map((item, key) => {
     if (item === 1) {
       return (
-        <div className={`${s.streakIndicator} ${s.completed}`}>
+        <div key={key} className={`${s.streakIndicator} ${s.completed}`}>
           <LuCheck />
         </div>
       );
     } else {
-      return <div className={`${s.streakIndicator}`}></div>;
+      return <div key={key} className={`${s.streakIndicator}`}></div>;
     }
   });
 
