@@ -8,25 +8,28 @@ import {
   LuX,
 } from "react-icons/lu";
 import { useEffect, useState } from "react";
-import Content from "../class/Content";
-import DragAndDropQuestion from "../components/DragAndDrop/DragAndDrop";
-import MatchingQuestion from "../components/Matching/Matching";
-import MultipleChoiceQuestion from "../components/MultipleChoice/MultipleChoice";
+import Content from "../../class/Content";
+import DragAndDropQuestion from "../../components/DragAndDrop/DragAndDrop";
+import MatchingQuestion from "../../components/Matching/Matching";
+import MultipleChoiceQuestion from "../../components/MultipleChoice/MultipleChoice";
 import { motion, AnimatePresence } from "framer-motion";
-import DragAndDrop from "../class/DragAndDrop";
-import Info from "../class/Info";
-import Intro from "../class/Intro";
-import Matching from "../class/Matching";
-import MultipleChoice from "../class/MultipleChoice";
+import DragAndDrop from "../../class/DragAndDrop";
+import Info from "../../class/Info";
+import Intro from "../../class/Intro";
+import Matching from "../../class/Matching";
+import MultipleChoice from "../../class/MultipleChoice";
 
-import { useAppSelector, useAppDispatch } from "../redux/hooks";
+import { useAppSelector, useAppDispatch } from "../../redux/hooks";
 
-import { setPageNumber, setButtonText } from "../redux/slices/lessonPageSlice";
+import {
+  setPageNumber,
+  setButtonText,
+} from "../../redux/slices/lessonPageSlice";
 
-import { lessonApi } from "../api/lessonApi";
-import Information from "../components/Information/Information";
-import { LessonProvider, useLessonContext } from "../context/LessonProvider";
-import Modal from "../components/Modal/Modal";
+import { lessonApi } from "../../api/lessonApi";
+import Information from "../../components/Information/Information";
+import { LessonProvider, useLessonContext } from "../../context/LessonProvider";
+import Modal from "../../components/Modal/Modal";
 
 export default function Lesson() {
   const { lessonId } = useParams();
@@ -304,6 +307,7 @@ export default function Lesson() {
       isQuestionPage,
       setFarthestPage,
       canCheckAnswers,
+      broadcastCheckAnswer,
     } = useLessonContext();
 
     const onNextButtonPress = () => {
@@ -320,6 +324,7 @@ export default function Lesson() {
             dispatch(setPageNumber(pageNumber + 1));
           } else {
             if (canCheckAnswers) {
+              broadcastCheckAnswer();
               if (canProgress) {
                 setFarthestPage(farthestPage + 1);
                 dispatch(setPageNumber(pageNumber + 1));

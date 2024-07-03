@@ -1,9 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import "./DragAndDrop.css";
 import { DndContext, useDraggable, useDroppable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
 import DragAndDrop from "../../class/DragAndDrop";
-import { useLessonContext } from "../../context/LessonProvider";
+import { LessonProvider, useLessonContext } from "../../context/LessonProvider";
 
 export default function DragAndDropQuestion({ page }: { page: DragAndDrop }) {
   const content = page.content;
@@ -12,12 +12,8 @@ export default function DragAndDropQuestion({ page }: { page: DragAndDrop }) {
 
   const draggableKeys = Object.keys(draggableObject);
 
-  const {
-    setCanProgress,
-    setIsQuestionPage,
-    setCanCheckAnswers,
-    canCheckAnswers,
-  } = useLessonContext();
+  const { setCanProgress, setIsQuestionPage, setCanCheckAnswers } =
+    useLessonContext();
 
   useEffect(() => {
     setCanProgress(false);
@@ -25,27 +21,48 @@ export default function DragAndDropQuestion({ page }: { page: DragAndDrop }) {
     setCanCheckAnswers(true);
   }, [setCanProgress, setIsQuestionPage, setCanCheckAnswers]);
 
+  const [isCorrectList, setIsCorrectList] = useState<{
+    [key: string]: boolean | null;
+  }>({});
+
   useEffect(() => {
-    let allCorrect = true;
-    for (let i = 0; i < content.length; i++) {
-      if (typeof content[i] !== "string") {
-        const blankId = content[i];
-        const currentDraggable = parents[blankId];
-        if (currentDraggable) {
-          const correctId = draggableObject[currentDraggable];
-          if (correctId !== blankId) {
+    console.log(isCorrectList);
+  }, [isCorrectList]);
+
+  const { checkAnswer } = useLessonContext();
+  const [localCheck, setLocalCheck] = useState(false);
+
+  useEffect(() => {
+    if (checkAnswer !== localCheck) {
+      setLocalCheck(checkAnswer);
+
+      console.log("checked");
+
+      let allCorrect = true;
+      let newCorrectList = { ...isCorrectList };
+
+      for (let i = 0; i < content.length; i++) {
+        if (typeof content[i] !== "string") {
+          const blankId = content[i];
+          const currentDraggable = parents[blankId];
+          if (currentDraggable) {
+            const correctId = draggableObject[currentDraggable];
+            if (correctId !== blankId) {
+              allCorrect = false;
+              newCorrectList[blankId] = false;
+            } else {
+              newCorrectList[blankId] = true;
+            }
+          } else {
             allCorrect = false;
-            break;
           }
-        } else {
-          allCorrect = false;
-          break;
         }
       }
-    }
 
-    setCanProgress(allCorrect);
-  }, [canCheckAnswers, content, parents, draggableObject, setCanProgress]);
+      setIsCorrectList(newCorrectList);
+      setCanProgress(allCorrect);
+    }
+  }, [checkAnswer, localCheck]);
 
   return (
     <div className="outer-container">
@@ -62,7 +79,11 @@ export default function DragAndDropQuestion({ page }: { page: DragAndDrop }) {
                   return (
                     <Droppable key={option} id={option}>
                       {parents[option] ? (
-                        <Draggable dropped={true} id={parents[option]}>
+                        <Draggable
+                          isCorrect={isCorrectList[option]}
+                          dropped={true}
+                          id={parents[option]}
+                        >
                           <b>{parents[option]}</b>
                         </Draggable>
                       ) : (
@@ -78,7 +99,7 @@ export default function DragAndDropQuestion({ page }: { page: DragAndDrop }) {
         <div className="options-container">
           {draggableKeys.map((option) => (
             <DraggableContainer key={option} option={option} parents={parents}>
-              <Draggable id={option} dropped={false}>
+              <Draggable id={option} dropped={false} isCorrect={null}>
                 <b>{option}</b>
               </Draggable>
             </DraggableContainer>
@@ -104,6 +125,12 @@ export default function DragAndDropQuestion({ page }: { page: DragAndDrop }) {
         newParents[over.id] = active.id;
 
         return newParents;
+      });
+
+      setIsCorrectList((prevIsCorrectList) => {
+        const newIsCorrectList = { ...prevIsCorrectList };
+        newIsCorrectList[over.id] = null;
+        return newIsCorrectList;
       });
     } else {
       setParents((prevParents) => {
@@ -136,13 +163,26 @@ function Droppable(props: { id: any; children: any }) {
   );
 }
 
-function Draggable(props: { id: any; children: any; dropped: boolean }) {
+function Draggable(props: {
+  id: any;
+  children: any;
+  dropped: boolean;
+  isCorrect: boolean | null;
+}) {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: props.id,
   });
   const style = {
     transform: CSS.Translate.toString(transform),
     cursor: "grab",
+    ...(props.isCorrect != null &&
+      !props.isCorrect && {
+        border: "3px solid #FF278A",
+      }),
+    ...(props.isCorrect != null &&
+      props.isCorrect && {
+        border: "3px solid #29CC60",
+      }),
   };
 
   return (

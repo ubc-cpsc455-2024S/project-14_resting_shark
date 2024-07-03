@@ -15,7 +15,7 @@ export default function Lesson({ lesson }: any) {
   });
 
   return (
-    <Link className={s.link} to={`/lesson/${lesson.id}`}>
+    <Link className={s.link} to={`/lesson/${lesson._id}`}>
       <div className={s.container}>
         <div className={s.livesContainer}>{lives}</div>
         <div className={s.bottomContainer}>

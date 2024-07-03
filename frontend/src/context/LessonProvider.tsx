@@ -9,6 +9,8 @@ interface LessonContextType {
   setCanProgress: (canProgress: boolean) => void;
   canCheckAnswers: boolean;
   setCanCheckAnswers: (canCheckAnswers: boolean) => void;
+  checkAnswer: boolean;
+  broadcastCheckAnswer: () => void;
 }
 
 const LessonContext = createContext<LessonContextType | undefined>(undefined);
@@ -30,6 +32,11 @@ export function LessonProvider({ children }: LessonProviderProps) {
   const [isQuestionPage, setIsQuestionPage] = useState(false);
   const [canProgress, setCanProgress] = useState(true);
   const [canCheckAnswers, setCanCheckAnswers] = useState(false);
+  const [checkAnswer, setCheckAnswer] = useState(false);
+
+  const broadcastCheckAnswer = () => {
+    setCheckAnswer((prevState) => !prevState);
+  };
 
   return (
     <LessonContext.Provider
@@ -42,6 +49,8 @@ export function LessonProvider({ children }: LessonProviderProps) {
         setCanProgress,
         canCheckAnswers,
         setCanCheckAnswers,
+        checkAnswer,
+        broadcastCheckAnswer,
       }}
     >
       {children}
