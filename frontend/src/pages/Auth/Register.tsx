@@ -15,7 +15,7 @@ export default function Register() {
       await dispatch(
         authApi.register({ username, password })
       ).unwrap();
-      navigate("/");
+      navigate("/dashboard");
     } catch (error) {
       console.error("Failed to register:", error);
     }
