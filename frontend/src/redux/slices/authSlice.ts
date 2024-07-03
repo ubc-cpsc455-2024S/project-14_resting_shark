@@ -10,8 +10,8 @@ interface AuthSliceState {
 }
 
 const initialState: AuthSliceState = {
-  jwtToken: undefined,
-  isAuthenticated: false,
+  jwtToken: localStorage.getItem('jwtToken') || undefined,
+  isAuthenticated: !!localStorage.getItem('jwtToken'),
   tokenStatus: "idle",
   error: undefined,
 };
@@ -31,7 +31,9 @@ const authSlice = createSlice({
       state.jwtToken = action.payload.token;
       if (state.jwtToken) {
         state.isAuthenticated = true;
+        localStorage.setItem('jwtToken', state.jwtToken);
       }
+      console.log(state.isAuthenticated);
     })
     .addCase(authApi.login.rejected, (state, action) => {
       state.tokenStatus = "failed";
@@ -47,6 +49,7 @@ const authSlice = createSlice({
       state.jwtToken = action.payload.token;
       if (state.jwtToken) {
         state.isAuthenticated = true;
+        localStorage.setItem('jwtToken', state.jwtToken);
       }
     })
     .addCase(authApi.register.rejected, (state, action) => {

@@ -19,10 +19,10 @@ function App() {
         <Route path="*" element={<PageNotFound />} />
         <Route path="/test" element={<Test />} />
 
-        {/*<Route element={<ProtectedRoute />}>*/}
-        <Route path="/" element={<Dashboard />} />
-        <Route path="/lesson/:lessonId" element={<Lesson />} />
-        {/*</Route>*/}
+        <Route element={<ProtectedRoute />}>
+          <Route path="/" element={<Dashboard />} />
+          <Route path="/lesson/:lessonId" element={<Lesson />} />
+        </Route>
       </Routes>
     </Router>
   );
