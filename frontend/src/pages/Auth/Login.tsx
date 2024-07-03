@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAppSelector, useAppDispatch } from "../../redux/hooks";
+import { useAppDispatch } from "../../redux/hooks";
 import { authApi } from "../../api/authApi";
 
 export default function Login() {
@@ -19,7 +19,7 @@ export default function Login() {
       await dispatch(
         authApi.login({ username: username, password: password })
       ).unwrap();
-      navigate("/");
+      navigate("/dashboard");
     } catch (error) {
       console.error("Failed to login:", error);
     }

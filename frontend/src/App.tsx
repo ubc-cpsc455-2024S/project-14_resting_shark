@@ -8,6 +8,7 @@ import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
 import ProtectedRoute from "./pages/Auth/ProtectedRoute";
 import BackgroundUpdater from "./context/BackgroundUpdater";
+import LandingPage from "./pages/landingPage/LandingPage";
 
 function App() {
   return (
@@ -16,11 +17,12 @@ function App() {
       <Routes>
         <Route path="login" element={<Login />} />
         <Route path="register" element={<Register />} />
+        <Route path="/" element={<LandingPage />} />
         <Route path="*" element={<PageNotFound />} />
         <Route path="/test" element={<Test />} />
 
         <Route element={<ProtectedRoute />}>
-          <Route path="/" element={<Dashboard />} />
+          <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/lesson/:lessonId" element={<Lesson />} />
         </Route>
       </Routes>
