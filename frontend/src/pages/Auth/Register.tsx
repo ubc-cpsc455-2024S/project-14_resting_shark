@@ -1,27 +1,23 @@
-// im puting both login and quth here cuz im lazy, you guys can seperate them when you do th frontend for this
-
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useAppSelector, useAppDispatch } from "../../redux/hooks";
+import { useAppDispatch } from "../../redux/hooks";
 import { authApi } from "../../api/authApi";
 
-export default function Login() {
+export default function Register() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  //  const token = useAppSelector(state => state.auth.jwtToken);
-
-  const handleLogin = async () => {
+  const handleRegister = async () => {
     try {
       await dispatch(
-        authApi.login({ username: username, password: password })
+        authApi.register({ username, password })
       ).unwrap();
       navigate("/");
     } catch (error) {
-      console.error("Failed to login:", error);
+      console.error("Failed to register:", error);
     }
   };
 
@@ -48,11 +44,8 @@ export default function Login() {
         </label>
       </div>
       <div>
-        <button onClick={handleLogin}>Login</button>
+        <button onClick={handleRegister}>Register</button>
       </div>
     </div>
   );
 }
-
-
-
