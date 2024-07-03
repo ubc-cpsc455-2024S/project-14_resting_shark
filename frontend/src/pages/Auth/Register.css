@@ -1,1 +1,102 @@
-/* css for registration page */
+.create-account-container {
+    display: flex;
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+
+    --primary-color: #4369ee;
+    --secondary-color: #7683fe;
+    --grey: #e7eaf6;
+    --dark-grey: #b5bddc;
+    --false-color: #ff278a;
+    --true-color: #29cc60;
+    --overlap: 2%;
+  }
+ 
+  .left-container {
+    width: 42%;
+    height: 100%;
+    background-color: var(--secondary-color);
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    border-radius: 30px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .left-content {
+    padding: 10px;
+    width: calc(80% - var(--overlap));
+    transform: translateX(-8%);
+  }
+
+  .left-container h1 {
+    margin-bottom: 20px;
+    font-size: 2.5rem;
+    text-align: center;
+    color: white;
+  }
+  
+  .left-container p {
+    font-size: 1.2rem;
+    text-align: center;
+    color: white;
+  }
+
+  .right-container {
+    width: 62%;
+    height: 100%;
+    padding: 40px;
+    z-index: 2;
+    position: absolute;
+    background-color: var(--grey);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    left: 38%;
+    box-sizing: border-box;
+    border-radius: 30px;
+  }
+
+  .right-content {
+    width: 80%;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+  
+  .right-container label {
+    display: block;
+    margin-bottom: 10px;
+    font-size: 1.2rem;
+  }
+  
+  .right-container input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .right-container button {
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+  }
+  
+  .right-container button:hover {
+    background-color: #0056b3;
+  } 
