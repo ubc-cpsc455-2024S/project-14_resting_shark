@@ -117,8 +117,8 @@ export default function Lesson() {
     } else if (page.type === "dnd") {
       return (
         <div className="main-container">
-          <DragAndDropQuestion page={page as DragAndDrop} />
-        </div>
+      <DragAndDropQuestion page={page as DragAndDrop} />
+      </div>
       );
     } else if (page.type === "matching") {
       return (
@@ -312,11 +312,8 @@ export default function Lesson() {
   }
 
   function MainDisplay() {
-    const {
-      farthestPage,
-      isQuestionPage,
-      setFarthestPage,
-    } = useLessonContext();
+    const { farthestPage, isQuestionPage, setFarthestPage, canProgress, canCheckAnswers } =
+      useLessonContext();
 
     const onNextButtonPress = () => {
       if (isQuestionPage) {
@@ -327,7 +324,7 @@ export default function Lesson() {
             handleMultipleChoiceSubmit(currentPage as MultipleChoice);
             break;
           case "dnd":
-            handleDragAndDropSubmit(currentPage as DragAndDrop);
+            handleDragAndDropSubmit();
             break;
           case "matching":
             handleMatchingSubmit(currentPage as Matching);
@@ -363,15 +360,22 @@ export default function Lesson() {
         alert("Please select an option");
       }
     };
-
-    const handleDragAndDropSubmit = (page: DragAndDrop) => {
-      // Add your drag and drop submit logic here
-      // Example:
-      const isCorrect = false; // checkDragAndDropAnswer(page);
-      if (isCorrect) {
-        alert("Drag and Drop Correct");
-      } else {
-        alert("Drag and Drop Incorrect");
+    
+    const handleDragAndDropSubmit = () => {
+      if (canCheckAnswers) {
+        if (canProgress) {
+          setFarthestPage(farthestPage + 1);
+          dispatch(setPageNumber(pageNumber + 1));
+          setShowResult(true);
+          updateStreak(canProgress);
+          setModalMessage("Great job!");
+          setModalBackgroundColor("#29CC60");
+        } else {
+          updateStreak(canProgress);
+          updateLives(true);
+          setModalMessage("Good try!");
+          setModalBackgroundColor("#FF278A");
+        }
       }
     };
 
