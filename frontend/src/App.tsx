@@ -6,6 +6,7 @@ import PageNotFound from "./pages/pagenotfound/PageNotFound";
 import Test from "./api/mock/Test";
 import Login from "./pages/Auth/Login";
 import BackgroundUpdater from "./context/BackgroundUpdater";
+import { LessonProvider } from "./context/LessonProvider";
 
 function App() {
   return (

@@ -63,7 +63,7 @@ export default function Lesson() {
     } else if (contentList[pageNumber].type === "info") {
       dispatch(setButtonText("Next"));
     } else {
-      dispatch(setButtonText("Check"));
+      dispatch(setButtonText("Submit"));
     }
   }, [pageNumber, contentList, dispatch]);
 
@@ -328,10 +328,9 @@ export default function Lesson() {
               if (canProgress) {
                 setFarthestPage(farthestPage + 1);
                 dispatch(setPageNumber(pageNumber + 1));
+                setButtonText("Next");
               } else {
               }
-            } else {
-              alert("bruh");
             }
           }
         }

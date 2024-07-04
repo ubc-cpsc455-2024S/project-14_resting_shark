@@ -32,7 +32,7 @@ export default function DragAndDropQuestion({ page }: { page: DragAndDrop }) {
     setIsQuestionPage(true);
     setCanCheckAnswers(false);
     initializeParents();
-  }, [setCanProgress, setIsQuestionPage, setCanCheckAnswers]);
+  }, []);
 
   const [isCorrectList, setIsCorrectList] = useState<{
     [key: string]: boolean | null;
@@ -41,6 +41,7 @@ export default function DragAndDropQuestion({ page }: { page: DragAndDrop }) {
   useEffect(() => {
     console.log(isCorrectList);
   }, [isCorrectList]);
+
   const [localCheck, setLocalCheck] = useState(false);
 
   useEffect(() => {
@@ -53,8 +54,6 @@ export default function DragAndDropQuestion({ page }: { page: DragAndDrop }) {
   useEffect(() => {
     if (checkAnswer !== localCheck) {
       setLocalCheck(checkAnswer);
-
-      console.log("checked");
 
       let allCorrect = true;
       let newCorrectList = { ...isCorrectList };
@@ -77,14 +76,14 @@ export default function DragAndDropQuestion({ page }: { page: DragAndDrop }) {
         }
       }
 
-      setIsCorrectList(newCorrectList);
-      setCanProgress(allCorrect);
-
-      if (canProgress) {
+      if (allCorrect) {
         setBannerText("Amazing!");
       } else {
         setBannerText("Try Again!");
       }
+
+      setIsCorrectList(newCorrectList);
+      setCanProgress(allCorrect);
     }
   }, [checkAnswer, localCheck]);
 
