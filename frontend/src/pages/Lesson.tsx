@@ -176,7 +176,7 @@ export default function Lesson() {
   function ExitButton() {
     return (
       <div className="left-container">
-        <Link className="exit-link" to="/">
+        <Link className="exit-link" to="/dashboard">
           <button className="exit-button">
             <LuX size={22} color={"#4369ee"} />
             <span>Exit</span>

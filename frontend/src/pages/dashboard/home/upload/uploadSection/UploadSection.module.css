@@ -1,0 +1,38 @@
+.uploadSectionContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 65%;
+  border-radius: 20px;
+  border: 2px dashed #b5bddc;
+  aspect-ratio: 1138/191;
+  gap: 0.3em;
+}
+
+.uploadFilePrompt {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-size: 0.9rem;
+}
+
+.uploadButton {
+  border: none;
+  cursor: pointer;
+  outline: none;
+  background: none;
+  font-size: 0.9rem;
+  text-decoration: underline;
+}
+
+.icon {
+  font-size: 1.8rem;
+  color: #6f7797;
+  opacity: 0.3;
+}
+
+.maxFileSize {
+  font-size: 0.8rem;
+  opacity: 0.5;
+}

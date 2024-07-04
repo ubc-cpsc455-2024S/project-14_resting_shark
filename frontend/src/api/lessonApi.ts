@@ -17,6 +17,6 @@ const fetchFullLesson = createAsyncThunk('fullLesson', async(args: FetchFullLess
 });
 
 export const lessonApi = {
-fetchLessons,
+  fetchLessons,
   fetchFullLesson,
 };

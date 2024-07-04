@@ -12,17 +12,58 @@ export const handlers = [
   }),
 
 
+  // AUTH INTERCEPTORS ----------------------------------------------------------------------------------------------------------
+  http.post(BASE_URL + '/auth/login', () => {
+    return HttpResponse.json({
+      token: "mock-server-token",
+    })
+  }),
+
+  http.post(BASE_URL + '/auth/register', () => {
+    return HttpResponse.json({
+      token: "mock-server-token",
+    })
+  }),
+
+
   // LESSON INTERCEPTORS ----------------------------------------------------------------------------------------------------------
   // fetch all lessons for the current user
   http.get(BASE_URL + '/lesson', () => {
     const lessons: any[] = [
       {
-        name: "astronomy lesson",
         id: "astronomy-lesson-id",
+        name: "Astronomy",
+        lives: 2,
+        totalQuestions: 6,
+        completedQuestions: 3,
       },
       {
-        name: "test lesson",
-        id: "test-lesson-id",
+        id: "ikea-lamp-id",
+        name: "IKEA Lamp",
+        lives: 1,
+        totalQuestions: 12,
+        completedQuestions: 3,
+      },
+      {
+        id: "stating-waves-id",
+        name: "Standing Waves",
+        lives: 3,
+        totalQuestions: 8,
+        completedQuestions: 8,
+      },
+      {
+        id: "bible-studies-id",
+        name: "Bible Studies",
+        lives: 2,
+        totalQuestions: 7,
+        completedQuestions: 4,
+      },
+      {
+        id: "new-york-rat-id",
+        name: "New York Rat",
+        lives: 0,
+        totalQuestions: 100,
+        completedQuestions: 69,
       },
     ];
 

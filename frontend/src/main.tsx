@@ -2,8 +2,8 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
-import store from './redux/store'
-import { Provider } from 'react-redux'
+import store from "./redux/store";
+import { Provider } from "react-redux";
 
 async function enableMocking() {
   if (process.env.NODE_ENV !== "development") {
@@ -12,7 +12,8 @@ async function enableMocking() {
 
   const { worker } = await import("./api/mock/browser.ts");
 
-  return worker.start();
+  // comment out this line to shut down mock server
+  // return worker.start();
 }
 
 enableMocking().then(() => {

@@ -10,16 +10,7 @@ interface DashboardPageSliceState {
 }
 
 const initialState: DashboardPageSliceState = {
-  lessons: [
-    {
-      name: "astronomy lesson",
-      id: "astronomy-lesson-id",
-    },
-    {
-      name: "test lesson",
-      id: "test-lesson-id",
-    },
-  ],
+  lessons: [],
   lessonStatus: "idle",
   error: "",
 };
