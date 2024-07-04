@@ -1,8 +1,14 @@
 import mongoose from "mongoose";
+const { Schema } = mongoose;
+const { ObjectId } = Schema.Types;
 
 const UserHistorySchema = new mongoose.Schema({
-  lessonHistory: [String], // LessonHistoryIds, update each time user completes a lesson
+  lessonHistory: [{ 
+    type: ObjectId, 
+    ref: 'Lesson'
+  }]
 });
+
 
 
 const UserHistory = mongoose.model("UserHistory", UserHistorySchema);

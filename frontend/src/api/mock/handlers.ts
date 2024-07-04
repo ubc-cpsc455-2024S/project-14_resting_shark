@@ -58,6 +58,13 @@ export const handlers = [
         totalQuestions: 7,
         completedQuestions: 4,
       },
+      {
+        id: "new-york-rat-id",
+        name: "New York Rat",
+        lives: 0,
+        totalQuestions: 100,
+        completedQuestions: 69,
+      },
     ];
 
     return HttpResponse.json(lessons);

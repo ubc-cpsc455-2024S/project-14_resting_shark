@@ -14,6 +14,7 @@ export default function Content() {
     dispatch(lessonApi.fetchLessons(token));
   }, [dispatch]);
 
+
   const lessonCards = lessons.map((item, key) => (
     <LessonCard key={key} lesson={item} />
   ));

@@ -10,7 +10,8 @@ const ChaptersSchema = new mongoose.Schema(
             required: true,
         },
         info: {                         // Info id
-            type: String,
+            type: ObjectId,
+            ref: "Info",
             required: true,
         },
         questions: {

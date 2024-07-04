@@ -10,8 +10,8 @@ interface AuthSliceState {
 }
 
 const initialState: AuthSliceState = {
-  jwtToken: undefined,
-  isAuthenticated: false,
+  jwtToken: localStorage.getItem('jwtToken') || undefined,
+  isAuthenticated: !!localStorage.getItem('jwtToken'),
   tokenStatus: "idle",
   error: undefined,
 };
@@ -19,7 +19,13 @@ const initialState: AuthSliceState = {
 const authSlice = createSlice({
   name: 'authSlice',
   initialState,
-  reducers: {},
+  reducers: {
+    logout: (state) => {
+      state.jwtToken = undefined;
+      state.isAuthenticated = false;
+      localStorage.removeItem('jwtToken');
+    }
+  },
   extraReducers: (builder) => {
     builder
     // LOGIN-------------------------------
@@ -31,7 +37,9 @@ const authSlice = createSlice({
       state.jwtToken = action.payload.token;
       if (state.jwtToken) {
         state.isAuthenticated = true;
+        localStorage.setItem('jwtToken', state.jwtToken);
       }
+      console.log(state.isAuthenticated);
     })
     .addCase(authApi.login.rejected, (state, action) => {
       state.tokenStatus = "failed";
@@ -47,6 +55,7 @@ const authSlice = createSlice({
       state.jwtToken = action.payload.token;
       if (state.jwtToken) {
         state.isAuthenticated = true;
+        localStorage.setItem('jwtToken', state.jwtToken);
       }
     })
     .addCase(authApi.register.rejected, (state, action) => {
@@ -59,5 +68,7 @@ const authSlice = createSlice({
 // Selectors
 export const selectJwtToken = (state: RootState) => state.auth.jwtToken;
 export const isAuthenticated = (state: RootState) => state.auth.isAuthenticated;
+
+export const { logout } = authSlice.actions;
 
 export default authSlice.reducer;
