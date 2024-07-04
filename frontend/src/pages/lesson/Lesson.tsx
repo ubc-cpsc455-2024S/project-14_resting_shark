@@ -328,9 +328,7 @@ export default function Lesson() {
               if (canProgress) {
                 setFarthestPage(farthestPage + 1);
                 dispatch(setPageNumber(pageNumber + 1));
-                alert("good job!");
               } else {
-                alert("try again");
               }
             } else {
               alert("bruh");
@@ -348,8 +346,22 @@ export default function Lesson() {
           transition={{ duration: 0.2 }}
           className="next-button"
           onClick={onNextButtonPress}
+          style={
+            canCheckAnswers || !isQuestionPage
+              ? {}
+              : { backgroundColor: "#E7EAF6" }
+          }
         >
-          <div className="inner-button">{buttonText}</div>
+          <div
+            className="inner-button"
+            style={
+              canCheckAnswers || !isQuestionPage
+                ? {}
+                : { backgroundColor: "#B5BDDC" }
+            }
+          >
+            {buttonText}
+          </div>
         </motion.button>
       </>
     );

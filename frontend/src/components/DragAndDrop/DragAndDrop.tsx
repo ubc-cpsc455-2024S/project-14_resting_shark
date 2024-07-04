@@ -1,9 +1,11 @@
-import { useContext, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import "./DragAndDrop.css";
 import { DndContext, useDraggable, useDroppable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
 import DragAndDrop from "../../class/DragAndDrop";
-import { LessonProvider, useLessonContext } from "../../context/LessonProvider";
+import { useLessonContext } from "../../context/LessonProvider";
+import Banner from "../misc/banner/Banner";
+import { AnimatePresence } from "framer-motion";
 
 export default function DragAndDropQuestion({ page }: { page: DragAndDrop }) {
   const content = page.content;
@@ -12,13 +14,24 @@ export default function DragAndDropQuestion({ page }: { page: DragAndDrop }) {
 
   const draggableKeys = Object.keys(draggableObject);
 
-  const { setCanProgress, setIsQuestionPage, setCanCheckAnswers } =
-    useLessonContext();
+  const [showBanner, setShowBanner] = useState(false);
+
+  const {
+    setCanProgress,
+    bannerText,
+    setBannerText,
+    canProgress,
+    setIsQuestionPage,
+    setCanCheckAnswers,
+    checkAnswer,
+    canCheckAnswers,
+  } = useLessonContext();
 
   useEffect(() => {
     setCanProgress(false);
     setIsQuestionPage(true);
-    setCanCheckAnswers(true);
+    setCanCheckAnswers(false);
+    initializeParents();
   }, [setCanProgress, setIsQuestionPage, setCanCheckAnswers]);
 
   const [isCorrectList, setIsCorrectList] = useState<{
@@ -28,9 +41,14 @@ export default function DragAndDropQuestion({ page }: { page: DragAndDrop }) {
   useEffect(() => {
     console.log(isCorrectList);
   }, [isCorrectList]);
-
-  const { checkAnswer } = useLessonContext();
   const [localCheck, setLocalCheck] = useState(false);
+
+  useEffect(() => {
+    if (canCheckAnswers) {
+      setShowBanner(true);
+      setTimeout(() => setShowBanner(false), 3000);
+    }
+  }, [checkAnswer]);
 
   useEffect(() => {
     if (checkAnswer !== localCheck) {
@@ -61,8 +79,18 @@ export default function DragAndDropQuestion({ page }: { page: DragAndDrop }) {
 
       setIsCorrectList(newCorrectList);
       setCanProgress(allCorrect);
+
+      if (canProgress) {
+        setBannerText("Amazing!");
+      } else {
+        setBannerText("Try Again!");
+      }
     }
   }, [checkAnswer, localCheck]);
+
+  useEffect(() => {
+    checkAllDroppablesFilled(parents);
+  }, [parents]);
 
   return (
     <div className="outer-container">
@@ -95,6 +123,11 @@ export default function DragAndDropQuestion({ page }: { page: DragAndDrop }) {
               })}
             </p>
           </div>
+          <AnimatePresence>
+            {showBanner && (
+              <Banner isCorrect={canProgress} message={bannerText} />
+            )}
+          </AnimatePresence>
         </div>
         <div className="options-container">
           {draggableKeys.map((option) => (
@@ -124,6 +157,8 @@ export default function DragAndDropQuestion({ page }: { page: DragAndDrop }) {
 
         newParents[over.id] = active.id;
 
+        checkAllDroppablesFilled(newParents);
+
         return newParents;
       });
 
@@ -142,9 +177,31 @@ export default function DragAndDropQuestion({ page }: { page: DragAndDrop }) {
           }
         }
 
+        checkAllDroppablesFilled(newParents);
+
         return newParents;
       });
     }
+  }
+
+  function checkAllDroppablesFilled(parents: { [key: string]: string | null }) {
+    const allFilled = content.every((item) => {
+      if (typeof item !== "string") {
+        return parents[item] !== null;
+      }
+      return true;
+    });
+    setCanCheckAnswers(allFilled);
+  }
+
+  function initializeParents() {
+    const initialParents: { [key: string]: string | null } = {};
+    content.forEach((item) => {
+      if (typeof item !== "string") {
+        initialParents[item as unknown as string] = null;
+      }
+    });
+    setParents(initialParents);
   }
 }
 
