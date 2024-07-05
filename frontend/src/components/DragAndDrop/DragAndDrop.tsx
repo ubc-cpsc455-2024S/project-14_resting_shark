@@ -7,9 +7,12 @@ import { useLessonContext } from "../../context/LessonProvider";
 import Banner from "../misc/banner/Banner";
 import { AnimatePresence } from "framer-motion";
 
-export default function DragAndDropQuestion({ page }: { page: DragAndDrop }) {
-  const content = page.content;
-  const draggableObject = page.draggable;
+function DragAndDropQuestion(props: {
+  page: DragAndDrop;
+  setButtonText: (buttonText: string) => void;
+}) {
+  const content = props.page.content;
+  const draggableObject = props.page.draggable;
   const [parents, setParents] = useState<{ [key: string]: string | null }>({});
 
   const draggableKeys = Object.keys(draggableObject);
@@ -78,6 +81,7 @@ export default function DragAndDropQuestion({ page }: { page: DragAndDrop }) {
 
       if (allCorrect) {
         setBannerText("Amazing!");
+        props.setButtonText("Next");
       } else {
         setBannerText("Try Again!");
       }
@@ -283,3 +287,5 @@ function DraggableContainer({
     </div>
   );
 }
+
+export default DragAndDropQuestion;
