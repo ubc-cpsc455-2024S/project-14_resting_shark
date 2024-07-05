@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import "./Lesson.css";
-import { memo, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Content from "../../class/Content";
 import DragAndDropQuestion from "../../components/DragAndDrop/DragAndDrop";
 import MatchingQuestion from "../../components/Matching/Matching";
