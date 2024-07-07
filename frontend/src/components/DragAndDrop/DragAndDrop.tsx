@@ -41,16 +41,12 @@ function DragAndDropQuestion(props: {
     [key: string]: boolean | null;
   }>({});
 
-  useEffect(() => {
-    console.log(isCorrectList);
-  }, [isCorrectList]);
-
   const [localCheck, setLocalCheck] = useState(false);
 
   useEffect(() => {
     if (canCheckAnswers) {
       setShowBanner(true);
-      setTimeout(() => setShowBanner(false), 3000);
+      setTimeout(() => setShowBanner(false), 2500);
     }
   }, [checkAnswer]);
 

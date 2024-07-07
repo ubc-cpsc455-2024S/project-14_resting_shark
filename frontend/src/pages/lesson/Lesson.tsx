@@ -107,7 +107,12 @@ function Lesson() {
     } else if (page.type === "matching") {
       return (
         <div className="main-container">
-          <MatchingQuestion page={page as Matching} />
+          <MatchingQuestion
+            setButtonText={(buttonText: string) =>
+              dispatch(setButtonText(buttonText))
+            }
+            page={page as Matching}
+          />
         </div>
       );
     } else if (page.type === "mc") {
