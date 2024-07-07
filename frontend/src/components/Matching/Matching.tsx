@@ -42,24 +42,29 @@ export default function MatchingQuestion(props: {
     setCanCheckAnswers,
     checkAnswer,
     canCheckAnswers,
+    setCheckAnswer,
   } = useLessonContext();
 
   const [showBanner, setShowBanner] = useState(false);
 
   const [localCheck, setLocalCheck] = useState(false);
+  const [localCanCheckAnswers, setLocalCanCheckAnswers] = useState(false);
 
   useEffect(() => {
     setCanProgress(false);
     setIsQuestionPage(true);
     setCanCheckAnswers(false);
+    setShowBanner(false);
+    setCheckAnswer(false);
+    props.setButtonText("Submit");
   }, []);
 
   useEffect(() => {
-    if (canCheckAnswers) {
+    if (canCheckAnswers && localCanCheckAnswers) {
       setShowBanner(true);
       setTimeout(() => setShowBanner(false), 2500);
     }
-  }, [checkAnswer]);
+  }, [localCheck]);
 
   useEffect(() => {
     if (checkAnswer !== localCheck) {
@@ -144,6 +149,9 @@ export default function MatchingQuestion(props: {
     newIsMatchedTrue[id] = null;
     setIsMatchTrue(newIsMatchedTrue);
 
+    setCanProgress(false);
+    props.setButtonText("Submit");
+
     if (!isMatching) {
       setCurrentTerm(id);
       setIsMatching(true);
@@ -160,10 +168,16 @@ export default function MatchingQuestion(props: {
     newIsMatchedTrue[id] = null;
     setIsMatchTrue(newIsMatchedTrue);
 
+    if (isMatching) {
+      const filteredPairs = matchedPairs.filter((item) => item.end !== id);
+      const newMatchedPairs = [
+        ...filteredPairs,
+        { start: currentTerm, end: id },
+      ];
+      setMatchedPairs(newMatchedPairs);
+    }
+
     setIsMatching(false);
-    const filteredPairs = matchedPairs.filter((item) => item.end !== id);
-    const newMatchedPairs = [...filteredPairs, { start: currentTerm, end: id }];
-    setMatchedPairs(newMatchedPairs);
   };
 
   useEffect(() => {
@@ -195,6 +209,7 @@ export default function MatchingQuestion(props: {
 
     if (matchedPairs.length === terms.length) {
       setCanCheckAnswers(true);
+      setLocalCanCheckAnswers(true);
     } else {
       setCanCheckAnswers(false);
     }
@@ -212,7 +227,11 @@ export default function MatchingQuestion(props: {
       <div className="matching-container">
         <div className="terms-container">
           {terms.map((term) => (
-            <div className="term-container" key={term}>
+            <div
+              className="term-container"
+              key={term}
+              onClick={() => onStartClick(term)}
+            >
               {term}
               <span
                 className={`connect-start ${
@@ -225,7 +244,6 @@ export default function MatchingQuestion(props: {
                     : ""
                 }`}
                 id={term}
-                onClick={() => onStartClick(term)}
               ></span>
             </div>
           ))}
@@ -241,6 +259,7 @@ export default function MatchingQuestion(props: {
               value={definition}
               key={definition}
               className="definition-container"
+              onClick={() => onEndClick(definition)}
             >
               {definition}
               <span
@@ -254,7 +273,6 @@ export default function MatchingQuestion(props: {
                     : ""
                 }`}
                 id={definition}
-                onClick={() => onEndClick(definition)}
               ></span>
               <span className="draggable-icon">
                 <LuGripVertical size={22} />
@@ -284,9 +302,9 @@ export default function MatchingQuestion(props: {
       ) : null}
       <div className="relative-container">
         <AnimatePresence>
-          {showBanner && (
+          {showBanner ? (
             <Banner isCorrect={canProgress} message={bannerText} />
-          )}
+          ) : null}
         </AnimatePresence>
       </div>
     </div>

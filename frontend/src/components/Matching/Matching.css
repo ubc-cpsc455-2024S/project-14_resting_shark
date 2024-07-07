@@ -55,6 +55,11 @@
   position: relative;
 }
 
+.term-container:hover {
+  border: 2px solid var(--primary-color);
+  cursor: pointer;
+}
+
 .terms-container {
   width: 35%;
 }
@@ -65,7 +70,7 @@
   position: absolute;
   border-radius: 50%;
   right: -0.55em;
-  cursor: crosshair;
+  cursor: pointer;
   background-color: var(--secondary-color);
 }
 
@@ -88,6 +93,10 @@
   cursor: grab;
 }
 
+.definition-container:hover {
+  border: 2px solid var(--primary-color);
+}
+
 .definitions-container {
   width: 45%;
 }
@@ -101,6 +110,22 @@
   border-radius: 50%;
   left: -0.55em;
   cursor: pointer;
+}
+
+.definition-container:hover .connect-end {
+  border: 2px solid var(--primary-color);
+}
+
+.definition-container:hover .match-true {
+  border: none;
+}
+
+.definition-container:hover .selected-end {
+  border: none;
+}
+
+.definition-container:hover .match-false {
+  border: none;
 }
 
 .selected-end {
