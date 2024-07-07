@@ -28,6 +28,7 @@ function DragAndDropQuestion(props: {
     setCanCheckAnswers,
     checkAnswer,
     canCheckAnswers,
+    setCheckAnswer,
   } = useLessonContext();
 
   useEffect(() => {
@@ -35,6 +36,9 @@ function DragAndDropQuestion(props: {
     setIsQuestionPage(true);
     setCanCheckAnswers(false);
     initializeParents();
+    setShowBanner(false);
+    setCheckAnswer(false);
+    props.setButtonText("Submit");
   }, []);
 
   const [isCorrectList, setIsCorrectList] = useState<{
@@ -42,13 +46,14 @@ function DragAndDropQuestion(props: {
   }>({});
 
   const [localCheck, setLocalCheck] = useState(false);
+  const [localCanCheckAnswers, setLocalCanCheckAnswers] = useState(false);
 
   useEffect(() => {
-    if (canCheckAnswers) {
+    if (canCheckAnswers && localCanCheckAnswers) {
       setShowBanner(true);
       setTimeout(() => setShowBanner(false), 2500);
     }
-  }, [checkAnswer]);
+  }, [localCheck]);
 
   useEffect(() => {
     if (checkAnswer !== localCheck) {
@@ -87,10 +92,6 @@ function DragAndDropQuestion(props: {
     }
   }, [checkAnswer, localCheck]);
 
-  useEffect(() => {
-    checkAllDroppablesFilled(parents);
-  }, [parents]);
-
   return (
     <div className="outer-container">
       <DndContext onDragEnd={handleDragEnd}>
@@ -123,9 +124,9 @@ function DragAndDropQuestion(props: {
             </p>
           </div>
           <AnimatePresence>
-            {showBanner && (
+            {showBanner ? (
               <Banner isCorrect={canProgress} message={bannerText} />
-            )}
+            ) : null}
           </AnimatePresence>
         </div>
         <div className="options-container">
@@ -143,6 +144,9 @@ function DragAndDropQuestion(props: {
 
   function handleDragEnd(event: { active: any; over: any }) {
     const { active, over } = event;
+
+    setCanProgress(false);
+    props.setButtonText("Submit");
 
     if (over) {
       setParents((prevParents) => {
@@ -191,6 +195,7 @@ function DragAndDropQuestion(props: {
       return true;
     });
     setCanCheckAnswers(allFilled);
+    setLocalCanCheckAnswers(allFilled);
   }
 
   function initializeParents() {

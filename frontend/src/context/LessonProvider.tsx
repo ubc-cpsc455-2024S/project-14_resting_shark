@@ -10,6 +10,7 @@ interface LessonContextType {
   canCheckAnswers: boolean;
   setCanCheckAnswers: (canCheckAnswers: boolean) => void;
   checkAnswer: boolean;
+  setCheckAnswer: (checkAnswer: boolean) => void;
   broadcastCheckAnswer: () => void;
   bannerText: string;
   setBannerText: (bannerText: string) => void;
@@ -54,6 +55,7 @@ export function LessonProvider({ children }: LessonProviderProps) {
         setCanCheckAnswers,
         checkAnswer,
         broadcastCheckAnswer,
+        setCheckAnswer,
         bannerText,
         setBannerText,
       }}
