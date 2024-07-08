@@ -25,6 +25,8 @@
   padding-right: 3.7vw;
   padding-top: 6.5vh;
   padding-bottom: 6.5vh;
+  position: relative;
+  height: 100%;
 }
 
 /*Header Section*/
@@ -268,6 +270,7 @@
   border-radius: 20px;
   padding: 0;
   cursor: pointer;
+  box-shadow: 0 4px 24px 6px rgba(40, 8, 167, 0.15);
 }
 
 .next-button:active .inner-button {
