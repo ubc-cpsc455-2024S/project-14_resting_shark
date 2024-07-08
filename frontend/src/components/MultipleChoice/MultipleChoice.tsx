@@ -4,7 +4,6 @@ import Choice from "../Choices/Choices";
 import Modal from "../Modal/Modal";
 import "./MultipleChoice.css";
 import { useLessonContext } from "../../context/LessonProvider";
-import { useNavigate } from "react-router-dom";
 
 export default function MultipleChoiceQuestion({
   page,
@@ -12,12 +11,14 @@ export default function MultipleChoiceQuestion({
   updateStreak,
   updateLives,
   lives,
+  setNavigateToDashboard
 }: {
   page: MultipleChoice;
   setButtonText: (buttonText: string) => void;
   updateStreak: (isCorrect: boolean) => void;
   updateLives: (decrease: boolean) => void;
   lives: number;
+  setNavigateToDashboard: (value: boolean) => void;
 }) {
   const question = page.question;
   // a Map<string, boolean> with choices as the key; the correct answer will have a true value and wrong ones will have a false value
@@ -31,7 +32,9 @@ export default function MultipleChoiceQuestion({
   */
   const [selectedChoice, setSelectedChoice] = useState<number | null>(null);
   const [showResult, setShowResult] = useState<boolean>(false);
-  const [isCorrectList, setIsCorrectList] = useState<{ [key: string]: boolean | null }>({});
+  const [isCorrectList, setIsCorrectList] = useState<{
+    [key: string]: boolean | null;
+  }>({});
   const [gameOver, setGameOver] = useState<boolean>(false);
   const [localCheck, setLocalCheck] = useState<boolean>(false);
 
@@ -45,8 +48,6 @@ export default function MultipleChoiceQuestion({
     checkAnswer,
     setCheckAnswer,
   } = useLessonContext();
-
-  const navigate = useNavigate();
 
   useEffect(() => {
     setCanProgress(false);
@@ -79,13 +80,14 @@ export default function MultipleChoiceQuestion({
 
           if (lives - 1 <= 0) {
             setBannerText("Game Over");
-            setButtonText("Close");
+            setButtonText("Go to Dashboard");
             setGameOver(true);
           } else {
             setBannerText("Try Again!");
           }
         } else {
-          setBannerText("Correct!");
+          setBannerText("Amazing!");
+          setButtonText("Next");
           updateStreak(true);
         }
       } else {
@@ -106,12 +108,12 @@ export default function MultipleChoiceQuestion({
   const closeModal = () => {
     setShowResult(false);
     if (gameOver) {
-      navigate("/dashboard");
+      setNavigateToDashboard(true);
     }
     // TODO: Implement logic to navigate to next question if it exists.
     // In the mock data, this is the last question.
     if (canProgress) {
-      navigate("/dashboard");
+      setNavigateToDashboard(true);
     }
   };
 

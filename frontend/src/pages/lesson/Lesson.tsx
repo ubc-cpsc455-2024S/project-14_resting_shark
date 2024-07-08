@@ -17,6 +17,7 @@ import Information from "../../components/Information/Information";
 import { LessonProvider } from "../../context/LessonProvider";
 import Header from "./header/Header";
 import Body from "./body/Body";
+import { useNavigate } from "react-router-dom";
 
 function Lesson() {
   const { lessonId } = useParams();
@@ -26,6 +27,8 @@ function Lesson() {
   const buttonText = useAppSelector((state) => state.lessonPage.buttonText);
   const [streakCount, setStreakCount] = useState(0);
   const [lives, setLives] = useState(3);
+  const [navigateToDashboard, setNavigateToDashboard] = useState(false);
+  const navigate = useNavigate();
 
   const dispatch = useAppDispatch();
 
@@ -48,10 +51,14 @@ function Lesson() {
       dispatch(setButtonText("Let's Go!"));
     } else if (contentList[pageNumber].type === "info") {
       dispatch(setButtonText("Next"));
+    } else if (navigateToDashboard) {
+      // TODO: Implement logic to navigate to dashboard when the button is pressed 
+      // Currently it navigates to the dashboard when the modal closes (in MC Questions)
+      navigate("/dashboard");
     } else {
       dispatch(setButtonText("Submit"));
-    }
-  }, [pageNumber, contentList, dispatch]);
+    } 
+  }, [pageNumber, contentList, navigate, navigateToDashboard, dispatch]);
 
   // Updates the streak count when user answers correctly.
   const updateStreak = useCallback((isCorrect: boolean) => {
@@ -118,6 +125,7 @@ function Lesson() {
             updateStreak={updateStreak}
             updateLives={updateLives}
             lives={lives}
+            setNavigateToDashboard={setNavigateToDashboard}
           />
         </div>
       );
