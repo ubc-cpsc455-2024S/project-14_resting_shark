@@ -122,6 +122,9 @@ function Lesson() {
             page={page as MultipleChoice}
             updateStreak={updateStreak}
             updateLives={updateLives}
+            setButtonText={(buttonText: string) =>
+              dispatch(setButtonText(buttonText))
+            }
           />
         </div>
       );
