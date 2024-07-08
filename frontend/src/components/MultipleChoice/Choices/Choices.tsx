@@ -1,5 +1,5 @@
 import React from "react";
-import "./Choices.css"; 
+import "./Choices.css";
 
 interface ChoiceProps {
   option: string;
@@ -16,14 +16,21 @@ const Choice: React.FC<ChoiceProps> = ({
   index,
   isSelected,
   showResult,
-  onChoiceClick
+  onChoiceClick,
 }) => {
-    // Assuming that there is only four choices in MC questions.
   const letters = ["A", "B", "C", "D"];
 
   return (
     <div
-      className={`choice-container ${isSelected ? (showResult ? (isCorrect ? "correct" : "incorrect") : "selected") : ""}`}
+      className={`choice-container ${
+        isSelected
+          ? showResult
+            ? isCorrect
+              ? "correct"
+              : "incorrect"
+            : "selected"
+          : ""
+      }`}
       onClick={onChoiceClick}
     >
       <div className="choice-label">{letters[index]}.</div>

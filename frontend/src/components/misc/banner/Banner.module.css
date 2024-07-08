@@ -16,6 +16,7 @@
   margin-right: auto;
   white-space: nowrap;
   overflow: hidden;
+  border: solid 2px white;
 }
 
 .false {

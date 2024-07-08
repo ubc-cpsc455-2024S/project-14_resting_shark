@@ -1,56 +1,33 @@
 .mc-container {
-  width: 100%;
-  margin: 0 auto;
+  padding-right: 4vw;
+  padding-left: 4vw;
+  justify-content: space-between;
   display: flex;
   flex-direction: column;
   align-items: center;
+  height: 100%;
+  position: relative;
 }
 
-.mc-container h1 {
-  font-size: 1.5em;
-  text-align: center;
-  margin-bottom: 20px;
+.mc-header {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 6.5vh;
+  gap: 5vh;
 }
 
 .choices-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr; /* Two columns by default */
-  gap: 25px;
-  width: 100%; /* Ensuring the grid takes full width */
+  display: flex;
+  flex-wrap: wrap;
+  width: 80%;
+  gap: 2vw;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 6.5vh;
 }
 
 .next-button .inner-button {
   text-align: center;
   width: 100%; /* Ensuring the inner content takes full width */
-}
-
-/* Responsive styles */
-@media (max-width: 600px) {
-  .choices-grid {
-    grid-template-columns: 1fr; /* One column on small screens */
-  }
-
-  .mc-container {
-    padding: 10px; /* Reducing padding for smaller screens */
-  }
-
-  .mc-container h1 {
-    font-size: 1.2em;
-  }
-
-  .choice {
-    padding: 15px;
-  }
-
-  .choice-label {
-    font-size: 1em;
-  }
-
-  .choice-text {
-    font-size: 0.9em;
-  }
-
-  .next-button {
-    max-width: 100%; /* Allowing the button to take full width on small screens */
-  }
 }
