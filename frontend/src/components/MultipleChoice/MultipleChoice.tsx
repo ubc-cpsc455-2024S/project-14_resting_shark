@@ -1,109 +1,125 @@
-import { AnimatePresence } from "framer-motion";
-import MultipleChoice from "../../class/MultipleChoice";
-import { useLessonContext } from "../../context/LessonProvider";
-import Choice from "./Choices/Choices";
-import "./MultipleChoice.css";
 import { useEffect, useState } from "react";
-import Banner from "../misc/banner/Banner";
+import MultipleChoice from "../../class/MultipleChoice";
+import Choice from "../Choices/Choices";
+import Modal from "../Modal/Modal";
+import "./MultipleChoice.css";
+import { useLessonContext } from "../../context/LessonProvider";
 
-// Multiple Choice question component
-export default function MultipleChoiceQuestion(props: {
+export default function MultipleChoiceQuestion({
+  page,
+  setButtonText,
+  updateStreak,
+  updateLives,
+  lives,
+  setNavigateToDashboard
+}: {
   page: MultipleChoice;
+  setButtonText: (buttonText: string) => void;
   updateStreak: (isCorrect: boolean) => void;
   updateLives: (decrease: boolean) => void;
-  setButtonText: (buttonText: string) => void;
+  lives: number;
+  setNavigateToDashboard: (value: boolean) => void;
 }) {
-  const [selectedChoice, setSelectedChoice] = useState<string | null>(null);
-  const [showResult, setShowResult] = useState<boolean>(false);
-
-  const question = props.page.question;
-
-  const options = props.page.options;
-
+  const question = page.question;
+  // a Map<string, boolean> with choices as the key; the correct answer will have a true value and wrong ones will have a false value
+  const options = page.options;
+  // just the string choices as an array (with no boolean value that represents correctness)
   const optionKeys = Object.keys(options);
-
-  const [localCheck, setLocalCheck] = useState(false);
+  // *check class/Content.ts if you want more info about the classes
+  /* Syntax Break Down
+  - Initial state value = Null
+  - <number | null> = SelectedChoice can either be a number or null.
+  */
+  const [selectedChoice, setSelectedChoice] = useState<number | null>(null);
+  const [showResult, setShowResult] = useState<boolean>(false);
+  const [isCorrectList, setIsCorrectList] = useState<{
+    [key: string]: boolean | null;
+  }>({});
+  const [gameOver, setGameOver] = useState<boolean>(false);
+  const [localCheck, setLocalCheck] = useState<boolean>(false);
 
   const {
     setCanProgress,
     bannerText,
     setBannerText,
+    canProgress,
     setIsQuestionPage,
     setCanCheckAnswers,
-    canCheckAnswers,
-    setCheckAnswer,
     checkAnswer,
-    canProgress,
+    setCheckAnswer,
   } = useLessonContext();
-
-  const [showBanner, setShowBanner] = useState(false);
-  const [localCanCheckAnswers, setLocalCanCheckAnswers] = useState(false);
 
   useEffect(() => {
     setCanProgress(false);
     setIsQuestionPage(true);
     setCanCheckAnswers(false);
-    setShowBanner(false);
     setCheckAnswer(false);
-    props.setButtonText("Submit");
+    setButtonText("Submit");
   }, []);
 
-  const handleChoiceClick = (option: string) => {
-    setSelectedChoice(option);
-    setShowResult(false);
-    setCanProgress(false);
-    props.setButtonText("Submit");
-  };
-
-  useEffect(() => {
-    if (selectedChoice === null) {
-      setLocalCanCheckAnswers(false);
-      setCanCheckAnswers(false);
-    } else {
-      setLocalCanCheckAnswers(true);
-      setCanCheckAnswers(true);
-    }
-  }, [selectedChoice]);
-
-  useEffect(() => {
-    if (canCheckAnswers && localCanCheckAnswers) {
-      setShowBanner(true);
-      setTimeout(() => setShowBanner(false), 2500);
-    }
-  }, [localCheck]);
-
+  /* ChatGPT 3.5 assisted in generating this method on May 31st, 2024.
+  The prompt I provided was: "I want the Choice Component to turn blue when selected and the submit button to reveal if the answer is correct."
+  It generated a helper method template to manage the state for the selected choice and the result.
+  Using this as a reference, I manually edited state names to match our case. */
   useEffect(() => {
     if (checkAnswer !== localCheck) {
       setLocalCheck(checkAnswer);
 
       let allCorrect = true;
+      const newCorrectList = { ...isCorrectList };
 
-      if (selectedChoice === null) {
+      if (selectedChoice !== null) {
+        const selectedOption = optionKeys[selectedChoice];
+        const isCorrect = options[selectedOption];
+
+        newCorrectList[selectedOption] = isCorrect;
+
+        if (!isCorrect) {
+          allCorrect = false;
+          updateLives(true);
+
+          if (lives - 1 <= 0) {
+            setBannerText("Game Over");
+            setButtonText("Go to Dashboard");
+            setGameOver(true);
+          } else {
+            setBannerText("Try Again!");
+          }
+        } else {
+          setBannerText("Amazing!");
+          setButtonText("Next");
+          updateStreak(true);
+        }
+      } else {
         allCorrect = false;
-        console.log("bruh");
-      } else {
-        allCorrect = options[selectedChoice];
-        console.log(options[selectedChoice]);
       }
 
-      if (allCorrect) {
-        setBannerText("You got it!");
-        props.setButtonText("Next");
-      } else {
-        setBannerText("Almost there.");
-      }
-
-      setShowResult(true);
+      setIsCorrectList(newCorrectList);
       setCanProgress(allCorrect);
+      setShowResult(true);
     }
   }, [checkAnswer, localCheck]);
 
+  const handleChoiceClick = (index: number) => {
+    setSelectedChoice(index);
+    setCanCheckAnswers(true);
+  };
+
+  const closeModal = () => {
+    setShowResult(false);
+    if (gameOver) {
+      setNavigateToDashboard(true);
+    }
+    // TODO: Implement logic to navigate to next question if it exists.
+    // In the mock data, this is the last question.
+    if (canProgress) {
+      setNavigateToDashboard(true);
+    }
+  };
+
   return (
     <div className="mc-container">
-      <div className="mc-header">
-        <span>{question}</span>
-        <span>Select the best answer from the options below</span>
-      </div>
+      <h1>{question}</h1>
       <div className="choices-grid">
         {optionKeys.map((option, index) => (
           <Choice
@@ -111,17 +127,18 @@ export default function MultipleChoiceQuestion(props: {
             option={option}
             isCorrect={options[option] ?? false}
             index={index}
-            isSelected={selectedChoice === option}
+            isSelected={selectedChoice === index}
             showResult={showResult}
-            onChoiceClick={() => handleChoiceClick(option)}
+            onChoiceClick={() => handleChoiceClick(index)}
           />
         ))}
       </div>
-      <AnimatePresence>
-        {showBanner ? (
-          <Banner isCorrect={canProgress} message={bannerText} />
-        ) : null}
-      </AnimatePresence>
+      <Modal
+        show={showResult}
+        message={bannerText}
+        backgroundColor={canProgress ? "green" : lives <= 0 ? "red" : "#FF278A"}
+        onClose={closeModal}
+      />
     </div>
   );
 }
