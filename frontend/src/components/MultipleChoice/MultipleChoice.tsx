@@ -52,6 +52,7 @@ export default function MultipleChoiceQuestion(props: {
     setSelectedChoice(option);
     setShowResult(false);
     setCanProgress(false);
+    props.setButtonText("Submit");
   };
 
   useEffect(() => {
