@@ -87,8 +87,11 @@ export default function MultipleChoiceQuestion(props: {
 
       if (allCorrect) {
         setBannerText("You got it!");
+        props.updateStreak(true)
         props.setButtonText("Next");
       } else {
+        props.updateLives(true)
+        props.updateStreak(false)
         setBannerText("Almost there.");
       }
 
