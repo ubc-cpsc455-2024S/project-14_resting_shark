@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import "./Lesson.css";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import Content from "../../class/Content";
 import DragAndDropQuestion from "../../components/DragAndDrop/DragAndDrop";
 import MatchingQuestion from "../../components/Matching/Matching";
@@ -10,14 +10,19 @@ import Info from "../../class/Info";
 import Intro from "../../class/Intro";
 import Matching from "../../class/Matching";
 import MultipleChoice from "../../class/MultipleChoice";
+
 import { useAppSelector, useAppDispatch } from "../../redux/hooks";
-import { setPageNumber, setButtonText } from "../../redux/slices/lessonPageSlice";
+
+import {
+  setPageNumber,
+  setButtonText,
+} from "../../redux/slices/lessonPageSlice";
+
 import { lessonApi } from "../../api/lessonApi";
 import Information from "../../components/Information/Information";
 import { LessonProvider } from "../../context/LessonProvider";
 import Header from "./header/Header";
 import Body from "./body/Body";
-import { useNavigate } from "react-router-dom";
 
 function Lesson() {
   const { lessonId } = useParams();
@@ -27,12 +32,10 @@ function Lesson() {
   const buttonText = useAppSelector((state) => state.lessonPage.buttonText);
   const [streakCount, setStreakCount] = useState(0);
   const [lives, setLives] = useState(3);
-  const [navigateToDashboard, setNavigateToDashboard] = useState(false);
-  const navigate = useNavigate();
 
   const dispatch = useAppDispatch();
 
-  // Fetch lesson data
+  // fetch lesson data
   useEffect(() => {
     dispatch(
       lessonApi.fetchFullLesson({
@@ -45,40 +48,38 @@ function Lesson() {
   // Changes button text
   useEffect(() => {
     if (contentList.length === 0) {
-      // If content list is still loading, do not set button
+      // if content list is still loading, do not set button
       return;
     } else if (contentList[pageNumber].type === "intro") {
       dispatch(setButtonText("Let's Go!"));
     } else if (contentList[pageNumber].type === "info") {
       dispatch(setButtonText("Next"));
-    } else if (navigateToDashboard) {
-      // TODO: Implement logic to navigate to dashboard when the button is pressed 
-      // Currently it navigates to the dashboard when the modal closes (in MC Questions)
-      navigate("/dashboard");
     } else {
       dispatch(setButtonText("Submit"));
-    } 
-  }, [pageNumber, contentList, navigate, navigateToDashboard, dispatch]);
+    }
+  }, [pageNumber, contentList, dispatch]);
 
   // Updates the streak count when user answers correctly.
-  const updateStreak = useCallback((isCorrect: boolean) => {
-    setStreakCount((prevStreak) => (isCorrect ? prevStreak + 1 : 0));
-  }, []);
-
+  const updateStreak = (isCorrect: boolean) => {
+    setStreakCount(isCorrect ? streakCount + 1 : 0);
+  };
   // Decrease the lives count when user answers incorrectly.
-  const updateLives = useCallback((decrease: boolean) => {
+  const updateLives = (decrease: boolean) => {
     if (decrease) {
       setLives((prevLives) => {
         const newLives = prevLives - 1;
+        if (newLives <= 0) {
+          alert("whomp whomp");
+        }
         return newLives;
       });
     }
-  }, []);
+  };
 
-  // Returns the content as a React Component
+  // returns the content as a React Component
   const renderPage = (page: Content) => {
     if (!page) {
-      // Return an empty loading page when waiting for backend to return data
+      // return an empty loading page when waiting for backend to return data
       return <div>Loading...</div>;
     } else if (page.type === "intro") {
       return (
@@ -118,14 +119,12 @@ function Lesson() {
       return (
         <div className="main-container">
           <MultipleChoiceQuestion
-            setButtonText={(buttonText: string) =>
-              dispatch(setButtonText(buttonText))
-            }
             page={page as MultipleChoice}
             updateStreak={updateStreak}
             updateLives={updateLives}
-            lives={lives}
-            setNavigateToDashboard={setNavigateToDashboard}
+            setButtonText={(buttonText: string) =>
+              dispatch(setButtonText(buttonText))
+            }
           />
         </div>
       );
