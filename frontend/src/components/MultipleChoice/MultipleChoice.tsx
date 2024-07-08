@@ -1,83 +1,108 @@
+import { AnimatePresence } from "framer-motion";
 import MultipleChoice from "../../class/MultipleChoice";
-import { motion } from "framer-motion";
-import Choice from "../Choices/Choices";
-import Modal from "../Modal/Modal"; // Import the Modal component
-import "./MultipleChoice.css"; // PUT YOUR CSS IN THIS FILE
-import { useState } from "react";
+import { useLessonContext } from "../../context/LessonProvider";
+import Choice from "./Choices/Choices";
+import "./MultipleChoice.css";
+import { useEffect, useState } from "react";
+import Banner from "../misc/banner/Banner";
 
 // Multiple Choice question component
-export default function MultipleChoiceQuestion({
-  page,
-  updateStreak,
-  updateLives, 
-}: {
+export default function MultipleChoiceQuestion(props: {
   page: MultipleChoice;
   updateStreak: (isCorrect: boolean) => void;
-  updateLives: (decrease: boolean) => void; 
+  updateLives: (decrease: boolean) => void;
+  setButtonText: (buttonText: string) => void;
 }) {
-  // *check class/Content.ts if you want more info about the classes
-  /* Syntax Break Down
-  - Initial state value = Null
-  - <number | null> = SelectedChoice can either be a number or null.
-  */
-  const [selectedChoice, setSelectedChoice] = useState<number | null>(null);
+  const [selectedChoice, setSelectedChoice] = useState<string | null>(null);
   const [showResult, setShowResult] = useState<boolean>(false);
-  const [modalMessage, setModalMessage] = useState<string>("");
-  const [modalBackgroundColor, setModalBackgroundColor] = useState<string>("");
-  const [pendingUpdate, setPendingUpdate] = useState<boolean | null>(null); // Change to allow for null value
 
-  // a string
-  const question = page.question;
+  const question = props.page.question;
 
-  // a Map<string, boolean> with choices as the key; the correct answer will have a true value and wrong ones will have a false value
-  const options = page.options;
+  const options = props.page.options;
 
-  // just the string choices as an array (with no boolean value that represents correctness)
   const optionKeys = Object.keys(options);
 
-  const handleChoiceClick = (index: number) => {
-    setSelectedChoice(index);
-    setShowResult(false); // Reset result when a new choice is selected
-    setModalMessage(""); // Reset modal message
-  };
+  const [localCheck, setLocalCheck] = useState(false);
 
-  /* ChatGPT 3.5 assisted in generating this method on May 31st, 2024.
-  The prompt I provided was: "I want the Choice Component to turn blue when selected and the submit button to reveal if the answer is correct."
-  It generated a helper method template to manage the state for the selected choice and the result.
-  Using this as a reference, I manually edited state names to match our case. */
-  const handleNextButtonPress = () => {
-    if (selectedChoice !== null) {
-      const selectedOption = optionKeys[selectedChoice];
-      const isCorrect = options[selectedOption] ?? false;
-      setShowResult(true);
-      setPendingUpdate(isCorrect); // Store the correctness for later update
-      if (isCorrect) {
-        setModalMessage("Great job!");
-        setModalBackgroundColor("#29CC60");
-      } else {
-        setModalMessage("Good try!");
-        setModalBackgroundColor("#FF278A");
-      }
-    }
-  };
+  const {
+    setCanProgress,
+    bannerText,
+    setBannerText,
+    setIsQuestionPage,
+    setCanCheckAnswers,
+    canCheckAnswers,
+    setCheckAnswer,
+    checkAnswer,
+    canProgress,
+  } = useLessonContext();
 
-  const closeModal = () => {
-    if (pendingUpdate !== null) { // Only update streak if there's a pending update
-      updateStreak(pendingUpdate);
-      if (!pendingUpdate) {
-        updateLives(true); // Decrease lives by 1 if the answer was incorrect
-      }
-    }
-    setModalMessage("");
+  const [showBanner, setShowBanner] = useState(false);
+  const [localCanCheckAnswers, setLocalCanCheckAnswers] = useState(false);
+
+  useEffect(() => {
+    setCanProgress(false);
+    setIsQuestionPage(true);
+    setCanCheckAnswers(false);
+    setShowBanner(false);
+    setCheckAnswer(false);
+    props.setButtonText("Submit");
+  }, []);
+
+  const handleChoiceClick = (option: string) => {
+    setSelectedChoice(option);
     setShowResult(false);
-    setSelectedChoice(null); // Reset selected choice
-    setPendingUpdate(null); // Reset pending update flag
+    setCanProgress(false);
   };
-  
-  // I put all the content that you need onto the screen for you
+
+  useEffect(() => {
+    if (selectedChoice === null) {
+      setLocalCanCheckAnswers(false);
+      setCanCheckAnswers(false);
+    } else {
+      setLocalCanCheckAnswers(true);
+      setCanCheckAnswers(true);
+    }
+  }, [selectedChoice]);
+
+  useEffect(() => {
+    if (canCheckAnswers && localCanCheckAnswers) {
+      setShowBanner(true);
+      setTimeout(() => setShowBanner(false), 2500);
+    }
+  }, [localCheck]);
+
+  useEffect(() => {
+    if (checkAnswer !== localCheck) {
+      setLocalCheck(checkAnswer);
+
+      let allCorrect = true;
+
+      if (selectedChoice === null) {
+        allCorrect = false;
+        console.log("bruh");
+      } else {
+        allCorrect = options[selectedChoice];
+        console.log(options[selectedChoice]);
+      }
+
+      if (allCorrect) {
+        setBannerText("You got it!");
+        props.setButtonText("Next");
+      } else {
+        setBannerText("Almost there.");
+      }
+
+      setShowResult(true);
+      setCanProgress(allCorrect);
+    }
+  }, [checkAnswer, localCheck]);
+
   return (
     <div className="mc-container">
-      <h1>{question}</h1>
+      <div className="mc-header">
+        <span>{question}</span>
+        <span>Select the best answer from the options below</span>
+      </div>
       <div className="choices-grid">
         {optionKeys.map((option, index) => (
           <Choice
@@ -85,28 +110,17 @@ export default function MultipleChoiceQuestion({
             option={option}
             isCorrect={options[option] ?? false}
             index={index}
-            isSelected={selectedChoice === index}
+            isSelected={selectedChoice === option}
             showResult={showResult}
-            onChoiceClick={() => handleChoiceClick(index)}
+            onChoiceClick={() => handleChoiceClick(option)}
           />
         ))}
       </div>
-      <motion.button
-        layout
-        transition={{ duration: 0.2 }}
-        className="next-button"
-        onClick={handleNextButtonPress}
-      >
-        <div className="inner-button">Submit</div>
-      </motion.button>
-      <Modal
-        show={modalMessage !== ""}
-        message={modalMessage}
-        backgroundColor={modalBackgroundColor}
-        onClose={closeModal}
-      />
+      <AnimatePresence>
+        {showBanner ? (
+          <Banner isCorrect={canProgress} message={bannerText} />
+        ) : null}
+      </AnimatePresence>
     </div>
   );
 }
-
-// lmk if you have any questions
