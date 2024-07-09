@@ -9,6 +9,8 @@ import { AnimatePresence } from "framer-motion";
 
 function DragAndDropQuestion(props: {
   page: DragAndDrop;
+  updateStreak: (isCorrect: boolean) => void;
+  updateLives: (decrease: boolean) => void;
   setButtonText: (buttonText: string) => void;
 }) {
   const content = props.page.content;
@@ -60,7 +62,7 @@ function DragAndDropQuestion(props: {
       setLocalCheck(checkAnswer);
 
       let allCorrect = true;
-      let newCorrectList = { ...isCorrectList };
+      const newCorrectList = { ...isCorrectList };
 
       for (let i = 0; i < content.length; i++) {
         if (typeof content[i] !== "string") {
@@ -82,9 +84,12 @@ function DragAndDropQuestion(props: {
 
       if (allCorrect) {
         setBannerText("Amazing!");
+        props.updateStreak(true)
         props.setButtonText("Next");
       } else {
         setBannerText("Try Again!");
+        props.updateLives(true)
+        props.updateStreak(false)
       }
 
       setIsCorrectList(newCorrectList);
@@ -125,7 +130,7 @@ function DragAndDropQuestion(props: {
           </div>
           <AnimatePresence>
             {showBanner ? (
-              <Banner isCorrect={canProgress} message={bannerText} />
+              <Banner isCorrect={canProgress} message={bannerText} gameOver={false} />
             ) : null}
           </AnimatePresence>
         </div>
