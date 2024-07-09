@@ -14,6 +14,8 @@ interface Position {
 
 export default function MatchingQuestion(props: {
   page: Matching;
+  updateStreak: (isCorrect: boolean) => void;
+  updateLives: (decrease: boolean) => void;
   setButtonText: (buttonText: string) => void;
 }) {
   const termsObject = props.page.terms;
@@ -89,6 +91,8 @@ export default function MatchingQuestion(props: {
         props.setButtonText("Next");
       } else {
         setBannerText("So Close.");
+        props.updateLives(true)
+        props.updateStreak(false)
       }
 
       setCanProgress(allCorrect);
@@ -303,7 +307,7 @@ export default function MatchingQuestion(props: {
       <div className="relative-container">
         <AnimatePresence>
           {showBanner ? (
-            <Banner isCorrect={canProgress} message={bannerText} />
+            <Banner isCorrect={canProgress} message={bannerText} gameOver={false}/>
           ) : null}
         </AnimatePresence>
       </div>

@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import "./Lesson.css";
 import { useEffect, useState } from "react";
 import Content from "../../class/Content";
@@ -10,19 +10,14 @@ import Info from "../../class/Info";
 import Intro from "../../class/Intro";
 import Matching from "../../class/Matching";
 import MultipleChoice from "../../class/MultipleChoice";
-
 import { useAppSelector, useAppDispatch } from "../../redux/hooks";
-
-import {
-  setPageNumber,
-  setButtonText,
-} from "../../redux/slices/lessonPageSlice";
-
+import { setPageNumber, setButtonText } from "../../redux/slices/lessonPageSlice";
 import { lessonApi } from "../../api/lessonApi";
 import Information from "../../components/Information/Information";
 import { LessonProvider } from "../../context/LessonProvider";
 import Header from "./header/Header";
 import Body from "./body/Body";
+import Banner from "../../components/misc/banner/Banner";
 
 function Lesson() {
   const { lessonId } = useParams();
@@ -32,8 +27,12 @@ function Lesson() {
   const buttonText = useAppSelector((state) => state.lessonPage.buttonText);
   const [streakCount, setStreakCount] = useState(0);
   const [lives, setLives] = useState(3);
+  const [bannerText, setBannerText] = useState<string | null>(null); 
+  const [showBanner, setShowBanner] = useState<boolean>(false); 
+  const [gameOver, setGameOver] = useState<boolean>(false); 
 
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   // fetch lesson data
   useEffect(() => {
@@ -47,7 +46,9 @@ function Lesson() {
 
   // Changes button text
   useEffect(() => {
-    if (contentList.length === 0) {
+    if (gameOver) {
+      dispatch(setButtonText("Return to Dashboard"));
+    } else if (contentList.length === 0) {
       // if content list is still loading, do not set button
       return;
     } else if (contentList[pageNumber].type === "intro") {
@@ -57,22 +58,39 @@ function Lesson() {
     } else {
       dispatch(setButtonText("Submit"));
     }
-  }, [pageNumber, contentList, dispatch]);
+  }, [pageNumber, contentList, dispatch, gameOver]);
 
   // Updates the streak count when user answers correctly.
   const updateStreak = (isCorrect: boolean) => {
     setStreakCount(isCorrect ? streakCount + 1 : 0);
   };
-  // Decrease the lives count when user answers incorrectly.
+  // Decrease the lives count when user answers incorrectly.  
   const updateLives = (decrease: boolean) => {
     if (decrease) {
       setLives((prevLives) => {
         const newLives = prevLives - 1;
         if (newLives <= 0) {
-          alert("whomp whomp");
+          setBannerText("Game Over");
+          setGameOver(true);
+          setShowBanner(true);
+          dispatch(setButtonText("Return to Dashboard")); // Change button text
         }
         return newLives;
       });
+    }
+  };
+
+  // Handle submission logic when the game is over
+  const onSubmit = () => {
+    if (gameOver) {
+      // Reset score
+      setStreakCount(0);
+      setLives(3);
+      setShowBanner(false);
+      setBannerText(null);
+      setGameOver(false);
+      // Navigate to dashboard
+      navigate("/dashboard");
     }
   };
 
@@ -101,6 +119,8 @@ function Lesson() {
               dispatch(setButtonText(buttonText))
             }
             page={page as DragAndDrop}
+            updateStreak={updateStreak}
+            updateLives={updateLives}
           />
         </div>
       );
@@ -112,6 +132,8 @@ function Lesson() {
               dispatch(setButtonText(buttonText))
             }
             page={page as Matching}
+            updateStreak={updateStreak}
+            updateLives={updateLives}
           />
         </div>
       );
@@ -160,7 +182,12 @@ function Lesson() {
           }
           renderedPage={renderedPage}
           buttonText={buttonText}
+          gameOver={gameOver}
+          onSubmit={onSubmit}
         />
+        {showBanner && (
+          <Banner isCorrect={false} message={bannerText!} gameOver={gameOver} />
+        )}
       </div>
     </LessonProvider>
   );

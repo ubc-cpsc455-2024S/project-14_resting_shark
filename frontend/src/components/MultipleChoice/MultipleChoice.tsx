@@ -121,7 +121,7 @@ export default function MultipleChoiceQuestion(props: {
       </div>
       <AnimatePresence>
         {showBanner ? (
-          <Banner isCorrect={canProgress} message={bannerText} />
+          <Banner isCorrect={canProgress} message={bannerText} gameOver={false}/>
         ) : null}
       </AnimatePresence>
     </div>

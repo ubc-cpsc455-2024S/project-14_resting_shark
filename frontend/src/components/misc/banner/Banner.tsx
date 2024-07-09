@@ -7,11 +7,13 @@ const variants = {
   exit: { width: 0, transition: { duration: 0.4 } },
 };
 
-export default function Banner(props: { isCorrect: boolean; message: string }) {
+export default function Banner(props: { isCorrect: boolean; message: string; gameOver: boolean }) {
   return (
     <motion.div
       className={
-        props.isCorrect
+        props.gameOver
+          ? `${s.container} ${s.gameOver}`
+          : props.isCorrect
           ? `${s.container} ${s.correct}`
           : `${s.container} ${s.false}`
       }

@@ -26,3 +26,12 @@
 .correct {
   background-color: #29cc60;
 }
+
+.gameOver {
+  background-color: #f21800;
+  font-size: 2rem; /* Make the text bigger */
+  width: 50vw; /* Make the banner wider */
+  height: 100px; /* Increase the height */
+  top: 50%; /* Center vertically */
+  transform: translateY(-50%); /* Adjust for centering */
+}

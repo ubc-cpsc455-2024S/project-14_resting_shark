@@ -7,4 +7,6 @@ export type BodyProps = {
   setButtonText: (buttonText: string) => void;
   renderedPage: JSX.Element | null;
   buttonText: string;
-};
+  gameOver: boolean;
+  onSubmit: () => void;
+}
