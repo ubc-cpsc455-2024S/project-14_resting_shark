@@ -5,6 +5,7 @@ import Lesson from "./pages/Lesson";
 import PageNotFound from "./pages/PageNotFound";
 import Test from "./api/mock/Test";
 import Login from "./pages/Auth/Login";
+import RegisterLogin from "./pages/Auth/RegisterLogin";
 import Register from "./pages/Auth/Register";
 import ProtectedRoute from "./pages/Auth/ProtectedRoute";
 import BackgroundUpdater from "./context/BackgroundUpdater";
@@ -15,8 +16,8 @@ function App() {
     <Router>
       <BackgroundUpdater />
       <Routes>
-        <Route path="login" element={<Login />} />
-        <Route path="register" element={<Register />} />
+        <Route path="login" element={<RegisterLogin />} />
+        <Route path="register" element={<RegisterLogin />} />
         <Route path="/" element={<LandingPage />} />
         <Route path="*" element={<PageNotFound />} />
         <Route path="/test" element={<Test />} />

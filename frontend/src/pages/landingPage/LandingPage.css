@@ -1,0 +1,73 @@
+.landing-container {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  font-family: "Fira Sans", sans-serif;
+}
+
+.left-info-panel {
+  height: 100%;
+  width: 70%;
+  background-color: #4369ee; 
+  display: flex;
+  flex-direction: column; 
+  color: white;
+
+}
+
+.left-info-panel h1 {
+  font-size: 2.5rem;
+  margin: 0;
+  padding: 20px;
+}
+
+.left-info-panel p {
+  font-size: 1.2rem;
+  align-items: left;
+}
+
+.right-options-panel {
+  background-color: white;
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  border-radius: 30px 0 0 30px;
+}
+
+.right-content {
+  text-align: center;
+}
+
+.right-content h1 {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: black;
+}
+
+.button-group {
+  display: flex;
+  gap: 20px;
+}
+
+.option-button {
+  background-color: #4369ee; /* Adjust color as needed */
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  box-shadow: 0 4px #7683fe;
+}
+
+.option-button:hover {
+  background-color: #0056b3;
+}
+
+.option-button:active {
+  background-color: #0056b3;
+  box-shadow: 0 2px #7683fe;
+  transform: translateY(2px);
+}
