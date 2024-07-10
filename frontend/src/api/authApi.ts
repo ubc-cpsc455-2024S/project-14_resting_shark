@@ -1,6 +1,13 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { requests } from "./requestTemplate";
 
+interface CredentialArgsReg {
+  name?: string;
+  email?: string;
+  username?: string,
+  password?: string,
+}
+
 interface CredentialArgs {
   username?: string,
   password?: string,
@@ -19,11 +26,13 @@ const login = createAsyncThunk('login', async (args: CredentialArgs) => {
 });
 
 
-const register = createAsyncThunk('register', async(args: CredentialArgs) => {
+const register = createAsyncThunk('register', async(args: CredentialArgsReg) => {
   const response = await requests.postRequest(
     "",
     "/auth/register",
     {
+      name: args.name,
+      email: args.email,
       username: args.username,
       password: args.password,
     });
