@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../redux/hooks";
 import { authApi } from "../../api/authApi";
 import "./Register.css";
-import swanImage from "../../assets/swan.jpeg"; 
 
 export default function Register() {
   const dispatch = useAppDispatch();
