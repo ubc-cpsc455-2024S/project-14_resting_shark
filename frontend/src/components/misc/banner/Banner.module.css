@@ -1,0 +1,37 @@
+.container {
+  position: absolute;
+  bottom: 2vh;
+  width: 22vw;
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 600;
+  height: 53px;
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  left: 0;
+  right: 0;
+  margin-left: auto;
+  margin-right: auto;
+  white-space: nowrap;
+  overflow: hidden;
+  border: solid 2px white;
+}
+
+.false {
+  background-color: #ff278a;
+}
+
+.correct {
+  background-color: #29cc60;
+}
+
+.gameOver {
+  background-color: #f21800;
+  font-size: 2rem; /* Make the text bigger */
+  width: 50vw; /* Make the banner wider */
+  height: 100px; /* Increase the height */
+  top: 50%; /* Center vertically */
+  transform: translateY(-50%); /* Adjust for centering */
+}

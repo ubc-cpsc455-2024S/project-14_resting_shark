@@ -1,0 +1,65 @@
+/* Choice Component CSS */
+
+.choice-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  width: 180px;
+  aspect-ratio: 190 / 139;
+  background-color: #e7eaf6;
+  padding: 8px;
+}
+
+.choice-container:hover {
+  box-shadow: inset 0 0 0 2px #7683fe;
+}
+
+.choice-container.selected {
+  background-color: #7683fe;
+}
+
+.choice-container.correct {
+  background-color: #29cc60;
+}
+
+.choice-container.incorrect {
+  background-color: #ff278a;
+}
+
+.choice-label {
+  font-weight: bold;
+  margin-top: 2px;
+  margin-bottom: 7px;
+  color: #4369ee;
+}
+
+.choice-container.selected .choice-label {
+  color: white;
+}
+
+.choice-container.correct .choice-label {
+  color: white;
+}
+
+.choice-container.incorrect .choice-label {
+  color: white;
+}
+
+.choice-box {
+  flex: 1;
+  width: 100%;
+  background-color: #fff;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.choice-text {
+  font-size: 16px;
+  text-align: center;
+}

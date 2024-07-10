@@ -4,48 +4,98 @@ import { DndContext, useDraggable, useDroppable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
 import DragAndDrop from "../../class/DragAndDrop";
 import { useLessonContext } from "../../context/LessonProvider";
+import Banner from "../misc/banner/Banner";
+import { AnimatePresence } from "framer-motion";
 
-export default function DragAndDropQuestion({ page }: { page: DragAndDrop }) {
-  const content = page.content;
-  const draggableObject = page.draggable;
+function DragAndDropQuestion(props: {
+  page: DragAndDrop;
+  updateStreak: (isCorrect: boolean) => void;
+  updateLives: (decrease: boolean) => void;
+  setButtonText: (buttonText: string) => void;
+}) {
+  const content = props.page.content;
+  const draggableObject = props.page.draggable;
   const [parents, setParents] = useState<{ [key: string]: string | null }>({});
 
   const draggableKeys = Object.keys(draggableObject);
 
+  const [showBanner, setShowBanner] = useState(false);
+
   const {
     setCanProgress,
+    bannerText,
+    setBannerText,
+    canProgress,
     setIsQuestionPage,
     setCanCheckAnswers,
+    checkAnswer,
     canCheckAnswers,
+    setCheckAnswer,
   } = useLessonContext();
 
   useEffect(() => {
     setCanProgress(false);
     setIsQuestionPage(true);
-    setCanCheckAnswers(true);
-  }, [setCanProgress, setIsQuestionPage, setCanCheckAnswers]);
+    setCanCheckAnswers(false);
+    initializeParents();
+    setShowBanner(false);
+    setCheckAnswer(false);
+    props.setButtonText("Submit");
+  }, []);
+
+  const [isCorrectList, setIsCorrectList] = useState<{
+    [key: string]: boolean | null;
+  }>({});
+
+  const [localCheck, setLocalCheck] = useState(false);
+  const [localCanCheckAnswers, setLocalCanCheckAnswers] = useState(false);
 
   useEffect(() => {
-    let allCorrect = true;
-    for (let i = 0; i < content.length; i++) {
-      if (typeof content[i] !== "string") {
-        const blankId = content[i];
-        const currentDraggable = parents[blankId];
-        if (currentDraggable) {
-          const correctId = draggableObject[currentDraggable];
-          if (correctId !== blankId) {
+    if (canCheckAnswers && localCanCheckAnswers) {
+      setShowBanner(true);
+      setTimeout(() => setShowBanner(false), 2500);
+    }
+  }, [localCheck]);
+
+  useEffect(() => {
+    if (checkAnswer !== localCheck) {
+      setLocalCheck(checkAnswer);
+
+      let allCorrect = true;
+      const newCorrectList = { ...isCorrectList };
+
+      for (let i = 0; i < content.length; i++) {
+        if (typeof content[i] !== "string") {
+          const blankId = content[i];
+          const currentDraggable = parents[blankId];
+          if (currentDraggable) {
+            const correctId = draggableObject[currentDraggable];
+            if (correctId !== blankId) {
+              allCorrect = false;
+              newCorrectList[blankId] = false;
+            } else {
+              newCorrectList[blankId] = true;
+            }
+          } else {
             allCorrect = false;
-            break;
           }
-        } else {
-          allCorrect = false;
-          break;
         }
       }
-    }
 
-    setCanProgress(allCorrect);
-  }, [canCheckAnswers, content, parents, draggableObject, setCanProgress]);
+      if (allCorrect) {
+        setBannerText("Amazing!");
+        props.updateStreak(true)
+        props.setButtonText("Next");
+      } else {
+        setBannerText("Try Again!");
+        props.updateLives(true)
+        props.updateStreak(false)
+      }
+
+      setIsCorrectList(newCorrectList);
+      setCanProgress(allCorrect);
+    }
+  }, [checkAnswer, localCheck]);
 
   return (
     <div className="outer-container">
@@ -62,7 +112,11 @@ export default function DragAndDropQuestion({ page }: { page: DragAndDrop }) {
                   return (
                     <Droppable key={option} id={option}>
                       {parents[option] ? (
-                        <Draggable dropped={true} id={parents[option]}>
+                        <Draggable
+                          isCorrect={isCorrectList[option]}
+                          dropped={true}
+                          id={parents[option]}
+                        >
                           <b>{parents[option]}</b>
                         </Draggable>
                       ) : (
@@ -74,11 +128,16 @@ export default function DragAndDropQuestion({ page }: { page: DragAndDrop }) {
               })}
             </p>
           </div>
+          <AnimatePresence>
+            {showBanner ? (
+              <Banner isCorrect={canProgress} message={bannerText} gameOver={false} />
+            ) : null}
+          </AnimatePresence>
         </div>
         <div className="options-container">
           {draggableKeys.map((option) => (
             <DraggableContainer key={option} option={option} parents={parents}>
-              <Draggable id={option} dropped={false}>
+              <Draggable id={option} dropped={false} isCorrect={null}>
                 <b>{option}</b>
               </Draggable>
             </DraggableContainer>
@@ -90,6 +149,9 @@ export default function DragAndDropQuestion({ page }: { page: DragAndDrop }) {
 
   function handleDragEnd(event: { active: any; over: any }) {
     const { active, over } = event;
+
+    setCanProgress(false);
+    props.setButtonText("Submit");
 
     if (over) {
       setParents((prevParents) => {
@@ -103,7 +165,15 @@ export default function DragAndDropQuestion({ page }: { page: DragAndDrop }) {
 
         newParents[over.id] = active.id;
 
+        checkAllDroppablesFilled(newParents);
+
         return newParents;
+      });
+
+      setIsCorrectList((prevIsCorrectList) => {
+        const newIsCorrectList = { ...prevIsCorrectList };
+        newIsCorrectList[over.id] = null;
+        return newIsCorrectList;
       });
     } else {
       setParents((prevParents) => {
@@ -115,9 +185,32 @@ export default function DragAndDropQuestion({ page }: { page: DragAndDrop }) {
           }
         }
 
+        checkAllDroppablesFilled(newParents);
+
         return newParents;
       });
     }
+  }
+
+  function checkAllDroppablesFilled(parents: { [key: string]: string | null }) {
+    const allFilled = content.every((item) => {
+      if (typeof item !== "string") {
+        return parents[item] !== null;
+      }
+      return true;
+    });
+    setCanCheckAnswers(allFilled);
+    setLocalCanCheckAnswers(allFilled);
+  }
+
+  function initializeParents() {
+    const initialParents: { [key: string]: string | null } = {};
+    content.forEach((item) => {
+      if (typeof item !== "string") {
+        initialParents[item as unknown as string] = null;
+      }
+    });
+    setParents(initialParents);
   }
 }
 
@@ -136,13 +229,26 @@ function Droppable(props: { id: any; children: any }) {
   );
 }
 
-function Draggable(props: { id: any; children: any; dropped: boolean }) {
+function Draggable(props: {
+  id: any;
+  children: any;
+  dropped: boolean;
+  isCorrect: boolean | null;
+}) {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id: props.id,
   });
   const style = {
     transform: CSS.Translate.toString(transform),
     cursor: "grab",
+    ...(props.isCorrect != null &&
+      !props.isCorrect && {
+        border: "3px solid #FF278A",
+      }),
+    ...(props.isCorrect != null &&
+      props.isCorrect && {
+        border: "3px solid #29CC60",
+      }),
   };
 
   return (
@@ -187,3 +293,5 @@ function DraggableContainer({
     </div>
   );
 }
+
+export default DragAndDropQuestion;
