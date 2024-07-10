@@ -7,8 +7,8 @@
 
 .left-info-panel {
   height: 100%;
-  width: 70%;
-  background-color: #4369ee;
+  width: 65%;
+  background-color: #7684FE;
   display: flex;
   flex-direction: column;
   color: white;
@@ -21,16 +21,36 @@
   padding: 20px;
 }
 
+.header-with-logo {
+  display: flex;
+  align-items: center;
+  font-size: 2rem; 
+  background-color: none;
+
+}
+
+.logo-container {
+  padding: 5px;
+  margin-left: 30px;
+  margin-top: 4px;
+  background-color: none;
+}
+
+.logosmall {
+  height: 4rem; 
+  background-color: none;
+}
+
 .blurb {
   display: flex;
   flex-direction: column;
-  width: 75%;
+  width: 72%;
 }
 
 .blurb h2 {
   margin-left: 10%;
   margin-top: 25%;
-  line-height: 1.5;
+  line-height: 1.8;
 
 }
 
@@ -38,7 +58,7 @@
   margin-left: 10%;
   font-size: 1.2rem;
   margin-top: 6%;
-  line-height: 1.5;
+  line-height: 1.8;
 }
 
 
@@ -63,7 +83,7 @@
 
 .right-content h1 {
   font-size: 2rem;
-  margin-bottom: 20px;
+  margin-bottom: 10%;
   color: black;
 }
 
@@ -80,10 +100,11 @@
   border: none;
   border-radius: 15px;
   padding: 10px 20px;
-  font-size: 1rem;
+  font-size: 1.2rem;
+  font-weight: 600;
   cursor: pointer;
-  box-shadow: 0 4px #7683fe;
-  width: 40%
+  box-shadow: 0 8px #7683fe;
+  width: 50%;
 }
 
 .option-button:hover {
@@ -93,5 +114,4 @@
 .option-button:active {
   background-color: #0056b3;
   box-shadow: 0 2px #7683fe;
-  transform: translateY(2px);
 }

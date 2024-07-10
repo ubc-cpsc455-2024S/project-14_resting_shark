@@ -3,7 +3,8 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useAppDispatch } from "../../redux/hooks";
 import { authApi } from "../../api/authApi";
 import "./RegisterLogin.css";
-import swanImage from "../../assets/swan.jpeg"; 
+import mg2 from '../../assets/mg2.png';
+
 
 export default function RegisterLogin() {
   const dispatch = useAppDispatch();
@@ -42,8 +43,11 @@ export default function RegisterLogin() {
     <div className="create-account-container">
       <div className="left-container">
         <div className="left-content">
-          <h1>Learn with Study Swan</h1>
+          <h1>Learn with mangoose</h1>
           <p>Join our learning platform to access interactive lessons and customized for your needs and interests!</p>
+          <div className="logo-container">
+            <img src={mg2} alt="logo" className="logo" />
+          </div>
         </div>
       </div>
       <div className="right-container">
@@ -85,6 +89,8 @@ export default function RegisterLogin() {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
+        {/* the logic and setup to enable component switching based on login or register endpoint was written
+        with some use ChatGPT, 2024*/}
           <div className="form-group">
             <button onClick={isRegister ? handleRegister : handleLogin}>
               {isRegister ? "Register" : "Login"}
