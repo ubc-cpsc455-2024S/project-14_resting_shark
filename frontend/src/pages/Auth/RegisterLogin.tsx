@@ -51,7 +51,7 @@ export default function RegisterLogin() {
         </div>
       </div>
       <div className="right-container">
-        <div className="right-content">
+        <div className="right-form">
           <h1>{isRegister ? "Create an Account" : "Login"}</h1>
           {isRegister && (
             <>
@@ -91,22 +91,22 @@ export default function RegisterLogin() {
           </div>
         {/* the logic and setup to enable component switching based on login or register endpoint was written
         with some use ChatGPT, 2024*/}
-          <div className="form-group">
+          <div className="submit">
             <button onClick={isRegister ? handleRegister : handleLogin}>
               {isRegister ? "Register" : "Login"}
             </button>
           </div>
-          <p className="login-prompt">
+          <div className="login-prompt">
             {isRegister ? (
-              <>
-                Already have an account? <a href="/login">Log In</a>
-              </>
+              <p>
+                Already have an account? <a href="/login" className="space-left">Log In</a>
+              </p>
             ) : (
               <>
-                Don't have an account? <a href="/register">Register</a>
+                Don't have an account? <a href="/register" className="space-left">Register</a>
               </>
             )}
-          </p>
+          </div>
         </div>
       </div>
     </div>

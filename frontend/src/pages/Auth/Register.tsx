@@ -107,9 +107,10 @@ export default function Register() {
           <div className="form-group">
             <button onClick={handleRegister}>Register</button>
           </div>
-          <p className="login-prompt">
-            Already have an account? <a href="/login">Log In</a>
-          </p>
+          <div className="login-prompt-container">
+            <p>Already have an account?</p>
+            <a href="/login">Log In</a>
+          </div>
         </div>
       </div>
     </div>
