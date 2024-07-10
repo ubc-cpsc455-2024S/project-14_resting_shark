@@ -4,7 +4,7 @@ import User from '../models/User';
 
 class AuthService {
   // user registration
-  public async registerUser(username: string, password: string) {
+  public async registerUser(name: string, email: string, username: string, password: string) {
     try {
       const usernameAlreadyExists = await User.findOne({ username });
 
@@ -14,7 +14,7 @@ class AuthService {
 
       const hashedPassword = crypto.createHash('sha256').update(password).digest('hex');
 
-      await User.create({ username: username, password: hashedPassword });
+      await User.create({ name: name, email: email, username: username, password: hashedPassword });
       const foundUser = await User.findOne({ username });
       const token = this.getJwtToken(foundUser?._id, foundUser?.username);
 
