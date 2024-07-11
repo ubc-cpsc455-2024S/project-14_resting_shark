@@ -7,9 +7,15 @@ class AuthService {
   public async registerUser(name: string, email: string, username: string, password: string) {
     try {
       const usernameAlreadyExists = await User.findOne({ username });
+      const emailAlreadyExists = await User.findOne({ email });
+
 
       if (usernameAlreadyExists) {
       throw new Error('Username already exists');
+      }
+
+      if (emailAlreadyExists) {
+        throw new Error('This email is already registered with an account. Please login.');
       }
 
       const hashedPassword = crypto.createHash('sha256').update(password).digest('hex');
@@ -26,7 +32,7 @@ class AuthService {
 
     } catch (error: any) {
       console.error('Error:', error);
-      throw new Error(error.message.toString());
+      throw new Error(error.message);
     }
   }
 
@@ -44,7 +50,7 @@ class AuthService {
 
     } catch (error: any) {
       console.error('Error:', error);
-      throw new Error(error.message.toString());
+      throw new Error(error.message);
     }
   }
 
