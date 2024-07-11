@@ -1,0 +1,14 @@
+.container {
+  background-color: white;
+  box-shadow: 0 5px 30px 5px rgba(40, 8, 167, 0.03);
+  border-radius: 20px;
+  margin-top: 2vh;
+  padding: 1em;
+  padding-left: 1.9em;
+  padding-right: 1.9em;
+}
+
+.container h1 {
+  font-size: 1.1rem;
+  font-weight: 500;
+}

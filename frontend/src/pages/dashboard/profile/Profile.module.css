@@ -1,0 +1,33 @@
+.container {
+  width: 100%;
+  margin-left: 2vw;
+  margin-right: 2vw;
+  margin-top: 1.3vh;
+  margin-bottom: 1.3vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 2vw;
+}
+
+.statsContainer {
+  width: 70%;
+}
+
+.header {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1vh;
+}
+
+.header h1 {
+  font-size: 1.59rem;
+  font-weight: 600;
+}
+
+.profileContainer {
+  background-color: blue;
+  width: 30%;
+}
