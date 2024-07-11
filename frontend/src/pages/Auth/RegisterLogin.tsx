@@ -40,25 +40,25 @@ export default function RegisterLogin() {
   const isRegister = location.pathname === "/register";
 
   return (
-    <div className="create-account-container">
-      <div className="left-container">
-        <div className="left-content">
+    <div className={s.createAccountContainer}>
+      <div className={s.leftContainer}>
+        <div className={s.leftContent}>
           <h1>Learn with mangoose</h1>
           <p>
             Join our learning platform to access interactive lessons and
             customized for your needs and interests!
           </p>
-          <div className="logo-container">
-            <img src={mg2} alt="logo" className="logo" />
+          <div className={s.logoContainer}>
+            <img src={mg2} alt="logo" className={s.logo} />
           </div>
         </div>
       </div>
-      <div className="right-container">
-        <div className="right-form">
+      <div className={s.rightContainer}>
+        <div className={s.form}>
           <h1>{isRegister ? "Create an Account" : "Login"}</h1>
           {isRegister && (
             <>
-              <div className="form-group">
+              <div className={s.formGroup}>
                 <input
                   type="text"
                   placeholder="Full Name"
@@ -66,7 +66,7 @@ export default function RegisterLogin() {
                   onChange={(e) => setName(e.target.value)}
                 />
               </div>
-              <div className="form-group">
+              <div className={s.formGroup}>
                 <input
                   type="email"
                   placeholder="Email"
@@ -76,7 +76,7 @@ export default function RegisterLogin() {
               </div>
             </>
           )}
-          <div className="form-group">
+          <div className={s.formGroup}>
             <input
               type="text"
               placeholder="Username"
@@ -84,7 +84,7 @@ export default function RegisterLogin() {
               onChange={(e) => setUsername(e.target.value)}
             />
           </div>
-          <div className="form-group">
+          <div className={s.formGroup}>
             <input
               type="password"
               placeholder="Password"
@@ -94,23 +94,23 @@ export default function RegisterLogin() {
           </div>
           {/* the logic and setup to enable component switching based on login or register endpoint was written
         with some use ChatGPT, 2024*/}
-          <div className="submit">
+          <div className={s.submit}>
             <button onClick={isRegister ? handleRegister : handleLogin}>
               {isRegister ? "Register" : "Login"}
             </button>
           </div>
-          <div className="login-prompt">
+          <div className={s.loginPrompt}>
             {isRegister ? (
               <p>
                 Already have an account?{" "}
-                <a href="/login" className="space-left">
+                <a href="/login" className={s.space}>
                   Log In
                 </a>
               </p>
             ) : (
               <>
                 Don't have an account?{" "}
-                <a href="/register" className="space-left">
+                <a href="/register" className={s.space}>
                   Register
                 </a>
               </>

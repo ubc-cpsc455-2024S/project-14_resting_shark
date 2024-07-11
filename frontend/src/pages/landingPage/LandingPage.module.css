@@ -1,11 +1,11 @@
-.landing-container {
+.container {
   display: flex;
   height: 100vh;
   width: 100vw;
   font-family: "Fira Sans", sans-serif;
 }
 
-.left-info-panel {
+.leftPanel {
   height: 100%;
   width: 65%;
   background-color: #7684FE;
@@ -15,13 +15,13 @@
 
 }
 
-.left-info-panel h1 {
+.leftPanel h1 {
   font-size: 2.5rem;
   margin: 0;
   padding: 20px;
 }
 
-.header-with-logo {
+.headerLogo {
   display: flex;
   align-items: center;
   font-size: 2rem; 
@@ -29,14 +29,14 @@
 
 }
 
-.logo-container {
+.logoContainer {
   padding: 5px;
   margin-left: 30px;
   margin-top: 4px;
   background-color: none;
 }
 
-.logosmall {
+.logoSmall {
   height: 4rem; 
   background-color: none;
 }
@@ -62,7 +62,7 @@
 }
 
 
-.right-options-panel {
+.rightPanel {
   flex: 1;
   display: flex;
   justify-content: center;
@@ -72,7 +72,7 @@
   background-color: white;
 }
 
-.right-content {
+.rightContent {
   text-align: center;
   position: absolute;
   top: 32%; 
@@ -81,20 +81,20 @@
   align-items: center;
 }
 
-.right-content h1 {
+.rightContent h1 {
   font-size: 2rem;
   margin-bottom: 10%;
   color: black;
 }
 
-.button-group {
+.buttonGroup {
   display: flex;
   gap: 5%;
   justify-content: center;
   align-items: center;
 }
 
-.option-button {
+.optionButton {
   background-color: #4369ee;
   color: white;
   border: none;
@@ -107,11 +107,11 @@
   width: 50%;
 }
 
-.option-button:hover {
+.optionButton:hover {
   background-color: #0056b3;
 }
 
-.option-button:active {
+.optionButton:active {
   background-color: #0056b3;
   box-shadow: 0 2px #7683fe;
 }
