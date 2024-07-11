@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../redux/hooks";
 import { authApi } from "../../api/authApi";
-import "./Register.css";
+import s from "./RegisterLogin.module.css";
 
 export default function Register() {
   const dispatch = useAppDispatch();
@@ -13,9 +13,7 @@ export default function Register() {
 
   const handleRegister = async () => {
     try {
-      await dispatch(
-        authApi.register({ username, password })
-      ).unwrap();
+      await dispatch(authApi.register({ username, password })).unwrap();
       navigate("/dashboard");
     } catch (error) {
       console.error("Failed to register:", error);
@@ -63,11 +61,14 @@ export default function Register() {
   // );
 
   return (
-    <div className="create-account-container">
+    <div className={s.createAccountContainer}>
       <div className="left-container">
         <div className="left-content">
           <h1>Learn with Study Swan</h1>
-          <p>Join our learning platform to access interactive lessons and customized for your needs and interests!</p>
+          <p>
+            Join our learning platform to access interactive lessons and
+            customized for your needs and interests!
+          </p>
         </div>
       </div>
       <div className="right-container">
@@ -82,10 +83,7 @@ export default function Register() {
             />
           </div>
           <div className="form-group">
-            <input
-              type="email"
-              placeholder="Email"
-            />
+            <input type="email" placeholder="Email" />
           </div>
           <div className="form-group">
             <input
