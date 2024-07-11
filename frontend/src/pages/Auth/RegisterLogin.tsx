@@ -2,9 +2,8 @@ import { useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { useAppDispatch } from "../../redux/hooks";
 import { authApi } from "../../api/authApi";
-import "./RegisterLogin.css";
-import mg2 from '../../assets/mg2.png';
-
+import s from "./RegisterLogin.module.css";
+import mg2 from "../../assets/mg2.png";
 
 export default function RegisterLogin() {
   const dispatch = useAppDispatch();
@@ -45,7 +44,10 @@ export default function RegisterLogin() {
       <div className="left-container">
         <div className="left-content">
           <h1>Learn with mangoose</h1>
-          <p>Join our learning platform to access interactive lessons and customized for your needs and interests!</p>
+          <p>
+            Join our learning platform to access interactive lessons and
+            customized for your needs and interests!
+          </p>
           <div className="logo-container">
             <img src={mg2} alt="logo" className="logo" />
           </div>
@@ -90,7 +92,7 @@ export default function RegisterLogin() {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-        {/* the logic and setup to enable component switching based on login or register endpoint was written
+          {/* the logic and setup to enable component switching based on login or register endpoint was written
         with some use ChatGPT, 2024*/}
           <div className="submit">
             <button onClick={isRegister ? handleRegister : handleLogin}>
@@ -100,11 +102,17 @@ export default function RegisterLogin() {
           <div className="login-prompt">
             {isRegister ? (
               <p>
-                Already have an account? <a href="/login" className="space-left">Log In</a>
+                Already have an account?{" "}
+                <a href="/login" className="space-left">
+                  Log In
+                </a>
               </p>
             ) : (
               <>
-                Don't have an account? <a href="/register" className="space-left">Register</a>
+                Don't have an account?{" "}
+                <a href="/register" className="space-left">
+                  Register
+                </a>
               </>
             )}
           </div>
