@@ -1,0 +1,46 @@
+.labelContainer {
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 0.7em;
+}
+
+.iconContainer {
+  width: 2em;
+  height: 2em;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.iconMin {
+  background-color: #fff4ef;
+  color: #f96284;
+}
+
+.iconMax {
+  background-color: #edfaf0;
+  color: #32c25a;
+}
+
+.iconAvg {
+  background-color: #eaedff;
+  color: #4369ee;
+}
+
+.num {
+  font-weight: 500;
+  font-size: 1.1rem;
+}
+
+.label {
+  font-size: 0.85rem;
+  opacity: 0.6;
+}

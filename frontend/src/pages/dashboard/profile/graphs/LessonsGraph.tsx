@@ -1,5 +1,8 @@
 import { areaElementClasses, LineChart } from "@mui/x-charts";
 import s from "./LessonsGraph.module.css";
+import DateSelect from "./dropdown/DateSelect";
+import { useState } from "react";
+import StatDisplay from "./stat/StatDisplay";
 
 export default function LessonsGraph() {
   const otherSetting = {
@@ -9,9 +12,27 @@ export default function LessonsGraph() {
 
   const lessonData = [23, 1, 14, 7, 4, 9, 10];
 
+  const weekData = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
+
+  const [interval, setInterval] = useState("12 July - 19 July");
+
+  const statData = [
+    { num: 1, label: "Min. Complete", change: -1 },
+    { num: 10, label: "Avg. Complete", change: 0 },
+    { num: 23, label: "Max. Complete", change: 1 },
+  ];
+
   return (
     <div className={s.container}>
-      <h1>Lessons Completed</h1>
+      <div className={s.header}>
+        <h1>Lessons Completed</h1>
+        <DateSelect interval={interval} setInterval={setInterval} />
+      </div>
+      <div className={s.statDisplayContainer}>
+        {statData.map((item) => (
+          <StatDisplay num={item.num} label={item.label} change={item.change} />
+        ))}
+      </div>
       <LineChart
         xAxis={[{ data: [0, 1, 2, 3, 4, 5, 6] }]}
         series={[{ data: lessonData, area: true, color: "#4369EE" }]}
@@ -23,6 +44,11 @@ export default function LessonsGraph() {
           },
         }}
       />
+      <div className={s.weekContainer}>
+        {weekData.map((item) => (
+          <span className={s.weekLabel}>{item}</span>
+        ))}
+      </div>
     </div>
   );
 }

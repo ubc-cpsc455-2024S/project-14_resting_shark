@@ -1,0 +1,61 @@
+.menu {
+  border: none;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-right: 1vw;
+}
+
+.menu button {
+  border: 2px solid #e7eaf6;
+  background: none;
+  border-radius: 10px;
+  display: flex;
+  padding-top: 0.5em;
+  padding-bottom: 0.5em;
+  padding-right: 0.7em;
+  padding-left: 1.1em;
+  gap: 0.9em;
+  font-size: 0.9rem;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.menu ul {
+  position: absolute;
+  background-color: white;
+  z-index: 10;
+  border: 2px solid #e7eaf6;
+  border-radius: 10px;
+  top: 2.5em;
+  list-style: none;
+  margin: 0;
+  padding: 0.7em;
+}
+
+.menu li {
+  text-decoration: none;
+  display: flex;
+  padding-top: 0.4em;
+  padding-bottom: 0.4em;
+  padding-left: 1.5em;
+  padding-right: 1.5em;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.arrow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #b5bddc;
+}
+
+.placeholder {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5em;
+}
