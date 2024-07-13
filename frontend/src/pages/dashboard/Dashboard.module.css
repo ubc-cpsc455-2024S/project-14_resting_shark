@@ -1,6 +1,8 @@
 .mainPage {
   display: flex;
   flex-direction: row;
+  width: 100%;
+  background-color: #f7f9fe;
 }
 
 .navbarContainer {

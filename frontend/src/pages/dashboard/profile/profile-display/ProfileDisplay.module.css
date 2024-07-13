@@ -1,0 +1,86 @@
+.container {
+  background: white;
+  box-shadow: 0 5px 30px 5px rgba(40, 8, 167, 0.03);
+  height: 35%;
+  border-radius: 20px;
+  padding: 1.6em;
+}
+
+.header {
+  display: flex;
+  gap: 1.2em;
+  width: 100%;
+}
+
+.pfp {
+  width: 7.5vw;
+  height: 7.5vw;
+  background-color: #f97e99;
+  border-radius: 15px;
+}
+
+.info h1 {
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+.info {
+  flex: 1;
+}
+
+.progressContainer {
+  background-color: #e7eaf6;
+  height: 5px;
+  border-radius: 30px;
+  width: 90%;
+}
+
+.progressBarContainer {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+  gap: 0.4em;
+}
+
+.progressIndicator {
+  background-color: #7683fe;
+  height: 100%;
+  border-radius: 30px;
+}
+
+.expLevelContainer {
+  margin-bottom: 1em;
+  display: flex;
+  gap: 0.5em;
+  align-items: center;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.levelContainer {
+  color: white;
+  background-color: #7683fe;
+  padding-left: 1em;
+  padding-right: 1em;
+  padding-top: 0.3em;
+  padding-bottom: 0.3em;
+  border-radius: 30px;
+}
+
+.expContainer {
+  display: flex;
+  justify-content: center;
+  gap: 0.2em;
+}
+
+.editButton {
+  border: none;
+  background: none;
+  opacity: 0.5;
+  cursor: pointer;
+}
+
+.editButton:hover {
+  opacity: 1;
+}

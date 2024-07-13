@@ -1,0 +1,6 @@
+.container {
+  background: white;
+  box-shadow: 0 5px 30px 5px rgba(40, 8, 167, 0.03);
+  height: 57%;
+  border-radius: 20px;
+}
