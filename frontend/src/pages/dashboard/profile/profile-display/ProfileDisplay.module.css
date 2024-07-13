@@ -15,8 +15,9 @@
 .pfp {
   width: 7.5vw;
   height: 7.5vw;
-  background-color: #f97e99;
+  background-color: #ffc3a3;
   border-radius: 15px;
+  position: relative;
 }
 
 .info h1 {
@@ -83,4 +84,16 @@
 
 .editButton:hover {
   opacity: 1;
+}
+
+.img {
+  width: 100%;
+  position: absolute;
+  z-index: 5;
+}
+
+.hat {
+  width: 100%;
+  position: absolute;
+  z-index: 10;
 }
