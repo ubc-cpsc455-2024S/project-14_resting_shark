@@ -1,9 +1,26 @@
 import { FaStar } from "react-icons/fa6";
 import s from "./ProfileDisplay.module.css";
 import { LuPencil } from "react-icons/lu";
+import { useState, useEffect } from "react";
+import { useAppSelector } from "../../../../redux/hooks";
+import { userApi } from "../../../../api/userApi";
 
-export default function ProfileDisplay() {
-  const username = "Smug Person";
+  export default function ProfileDisplay() {
+    const token = useAppSelector((state) => state.auth.jwtToken);
+    const [username, setUsername] = useState("");
+
+    useEffect(() => {
+      async function fetchData() {
+        try {
+          const profileData = await userApi.getProfileData(token);
+          setUsername(profileData.username);
+        } catch (e: any) {
+          console.error(e.message);
+        }
+      }
+      fetchData();
+    }, [token]);
+
   const level = 4;
   const exp = 52;
 
