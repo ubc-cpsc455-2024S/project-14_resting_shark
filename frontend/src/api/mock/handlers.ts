@@ -25,6 +25,14 @@ export const handlers = [
     })
   }),
 
+  // TODO: not yet complete, need to add fields to user in order to return all stats needed
+    // USER INTERCEPTORS ----------------------------------------------------------------------------------------------------------
+    http.get(BASE_URL + '/user/stats', () => {
+      return HttpResponse.json({
+        username: "Mock User",
+      })
+    }),
+
 
   // LESSON INTERCEPTORS ----------------------------------------------------------------------------------------------------------
   // fetch all lessons for the current user

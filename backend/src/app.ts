@@ -6,6 +6,7 @@ import dotenv from "dotenv";
 import { authRouter } from './routes/auth';
 import { protectedRouter } from "./routes/protectedRoute";
 import { lessonsRouter } from "./routes/lesson";
+import { usersRouter } from "./routes/user";
 import { connectDB } from "./db/mongoConnection";
 
 
@@ -25,6 +26,8 @@ app.use(
 app.use('/auth', authRouter);
 app.use('/protected', protectedRouter);
 app.use('/lesson', lessonsRouter);
+app.use('/user', usersRouter);
+
 
 
 // server port
