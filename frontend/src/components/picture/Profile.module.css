@@ -3,4 +3,10 @@
   border-radius: 50%;
   width: 84px;
   aspect-ratio: 1/1;
+  position: relative;
+}
+
+.pfp img {
+  height: 100%;
+  position: absolute;
 }

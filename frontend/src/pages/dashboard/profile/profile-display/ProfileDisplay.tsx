@@ -7,10 +7,16 @@ export default function ProfileDisplay() {
   const level = 4;
   const exp = 52;
 
+  const goose = "./images/goose.png";
+  const hat = "./images/mango.png";
+
   return (
     <div className={s.container}>
       <div className={s.header}>
-        <div className={s.pfp}></div>
+        <div className={s.pfp}>
+          <img className={s.img} src={goose} alt="goose" />
+          <img className={s.hat} src={hat} alt="goose" />
+        </div>
         <div className={s.info}>
           <h1>
             {username}
