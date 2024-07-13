@@ -11,7 +11,6 @@ export default function Profile() {
       <div className={s.statsContainer}>
         <div className={s.header}>
           <h1>My Profile</h1>
-          <LogoutButton />
         </div>
         <LessonsGraph />
         <div></div>

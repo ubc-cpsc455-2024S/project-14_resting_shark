@@ -73,3 +73,14 @@
   justify-content: center;
   gap: 0.2em;
 }
+
+.editButton {
+  border: none;
+  background: none;
+  opacity: 0.5;
+  cursor: pointer;
+}
+
+.editButton:hover {
+  opacity: 1;
+}
