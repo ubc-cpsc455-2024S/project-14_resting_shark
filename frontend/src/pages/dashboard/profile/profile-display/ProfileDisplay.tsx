@@ -4,10 +4,12 @@ import { LuPencil } from "react-icons/lu";
 import { useState, useEffect } from "react";
 import { useAppSelector } from "../../../../redux/hooks";
 import { userApi } from "../../../../api/userApi";
+import { useNavigate } from "react-router-dom";
 
   export default function ProfileDisplay() {
     const token = useAppSelector((state) => state.auth.jwtToken);
     const [username, setUsername] = useState("");
+    const navigate = useNavigate();
 
     useEffect(() => {
       async function fetchData() {
@@ -26,6 +28,11 @@ import { userApi } from "../../../../api/userApi";
 
   const goose = "./images/goose.png";
   const hat = "./images/mango.png";
+
+  function deleteAccount() {
+    userApi.deleteUser(token);
+    navigate('/')
+  }
 
   return (
     <div className={s.container}>
@@ -50,6 +57,15 @@ import { userApi } from "../../../../api/userApi";
           <ProgressBar percentage={30} />
         </div>
       </div>
+      
+
+      {/* TEMP CODE START */}
+      <div>
+        <button onClick={deleteAccount}>
+          Delete Account
+        </button>
+      </div>
+      {/* TEMP CODE END */}
     </div>
   );
 }

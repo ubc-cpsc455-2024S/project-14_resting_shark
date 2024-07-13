@@ -33,6 +33,10 @@ export const handlers = [
       })
     }),
 
+    http.delete(BASE_URL + '/user', () => {
+      // do nothing
+    }),
+
 
   // LESSON INTERCEPTORS ----------------------------------------------------------------------------------------------------------
   // fetch all lessons for the current user
