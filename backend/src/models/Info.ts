@@ -6,7 +6,7 @@ const InfoSchema = new mongoose.Schema({
     required: true,
   },
   content: {
-    type: [String],
+    type: [String], // each item in the list is one paragraph
   },
   fact: {
     type: String,

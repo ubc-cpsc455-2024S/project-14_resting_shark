@@ -1,4 +1,5 @@
 import Lesson from '../models/Lesson';
+import openAIService from './openAIService';
 
 class LessonService {
 
@@ -13,8 +14,14 @@ class LessonService {
     }
   }
 
-  public generateLesson(userId: string, content: string) {
-    // stub
+  public async generateLesson(userId: string, content: string) {
+    try {
+      const response = await openAIService.generateLesson(userId, content);
+      return response;
+    } catch (error: any) {
+      console.error('Error: ', error);
+      throw new Error(error.message.toString());
+    }
   }
 }
 

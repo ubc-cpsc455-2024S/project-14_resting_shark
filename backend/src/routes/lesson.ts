@@ -130,7 +130,7 @@ router.post('/', authMiddleware, async (req: Request, res: Response) => {
   const userId = req.user.id;
   const { content } = req.body;
   try {
-    const lesson = lessonService.generateLesson(userId, content);
+    const lesson = await lessonService.generateLesson(userId, content);
     res.status(200).json(lesson);
   } catch (error: any) {
     res.status(error.code || 500).json({ message: error.message });
