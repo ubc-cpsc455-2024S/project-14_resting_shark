@@ -2,11 +2,12 @@ import Lesson from "../models/Lesson";
 import ErrorWithCode from "../errors/ErrorWithCode";
 import OpenAI from "openai";
 
-const openai = new OpenAI({ apiKey: process.env.OPENAI_KEY as string });
 
 class OpenAIService {
 
   public async generateLesson(userId : string, content: string) {
+    const openai = new OpenAI({ apiKey: process.env.OPENAI_KEY as string });
+    
     let example = `
     [
       "Astronomy is the study of me celestial objects and phenomena, encompassing the structure of our solar system, the nature of stars and galaxies, and the processes that drive cosmic events. By exploring the Sun, planets, and other celestial bodies, we can build a solid foundation of astronomical knowledge.",
