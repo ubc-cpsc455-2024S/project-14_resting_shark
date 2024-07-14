@@ -2,6 +2,7 @@ import express from "express";
 import { Application } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
+import bodyParser from "body-parser";
 
 import { authRouter } from './routes/auth';
 import { protectedRouter } from "./routes/protectedRoute";
@@ -16,6 +17,7 @@ const app: Application = express();
 app.use(cors());
 dotenv.config();
 app.use(express.json());
+app.use(bodyParser.json());
 app.use(
   express.urlencoded({
     extended: true,
