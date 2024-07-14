@@ -5,6 +5,13 @@ class UserService {
   public async deleteUser(userId : string) {
     try {
       const user = await User.findByIdAndDelete(userId);
+
+      if (!user) {
+        const error: ErrorWithCode = new Error("User not found");
+        error.code = 404;
+        throw error;
+      }
+
       return user;
 
     } catch (error: any) {

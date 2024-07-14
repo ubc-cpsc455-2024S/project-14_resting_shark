@@ -1,6 +1,8 @@
 import express, { Router, Request, Response } from 'express';
 import authMiddleware from '../middleware/authMiddleware';
 import lessonService from '../services/lessonService';
+import openAIService from '../services/openAIService';
+import Lesson from '../models/Lesson';
 
 const router: Router = express.Router();
 
@@ -117,6 +119,21 @@ router.get('/:id', authMiddleware, async (req: Request, res: Response) => {
     res.status(200).json(lesson);
   } catch (error: any) {
     res.status(500).json({ message: error.message });
+  }
+});
+
+
+/*
+generates a lesson using openai based on a given contents string, then returns the lesson.
+*/
+router.post('/', authMiddleware, async (req: Request, res: Response) => {
+  const userId = req.user.id;
+  const { content } = req.body;
+  try {
+    const lesson = lessonService.generateLesson(userId, content);
+    res.status(200).json(lesson);
+  } catch (error: any) {
+    res.status(error.code || 500).json({ message: error.message });
   }
 });
 

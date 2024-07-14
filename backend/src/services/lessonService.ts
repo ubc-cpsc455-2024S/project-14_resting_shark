@@ -12,6 +12,10 @@ class LessonService {
       throw new Error(error.message.toString());
     }
   }
+
+  public generateLesson(userId: string, content: string) {
+    // stub
+  }
 }
 
 export default new LessonService();
