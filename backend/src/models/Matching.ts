@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 import Question from "./Question";
 
-const MultipleChoiceSchema = new mongoose.Schema({
+const MatchingChoiceSchema = new mongoose.Schema({
     terms: {
         type: Map,
         of: Number,
@@ -14,5 +14,5 @@ const MultipleChoiceSchema = new mongoose.Schema({
     },
 });
 
-const MultipleChoice = Question.discriminator("matching", MultipleChoiceSchema);
-export default MultipleChoice;
+const Matching = Question.discriminator("matching", MatchingChoiceSchema);
+export default Matching;
