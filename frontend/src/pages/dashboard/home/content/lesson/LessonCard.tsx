@@ -3,29 +3,45 @@ import s from "./LessonCard.module.css";
 import { LuDot } from "react-icons/lu";
 import { GoHeartFill } from "react-icons/go";
 
-export default function Lesson({ lesson }: any) {
+export default function Lesson(props: { lesson: any; isFirst: boolean }) {
   const TOTAL_LIVES = 3;
 
   const lives = Array.from({ length: TOTAL_LIVES }, (_, index) => {
-    if (index < lesson.lives) {
-      return <GoHeartFill className={s.heart} key={index} />;
+    if (index < props.lesson.lives) {
+      return (
+        <GoHeartFill
+          color={props.isFirst ? "rgba(255, 255, 255, 0.7)" : ""}
+          className={s.heart}
+          key={index}
+        />
+      );
     } else {
-      return <LuDot className={s.dot} key={index} />;
+      return (
+        <LuDot
+          color={props.isFirst ? "rgba(255, 255, 255, 0.7)" : ""}
+          className={s.dot}
+          key={index}
+        />
+      );
     }
   });
 
   return (
-    <Link className={s.link} to={`/lesson/${lesson._id}`}>
+    <Link
+      className={`${s.link} ${props.isFirst ? s.firstLink : ""}`}
+      to={`/lesson/${props.lesson._id}`}
+    >
       <div className={s.container}>
         <div className={s.livesContainer}>{lives}</div>
         <div className={s.bottomContainer}>
-          <span className={s.name}>{lesson.name}</span>
+          <span className={s.name}>{props.lesson.name}</span>
           <span className={s.totalQuestions}>
-            {lesson.totalQuestions} questions
+            {props.lesson.totalQuestions} questions
           </span>
           <ProgressBar
             percentage={
-              (lesson.completedQuestions / lesson.totalQuestions) * 100
+              (props.lesson.completedQuestions / props.lesson.totalQuestions) *
+              100
             }
           />
           <button className={s.continueToLearnButton}>Continue to learn</button>
