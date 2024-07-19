@@ -27,6 +27,7 @@
   padding-top: 6.5vh;
   padding-bottom: 6.5vh;
   position: relative;
+  flex: 1;
 }
 
 /*Header Section*/

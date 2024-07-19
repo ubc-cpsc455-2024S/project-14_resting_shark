@@ -3,10 +3,11 @@
   flex-direction: row;
   width: 100%;
   background-color: #f7f9fe;
+  height: 100%;
 }
 
 .navbarContainer {
   display: flex;
-  height: 98vh;
+  height: 100%;
   align-items: center;
 }
