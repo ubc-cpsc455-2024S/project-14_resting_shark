@@ -7,7 +7,7 @@ class OpenAIService {
 
   public async generateLesson(userId : string, content: string) {
     const openai = new OpenAI({ apiKey: process.env.OPENAI_KEY as string });
-    
+
     let example = `
     [
       "Astronomy is the study of me celestial objects and phenomena, encompassing the structure of our solar system, the nature of stars and galaxies, and the processes that drive cosmic events. By exploring the Sun, planets, and other celestial bodies, we can build a solid foundation of astronomical knowledge.",
@@ -75,6 +75,7 @@ class OpenAIService {
   },
 ]`
 
+// remove all line breaks
 example = example.replace(/[\r\n\t]+/g, "");
 
     try {
@@ -143,15 +144,28 @@ All the stuff you return should be in a json format, do not include anything not
           {"role": "user", "content": content}
        ],
 
-        model: "gpt-3.5-turbo",
+        model: "gpt-4o-mini",
       });
     
+      console.log(completion.choices[0])
+      
+      // trim + clean data
       let result = completion.choices[0].message.content?.replace(/\n/g, '').replace(/\"/g, '"');
+      let startIndex = result?.indexOf('[');
+      let endIndex = result?.lastIndexOf(']');
+      let trimmedResult;
+      if (startIndex && endIndex) {
+        trimmedResult = result?.substring(startIndex, endIndex + 1);
+      } else {
+        throw new Error("Cannot parse result returned from OpenAI");
+      }
+      
+      // serialize into json
       let jsonResult;
-      if (!result) {
+      if (!trimmedResult) {
         throw new Error("Unable to generate lesson");
       } else {
-        jsonResult = JSON.parse(result);
+        jsonResult = JSON.parse(trimmedResult);
       }
       return jsonResult;
 
