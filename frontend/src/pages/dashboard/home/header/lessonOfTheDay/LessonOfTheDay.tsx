@@ -1,5 +1,6 @@
 import { LuCheck, LuSparkles } from "react-icons/lu";
 import s from "./LessonOfTheDay.module.css";
+import Cards from "./cards/Cards";
 
 export default function LessonOfTheDay() {
   return (
@@ -13,7 +14,11 @@ export default function LessonOfTheDay() {
 }
 
 function LessonsDisplay() {
-  return <div className={s.lessonDisplay}></div>;
+  return (
+    <div className={s.lessonDisplay}>
+      <Cards />
+    </div>
+  );
 }
 
 function LessonInfo() {

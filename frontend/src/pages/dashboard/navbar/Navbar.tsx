@@ -4,6 +4,8 @@ import s from "./Navbar.module.css";
 import { useAppDispatch } from "../../../redux/hooks";
 import { logout } from "../../../redux/slices/authSlice";
 import { useState } from "react";
+import { AiFillHome } from "react-icons/ai";
+import { IoIosRocket } from "react-icons/io";
 
 export default function Navbar(props: {
   setPageProfile: () => void;
@@ -24,18 +26,31 @@ export default function Navbar(props: {
 
   return (
     <div className={s.navbarContainer}>
-      <div>
-        <div className={s.logo}>Lo</div>
+      <div className={s.container}>
+        <div className={s.logo}>Mangoose</div>
         <div className={s.iconsContainer}>
-          <LuHome
+          <div
             onClick={handleHomeClick}
-            className={`${s.icon} ${page == "home" ? s.active : ""}`}
-          />
-          <LuRocket className={s.icon} />
-          <LuUserCircle
+            className={`${s.navButton} ${page == "home" ? s.active : ""}`}
+          >
+            <AiFillHome className={`${s.icon}`} />
+            <span>Home</span>
+          </div>
+          <div
+            className={`${s.navButton} ${page == "explore" ? s.active : ""}`}
+          >
+            <IoIosRocket className={s.icon} />
+            <span>Explore</span>
+          </div>
+          <div
             onClick={handleUserClick}
-            className={`${s.icon} ${page == "profile" ? s.active : ""}`}
-          />
+            className={`${s.navButton} ${page == "profile" ? s.active : ""}`}
+          >
+            <LuUserCircle
+              className={`${s.icon} ${page == "profile" ? s.active : ""}`}
+            />
+            <span>Profile</span>
+          </div>
         </div>
       </div>
       <div className={s.logoutContainer}>
