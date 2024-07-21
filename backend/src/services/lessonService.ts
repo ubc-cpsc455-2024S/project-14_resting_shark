@@ -9,9 +9,8 @@ class LessonService {
     try {
       const lessons = await Lesson.find({ author: userId });
       const result = lessons.map(lesson => {
-        console.log(lesson);
         return {
-          id: lesson._id,
+          _id: lesson._id,
           name: lesson.name,
           lives: lesson.lives,
           totalPages: lesson.content.length,
