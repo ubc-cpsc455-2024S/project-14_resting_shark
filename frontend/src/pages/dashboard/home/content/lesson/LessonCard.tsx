@@ -40,7 +40,7 @@ export default function Lesson(props: { lesson: any; isFirst: boolean }) {
           </span>
           <ProgressBar
             percentage={
-              (props.lesson.completedQuestions / props.lesson.totalQuestions) *
+              (props.lesson.completedPages / props.lesson.totalPages) *
               100
             }
           />
