@@ -7,8 +7,19 @@ class LessonService {
 
   public async getLessonsSummary(userId : string) {
     try {
-      const lessons = await Lesson.find({ author: userId }).select('name _id');
-      return lessons;
+      const lessons = await Lesson.find({ author: userId });
+      const result = lessons.map(lesson => {
+        console.log(lesson);
+        return {
+          id: lesson._id,
+          name: lesson.name,
+          lives: lesson.lives,
+          totalPages: lesson.content.length,
+          completedPages: lesson.pageProgress + 1
+        }
+      });
+
+      return result;
 
     } catch (error: any) {
       console.error('Error:', error);
@@ -76,7 +87,7 @@ class LessonService {
       author: authorId, 
       lives: 3,
       streakCount: 0,
-      pageProgress: 0,
+      pageProgress: -1, // page progress is set to -1 if this lesson has never been opened before
       highScore: 0,
       currentScore: 0,
       content: content
