@@ -52,4 +52,60 @@ router.post('/', authMiddleware, async (req: Request, res: Response) => {
   }
 });
 
+/*
+Creates a new lesson in the database
+*/
+router.post('/create', authMiddleware, async (req: Request, res: Response) => {
+  const userId = req.user.id;
+  const { name, contents } = req.body;
+  try {
+    const lesson = new Lesson({ userId, name, contents });
+    await lesson.save();
+    res.status(201).json(lesson);
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+/*
+Deletes an existing lesson from the database
+Request params:
+  - id: the id of the lesson to delete
+*/
+router.delete('/:id', authMiddleware, async (req: Request, res: Response) => {
+  try {
+    const lessonId = req.params.id;
+    const userId = req.user.id;
+    const lesson = await Lesson.findOneAndDelete({ _id: lessonId, userId });
+    if (!lesson) {
+      return res.status(404).json({ message: 'Lesson not found' });
+    }
+    res.status(200).json({ message: 'Lesson deleted successfully' });
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+/*
+Edits part of a lesson in the database
+Request params:
+  - id: the id of the lesson to edit
+Request body:
+  - Any fields to update (e.g., name, contents)
+*/
+router.put('/:id', authMiddleware, async (req: Request, res: Response) => {
+  try {
+    const lessonId = req.params.id;
+    const userId = req.user.id;
+    const updates = req.body;
+    const lesson = await Lesson.findOneAndUpdate({ _id: lessonId, userId }, updates, { new: true });
+    if (!lesson) {
+      return res.status(404).json({ message: 'Lesson not found' });
+    }
+    res.status(200).json(lesson);
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
 export { router as lessonsRouter };
