@@ -25,12 +25,8 @@ export default function Lesson({ lesson }: any) {
           </span>
           <ProgressBar
             percentage={
-<<<<<<< Updated upstream
-              (lesson.completedQuestions / lesson.totalQuestions) * 100
-=======
-              (props.lesson.completedPages / props.lesson.totalPages) *
+              (lesson.completedPages / lesson.totalPages) *
               100
->>>>>>> Stashed changes
             }
           />
           <button className={s.continueToLearnButton}>Continue to learn</button>
