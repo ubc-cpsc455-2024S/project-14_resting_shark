@@ -16,15 +16,13 @@ export default function GreetingAndSearch() {
 
 function SearchBar() {
   return (
-    <div className={s.containerShadow}>
-      <div className={s.searchContainer}>
-        <div className={s.searchBar}>
-          <input className={s.searchInput} placeholder="Search..." />
-        </div>
-        <button className={s.sortButton}>
-          <LuSlidersHorizontal />
-        </button>
+    <div className={s.searchContainer}>
+      <div className={s.searchBar}>
+        <input className={s.searchInput} placeholder="Search..." />
       </div>
+      <button className={s.sortButton}>
+        <LuSlidersHorizontal />
+      </button>
     </div>
   );
 }

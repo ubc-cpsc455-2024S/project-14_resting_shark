@@ -1,9 +1,8 @@
 .createAccountContainer {
   display: flex;
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
   position: relative;
-  padding: 3px;
 
   --primary-color: #4369ee;
   --secondary-color: #7683fe;
@@ -22,7 +21,6 @@
   flex-direction: column;
   align-items: center;
   box-sizing: border-box;
-  border-radius: 30px;
   position: relative;
   z-index: 1;
 }
