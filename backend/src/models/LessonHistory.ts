@@ -8,7 +8,11 @@ const LessonHistorySchema = new mongoose.Schema({
         ref: "User",
         required: true,
         },
-    lessonId: String,
+    lessonId: {
+      type: ObjectId,
+      ref: "Lesson",
+      required: true,
+    },
     timestamp: Date,
 });
 
