@@ -2,12 +2,14 @@ import Lesson from '../models/Lesson';
 import openAIService from './openAIService';
 import { v4 as uuid4 } from 'uuid';
 import mongoose from 'mongoose';
+import ErrorWithCode from "../errors/ErrorWithCode";
 
 class LessonService {
 
+  // summary that is displayed on dashboard
   public async getLessonsSummary(userId : string) {
     try {
-      const lessons = await Lesson.find({ author: userId });
+      const lessons = await Lesson.find({ instanceOwner: userId });
       const result = lessons.map(lesson => {
         return {
           _id: lesson._id,
@@ -26,6 +28,7 @@ class LessonService {
     }
   }
 
+  // returns an entire lesson
   public async getLesson(lessonId: string) {
     try {
       const lesson = await Lesson.findById(lessonId);
@@ -36,6 +39,7 @@ class LessonService {
     }
   }
 
+  // uses openai to generate, validate, parse, save, and return lesson
   public async generateLesson(userId: string, content: string) {
     try {
       const response = await openAIService.generateLesson(userId, content);
@@ -74,7 +78,7 @@ class LessonService {
       authorId = new mongoose.Types.ObjectId(userId);
     } catch (error) {
       console.error('Invalid userId format:', error);
-      return; 
+      throw error;
     }
 
     // get lesson name from intro paragraph
@@ -84,6 +88,7 @@ class LessonService {
     const newLesson = new Lesson({
       name: lessonName,
       author: authorId, 
+      instanceOwner: authorId,
       lives: 3,
       streakCount: 0,
       pageProgress: -1, // page progress is set to -1 if this lesson has never been opened before
@@ -101,6 +106,62 @@ class LessonService {
     }
 
     return newLesson;
+  }
+
+  // copies a lesson (aka creates an "instance") with the given user as instanceOwner
+  public async copyLesson(userId: string, lessonId: string) {
+    // try to find lesson
+    let lesson;
+    try {
+      lesson = await Lesson.findById(lessonId).lean();
+      if (!lesson) {
+        const error: ErrorWithCode = new Error("Lesson not found");
+        error.code = 404;
+        throw error;
+      }
+    } catch (error) {
+      throw error;
+    }
+
+    // turn userid string into object id
+    let userObjId;
+    let authorObjId;
+    try {
+      userObjId = new mongoose.Types.ObjectId(userId);
+      authorObjId = new mongoose.Types.ObjectId(lesson.author);
+    } catch (error) {
+      console.error('Invalid userId format:', error);
+      throw error;
+    }
+
+    // Check if the user already has an instance of the lesson
+    const existingInstance = await Lesson.findOne({
+      author: lesson.author,
+      instanceOwner: userObjId 
+    });
+
+    if (existingInstance) {
+      const error: ErrorWithCode = new Error("User already has an instance of this lesson");
+      error.code = 409;
+      throw error;
+    }
+
+    // remove lesson id from given lesson
+    const { _id, ...lessonData } = lesson;
+    const copiedLesson = new Lesson({
+      ...lessonData,
+      instanceOwner: userObjId
+    });
+
+    // save
+    try {
+      const savedLesson = await copiedLesson.save();
+      console.log('New lesson saved:', savedLesson);
+    } catch (error) {
+      console.error('Error saving new lesson:', error);
+    }
+
+    return copiedLesson;
   }
 }
 

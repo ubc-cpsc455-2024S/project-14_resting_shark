@@ -6,6 +6,7 @@ import Lesson from '../models/Lesson';
 
 const router: Router = express.Router();
 
+
 /*
 Gets summary of all lessons for a given user
 Returns a list of lessons with _id and name
@@ -20,12 +21,11 @@ router.get('/', authMiddleware, async (req: Request, res: Response) => {
   }
 });
 
+
 /*
 Gets a full lesson, with each component inside of the contents list
 Reauest params:
   - id: the id of the lesson
-// stub 
-// TODO
 */
 router.get('/:id', authMiddleware, async (req: Request, res: Response) => {
   try {
@@ -51,5 +51,23 @@ router.post('/', authMiddleware, async (req: Request, res: Response) => {
     res.status(error.code || 500).json({ message: error.message });
   }
 });
+
+
+/*
+makes and returns a fresh copy of someone else's lesson, where the instanceOwner will be the current user
+Reauest params:
+  - id: the id of the lesson to be copied
+*/
+router.get('/copy/:id', authMiddleware, async (req: Request, res: Response) => {
+  const userId = req.user.id;
+  const lessonId = req.params.id;
+
+  try {
+    const lesson = await lessonService.copyLesson(userId, lessonId);
+    res.status(200).json(lesson);
+  } catch (error: any) {
+    res.status(error.code || 500).json({ message: error.message });
+  }
+})
 
 export { router as lessonsRouter };

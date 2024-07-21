@@ -22,9 +22,9 @@ function LessonsDisplay() {
 }
 
 function LessonInfo() {
-  const activity = [1, 1, 0, 0, 0, 0, 0];
+  const activity = [true, true, false, false, false, false, false];
   const streakIndicator = activity.map((item, key) => {
-    if (item === 1) {
+    if (item) {
       return (
         <div key={key} className={`${s.streakIndicator} ${s.completed}`}>
           <LuCheck />

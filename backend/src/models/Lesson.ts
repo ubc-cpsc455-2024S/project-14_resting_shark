@@ -7,7 +7,12 @@ const LessonSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  author: {                                     // userId
+  author: {                                     // userId of user who created this lesson
+    type: ObjectId,
+    ref: 'User',
+    required: true,
+  },
+  instanceOwner: {                             // userId of user who owns this one instance
     type: ObjectId,
     ref: 'User',
     required: true,
