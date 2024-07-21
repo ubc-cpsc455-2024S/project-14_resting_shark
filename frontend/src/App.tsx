@@ -13,21 +13,23 @@ import LandingPage from "./pages/landingPage/LandingPage";
 
 function App() {
   return (
-    <Router>
-      <BackgroundUpdater />
-      <Routes>
-        <Route path="login" element={<RegisterLogin />} />
-        <Route path="register" element={<RegisterLogin />} />
-        <Route path="/" element={<LandingPage />} />
-        <Route path="*" element={<PageNotFound />} />
-        <Route path="/test" element={<Test />} />
+    <div className="app-container">
+      <Router>
+        <BackgroundUpdater />
+        <Routes>
+          <Route path="login" element={<RegisterLogin />} />
+          <Route path="register" element={<RegisterLogin />} />
+          <Route path="/" element={<LandingPage />} />
+          <Route path="*" element={<PageNotFound />} />
+          <Route path="/test" element={<Test />} />
 
-        <Route element={<ProtectedRoute />}>
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/lesson/:lessonId" element={<Lesson />} />
-        </Route>
-      </Routes>
-    </Router>
+          <Route element={<ProtectedRoute />}>
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/lesson/:lessonId" element={<Lesson />} />
+          </Route>
+        </Routes>
+      </Router>
+    </div>
   );
 }
 
