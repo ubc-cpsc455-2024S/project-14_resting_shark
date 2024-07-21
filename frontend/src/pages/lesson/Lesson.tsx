@@ -21,6 +21,7 @@ import Banner from "../../components/misc/banner/Banner";
 
 function Lesson() {
   const { lessonId } = useParams();
+  const token = useAppSelector((state) => state.auth.jwtToken);
   const contentList = useAppSelector((state) => state.fullLesson.contentList);
   const pageNumber = useAppSelector((state) => state.lessonPage.pageNumber);
   const direction = useAppSelector((state) => state.lessonPage.direction);
@@ -38,7 +39,7 @@ function Lesson() {
   useEffect(() => {
     dispatch(
       lessonApi.fetchFullLesson({
-        token: "exampleJWTtoken",
+        token: token,
         lessonId: lessonId,
       })
     );
