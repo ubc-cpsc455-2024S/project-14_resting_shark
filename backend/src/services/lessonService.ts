@@ -12,7 +12,17 @@ class LessonService {
 
     } catch (error: any) {
       console.error('Error:', error);
-      throw new Error(error.message.toString());
+      throw error;
+    }
+  }
+
+  public async getLesson(lessonId: string) {
+    try {
+      const lesson = await Lesson.findById(lessonId);
+      return lesson;
+    } catch (error: any) {
+      console.error('Error:', error);
+      throw error;
     }
   }
 
