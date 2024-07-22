@@ -20,14 +20,11 @@ This project aims to be a comprehensive tool for learners to deepen their unders
 -  Streaks/Leagues (reward system of some kind)
 - Home page/Menu
 ### 3-7 “standard” requirements
-- Long answer question (AI study buddy)
-- Verbal exam
 - Lesson of the day
 - Hints/Explanations
 - Lives
 ### 2-3 stretch requirements
 - customizable profile picture
-- Real time multiplayer
 - Community
 - Stats
 
