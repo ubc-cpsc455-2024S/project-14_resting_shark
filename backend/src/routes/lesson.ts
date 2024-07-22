@@ -2,7 +2,6 @@ import express, { Router, Request, Response } from 'express';
 import authMiddleware from '../middleware/authMiddleware';
 import lessonService from '../services/lessonService';
 import openAIService from '../services/openAIService';
-import Lesson from '../models/Lesson';
 
 const router: Router = express.Router();
 
@@ -69,5 +68,26 @@ router.get('/copy/:id', authMiddleware, async (req: Request, res: Response) => {
     res.status(error.code || 500).json({ message: error.message });
   }
 })
+
+
+/*
+Handles chat requests by sending a user prompt to the OpenAI service and returning the response.
+Request Body:
+  - prompt: The text input from the user for which a response is requested.
+*/
+router.post('/api/chat', authMiddleware, async (req: Request, res: Response) => {
+  const { prompt } = req.body;
+
+  try {
+    const reply = await openAIService.getChatResponse(prompt);
+    res.status(200).json({ reply });
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      res.status(500).json({ message: error.message });
+    } else {
+      res.status(500).json({ message: 'An unknown error occurred' });
+    }
+  }
+});
 
 export { router as lessonsRouter };

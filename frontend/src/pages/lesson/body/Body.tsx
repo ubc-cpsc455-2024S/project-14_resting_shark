@@ -1,6 +1,9 @@
-import { LuBot } from "react-icons/lu";
+import { requests } from "../../../api/requestTemplate";
 import { BodyProps } from "./Body.d";
+import { useState } from "react";
+import "./AiHelper.css";
 import MainDisplay from "./main-display/MainDisplay";
+import { LuBot } from "react-icons/lu";
 
 export default function Body(props: BodyProps) {
   return (
@@ -16,8 +19,8 @@ export default function Body(props: BodyProps) {
           setButtonText={props.setButtonText}
           renderedPage={props.renderedPage}
           buttonText={props.buttonText}
-          onSubmit={props.onSubmit} 
-          gameOver={props.gameOver} 
+          onSubmit={props.onSubmit}
+          gameOver={props.gameOver}
         />
       </div>
       <div className="right-body">
@@ -47,22 +50,77 @@ function ChaptersNav() {
   );
 }
 
-function AIHelper() {
+type Message = {
+  user: string;
+  text: string;
+};
+
+const AIHelper = () => {
+  const [chatLog, setChatLog] = useState<Message[]>([]);
+  const [prompt, setPrompt] = useState("");
+  const [isHintRequested, setIsHintRequested] = useState(false);
+
+  const handleSendMessage = async () => {
+    // const token = "JWT_TOKEN HERE IF .ENV DOESN'T WORK"
+    const token = process.env.JWT_TOKEN;
+    console.log(token);
+
+    if (!prompt) return;
+
+    const userMessage: Message = { user: "user", text: prompt };
+    setChatLog((prevLog) => [...prevLog, userMessage]);
+
+    try {
+      const data = await requests.postRequest(token, "/lesson/api/chat", {
+        prompt,
+      });
+      const botMessage: Message = { user: "bot", text: data.reply };
+      console.log("HERE IS THE BOT MESSAGE: ", botMessage);
+      setChatLog((prevLog) => [...prevLog, botMessage]);
+      setPrompt("");
+    } catch (error) {
+      console.error("Error:", error);
+    }
+  };
+
   return (
     <div className="ai-container">
       <div className="header">Need Help?</div>
       <div className="chat-bottom-border">
-        <div className="chat-container">
+        <div className={`chat-container ${isHintRequested ? "expanded" : ""}`}>
           <div className="chat">
-            <LuBot size={30} />
+            <LuBot size={50} />
+            {chatLog.map((message, index) => (
+              <div
+                key={index}
+                className={
+                  message.user === "bot" ? "bot-message" : "user-message"
+                }
+              >
+                {message.user === "bot" ? "HelperAI: " : "User: "}
+                {message.text}
+              </div>
+            ))}
           </div>
           <div className="chat-button-container">
-            <button>
-              <span>I want a Hint!</span>
-            </button>
+            {!isHintRequested ? (
+              <button onClick={() => setIsHintRequested(true)}>
+                <span>I want a Hint!</span>
+              </button>
+            ) : (
+              <div className="chat-input-container">
+                <input
+                  type="text"
+                  value={prompt}
+                  onChange={(e) => setPrompt(e.target.value)}
+                  placeholder="Type your message..."
+                />
+                <button onClick={handleSendMessage}>Send</button>
+              </div>
+            )}
           </div>
         </div>
       </div>
     </div>
   );
-}
+};

@@ -67,6 +67,24 @@ class OpenAIService {
       throw new Error(error.message);
     }
   }
+
+  public async getChatResponse(prompt: string) {
+    try {
+      const openai = new OpenAI({ apiKey: process.env.OPENAI_KEY as string });
+
+      const completion = await openai.chat.completions.create({
+        messages: [
+          { role: "user", content: prompt }
+        ],
+        model: "gpt-4o-mini",
+      });
+
+      return completion.choices[0].message.content?.trim();
+    } catch (error: any) {
+      console.error('Error communicating with OpenAI:', error);
+      throw new Error('Failed to get response from OpenAI');
+    }
+  }
 }
 
 export default new OpenAIService();
