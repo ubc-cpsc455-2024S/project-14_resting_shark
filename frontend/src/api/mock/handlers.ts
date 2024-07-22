@@ -166,7 +166,7 @@ export const handlers = [
     });
   }),
 
-  // Fake endpoint for chat
+  // generate mock response from the HelperAI.
   http.post(BASE_URL + "/lesson/api/chat", () => {
     return HttpResponse.json({
       reply: "This is a mock response from HelperAI.",
