@@ -72,8 +72,9 @@ router.get('/copy/:id', authMiddleware, async (req: Request, res: Response) => {
 })
 
 /*
-TODO - EDIT
-  - id: the id of the lesson to be copied
+Handles chat requests by sending a user prompt to the OpenAI service and returning the response.
+Request Body:
+  - prompt: The text input from the user for which a response is requested.
 */
 router.post('/api/chat', authMiddleware, async (req: Request, res: Response) => {
   const { prompt } = req.body;
