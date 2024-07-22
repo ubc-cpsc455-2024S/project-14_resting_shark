@@ -61,8 +61,7 @@ const AIHelper = () => {
   const [isHintRequested, setIsHintRequested] = useState(false);
 
   const handleSendMessage = async () => {
-    // const token = "JWT_TOKEN HERE IF .ENV DOESN'T WORK"
-    const token = process.env.JWT_TOKEN;
+    const token = localStorage.getItem('jwtToken') ?? undefined;
     console.log(token);
 
     if (!prompt) return;
