@@ -61,10 +61,8 @@ const AIHelper = () => {
   const [isHintRequested, setIsHintRequested] = useState(false);
 
   const handleSendMessage = async () => {
-    // const token = "JWT_TOKEN HERE IF .ENV DOESN'T WORK"
-    const token = process.env.JWT_TOKEN;
-    console.log(token);
-
+    const token = localStorage.getItem('jwtToken') ?? undefined;
+    
     if (!prompt) return;
 
     const userMessage: Message = { user: "user", text: prompt };
@@ -75,7 +73,7 @@ const AIHelper = () => {
         prompt,
       });
       const botMessage: Message = { user: "bot", text: data.reply };
-      console.log("HERE IS THE BOT MESSAGE: ", botMessage);
+      // console.log("Here is the AI Helper messge: ", botMessage);
       setChatLog((prevLog) => [...prevLog, botMessage]);
       setPrompt("");
     } catch (error) {

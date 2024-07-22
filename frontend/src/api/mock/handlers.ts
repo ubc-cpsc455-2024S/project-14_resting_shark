@@ -1,46 +1,43 @@
-import { http, HttpResponse } from 'msw';
+import { http, HttpResponse } from "msw";
 import { BASE_URL } from "../../constants/Config";
-
 
 export const handlers = [
   // Intercept "GET http://localhost:3000/test requests...
-  http.get(BASE_URL + '/test', () => {
+  http.get(BASE_URL + "/test", () => {
     // ...and respond to them using this JSON response.
     return HttpResponse.json({
       data: "Successful http request",
     });
   }),
 
-
   // AUTH INTERCEPTORS ----------------------------------------------------------------------------------------------------------
-  http.post(BASE_URL + '/auth/login', () => {
+  http.post(BASE_URL + "/auth/login", () => {
     return HttpResponse.json({
       token: "mock-server-token",
-    })
+    });
   }),
 
-  http.post(BASE_URL + '/auth/register', () => {
+  http.post(BASE_URL + "/auth/register", () => {
     return HttpResponse.json({
       token: "mock-server-token",
-    })
+    });
   }),
 
   // TODO: not yet complete, need to add fields to user in order to return all stats needed
-    // USER INTERCEPTORS ----------------------------------------------------------------------------------------------------------
-    http.get(BASE_URL + '/user/stats', () => {
-      return HttpResponse.json({
-        username: "Mock User",
-      })
-    }),
+  // USER INTERCEPTORS ----------------------------------------------------------------------------------------------------------
+  http.get(BASE_URL + "/user/stats", () => {
+    return HttpResponse.json({
+      username: "Mock User",
+    });
+  }),
 
-    http.delete(BASE_URL + '/user', () => {
-      // do nothing
-    }),
-
+  http.delete(BASE_URL + "/user", () => {
+    // do nothing
+  }),
 
   // LESSON INTERCEPTORS ----------------------------------------------------------------------------------------------------------
   // fetch all lessons for the current user
-  http.get(BASE_URL + '/lesson', () => {
+  http.get(BASE_URL + "/lesson", () => {
     const lessons: any[] = [
       {
         id: "astronomy-lesson-id",
@@ -83,7 +80,7 @@ export const handlers = [
   }),
 
   // given a lesson id, get full content for that lesson
-  http.get(BASE_URL + '/lesson/:id', () => {
+  http.get(BASE_URL + "/lesson/:id", () => {
     const lessonContent = [
       {
         id: "astronomy-intro-id",
@@ -137,7 +134,7 @@ export const handlers = [
         definitions: {
           "A type of galaxy with no distinct shape, often chaotic in appearance.": 2,
           "A large spiral galaxy that contains our Solar System.": 3,
-    
+
           "A galaxy that has a smooth, featureless light profile and is more three-dimensional in shape.": 1,
           "A galaxy characterized by a flat, rotating disk containing stars, gas, and dust.": 0,
         },
@@ -165,7 +162,14 @@ export const handlers = [
       pageProgress: 0,
       highScore: 0,
       currentScore: 0,
-      content: lessonContent, 
+      content: lessonContent,
     });
   }),
-]
+
+  // generate mock response from the HelperAI.
+  http.post(BASE_URL + "/lesson/api/chat", () => {
+    return HttpResponse.json({
+      reply: "This is a mock response from HelperAI.",
+    });
+  }),
+];
