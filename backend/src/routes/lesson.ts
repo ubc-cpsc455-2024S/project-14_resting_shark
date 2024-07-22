@@ -2,8 +2,6 @@ import express, { Router, Request, Response } from 'express';
 import authMiddleware from '../middleware/authMiddleware';
 import lessonService from '../services/lessonService';
 import openAIService from '../services/openAIService';
-import Lesson from '../models/Lesson';
-
 
 const router: Router = express.Router();
 
@@ -70,6 +68,7 @@ router.get('/copy/:id', authMiddleware, async (req: Request, res: Response) => {
     res.status(error.code || 500).json({ message: error.message });
   }
 })
+
 
 /*
 Handles chat requests by sending a user prompt to the OpenAI service and returning the response.
