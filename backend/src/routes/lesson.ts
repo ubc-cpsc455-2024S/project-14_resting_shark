@@ -4,6 +4,7 @@ import lessonService from '../services/lessonService';
 import openAIService from '../services/openAIService';
 import Lesson from '../models/Lesson';
 
+
 const router: Router = express.Router();
 
 
@@ -69,5 +70,24 @@ router.get('/copy/:id', authMiddleware, async (req: Request, res: Response) => {
     res.status(error.code || 500).json({ message: error.message });
   }
 })
+
+/*
+TODO - EDIT
+  - id: the id of the lesson to be copied
+*/
+router.post('/api/chat', authMiddleware, async (req: Request, res: Response) => {
+  const { prompt } = req.body;
+
+  try {
+    const reply = await openAIService.getChatResponse(prompt);
+    res.status(200).json({ reply });
+  } catch (error: unknown) {
+    if (error instanceof Error) {
+      res.status(500).json({ message: error.message });
+    } else {
+      res.status(500).json({ message: 'An unknown error occurred' });
+    }
+  }
+});
 
 export { router as lessonsRouter };
