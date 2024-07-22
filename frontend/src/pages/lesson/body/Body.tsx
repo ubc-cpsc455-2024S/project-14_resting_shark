@@ -3,7 +3,7 @@ import { BodyProps } from "./Body.d";
 import { useState } from "react";
 import "./AiHelper.css";
 import MainDisplay from "./main-display/MainDisplay";
-import { progress } from "framer-motion";
+import { LuBot } from "react-icons/lu";
 
 export default function Body(props: BodyProps) {
   return (
@@ -89,6 +89,7 @@ const AIHelper = () => {
       <div className="chat-bottom-border">
         <div className={`chat-container ${isHintRequested ? "expanded" : ""}`}>
           <div className="chat">
+            <LuBot size={50} />
             {chatLog.map((message, index) => (
               <div
                 key={index}
