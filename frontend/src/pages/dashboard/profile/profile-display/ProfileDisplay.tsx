@@ -13,6 +13,7 @@ import UserEditModal from "../user-edit/UserEditModal";
     const navigate = useNavigate();
 
     const [isUserEditModalOpen, setUserEditModalOpen] = useState(false);
+    const [user, setUser] = useState({ username: "", email: "", profilePicture: "" });
 
 
     useEffect(() => {
@@ -20,6 +21,9 @@ import UserEditModal from "../user-edit/UserEditModal";
         try {
           const profileData = await userApi.getProfileData(token);
           setUsername(profileData.username);
+          setUser({ username: profileData.username,
+          email: profileData.email,
+                    profilePicture: profileData.profilePicture });
         } catch (e: any) {
           console.error(e.message);
         }
@@ -87,8 +91,7 @@ import UserEditModal from "../user-edit/UserEditModal";
       <UserEditModal
         isOpen={isUserEditModalOpen}
         onClose={handleCloseModal}
-        userInfo={{ username, email: '' }} // Assuming email is fetched from state or API
-        onSave={handleSave}
+        user={user} 
       />
     </div>
   );

@@ -1,87 +1,84 @@
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import s from './UserEditModal.module.css';
+import { LuXCircle } from "react-icons/lu";
 
 
-interface UserInfo {
-    username: string;
-    email: string;
-  }
-  
-  interface UserEditModalProps {
-    isOpen: boolean;
-    onClose: () => void;
-    userInfo: UserInfo;
-    onSave: (updatedUserInfo: UserInfo & { password?: string }) => void;
-  }
+interface UserEditModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  user: { username: string; email: string; profilePicture: string };
+}
 
-const UserEditModal : React.FC<UserEditModalProps> = ({ isOpen, onClose, userInfo, onSave }) => {
-    const [activeTab, setActiveTab] = useState('userInfo');
-    const [username, setUsername] = useState(userInfo.username || '');
-    const [email, setEmail] = useState(userInfo.email || '');
-    const [password, setPassword] = useState('');
-  
-    const handleSaveChanges = () => {
-      // Pass updated user info to the parent component
-      onSave({ username, email, password });
-      onClose();
-    };
-  
-    return (
-      <div className={`${s.modal} ${isOpen ? s.show : ''}`}>
-        <div className={s.modalContent}>
-          <div className={s.modalHeader}>
-            <span className={s.close} onClick={onClose}>&times;</span>
-            <h2>Edit Profile</h2>
-          </div>
-          <div className={s.modalBody}>
-            <div className={s.tabs}>
-              <button
-                className={`${s.tabButton} ${activeTab === 'userInfo' ? s.active : ''}`}
-                onClick={() => setActiveTab('userInfo')}
-              >
-                User Info
-              </button>
-              <button
-                className={`${s.tabButton} ${activeTab === 'profilePicture' ? s.active : ''}`}
-                onClick={() => setActiveTab('profilePicture')}
-              >
-                Profile Picture
-              </button>
-            </div>
-            <div className={`${s.tabContent} ${activeTab === 'userInfo' ? s.active : ''}`}>
-              <label>Username:</label>
-              <input
-                type="text"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
-              />
-              <label>Email:</label>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <label>Password:</label>
-              <input
-                type="password"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
-            <div className={`${s.tabContent} ${activeTab === 'profilePicture' ? s.active : ''}`}>
-              <p>Profile Picture Upload Component Here</p>
-            </div>
-          </div>
-          <div className={s.modalFooter}>
-            <button className={s.saveButton} onClick={handleSaveChanges}>
-              Save Changes
-            </button>
-          </div>
-        </div>
-      </div>
-    );
+const UserEditModal: React.FC<UserEditModalProps> = ({ isOpen, onClose, user }) => {
+  const [activeTab, setActiveTab] = useState('userInfo');
+  const [formData, setFormData] = useState({ username: user.username, email: user.email, password: '', profilePicture: user.profilePicture });
+  const [unsavedChanges, setUnsavedChanges] = useState(false);
+
+  useEffect(() => {
+    if (isOpen) {
+      setFormData({ username: user.username, email: user.email, password: '', profilePicture: user.profilePicture });
+    }
+  }, [isOpen, user]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+    setUnsavedChanges(true);
   };
-  
-  export default UserEditModal;
+
+  const handleSave = () => {
+    // Implement the save functionality
+    console.log('Saved data:', formData);
+    setUnsavedChanges(false);
+    onClose();
+  };
+
+  const handleClose = () => {
+    if (unsavedChanges) {
+      if (window.confirm('You have unsaved changes. Do you really want to close?')) {
+        onClose();
+      }
+    } else {
+      onClose();
+    }
+  };
+
+  if (!isOpen) return null;
+
+  return (
+    <div className={s.overlay}>
+      <div className={s.modal}>
+        <div className={s.header}>
+        <h2>Edit Profile</h2>
+        <button className={s.closeButton} onClick={handleClose}>
+        <LuXCircle/> 
+        </button>
+        </div>
+        <div className={s.tabs}>
+          <div className={`${s.tab} ${activeTab === 'userInfo' ? s.activeTab : ''}`} onClick={() => setActiveTab('userInfo')}>User Info</div>
+          <div className={`${s.tab} ${activeTab === 'profilePicture' ? s.activeTab : ''}`} onClick={() => setActiveTab('profilePicture')}>Profile Picture</div>
+        </div>
+        {activeTab === 'userInfo' && (
+          <div>
+            <label>Username</label>
+            <input type="text" name="username" value={formData.username} onChange={handleChange} className={s.inputField} />
+            <label>Email</label>
+            <input type="email" name="email" value={formData.email} onChange={handleChange} className={s.inputField} />
+            <label>Password</label>
+            <input type="password" name="password" value={formData.password} onChange={handleChange} className={s.inputField} />
+          </div>
+        )}
+        {activeTab === 'profilePicture' && (
+          <div>
+            <label>Profile Picture</label>
+            <input type="text" name="profilePicture" value={formData.profilePicture} onChange={handleChange} className={s.inputField} />
+          </div>
+        )}
+        <button className={s.button} onClick={handleSave}>Save</button>
+      </div>
+    </div>
+  );
+};
+
+export default UserEditModal;
+
   
