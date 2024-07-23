@@ -34,4 +34,20 @@ router.get('/stats', authMiddleware, async (req: Request, res: Response) => {
   }
 });
 
+
+router.put('/', authMiddleware, async (req: Request, res: Response) => {
+  try {
+    const userId = req.user.id;
+    const updateData = req.body;
+
+    if (!updateData.username && !updateData.email && !updateData.password) {
+      return res.status(400).json({ message: "No update data provided" });
+    }
+
+    const updatedUser = await userService.updateUser(userId, updateData);
+    res.status(200).json(updatedUser);
+  } catch (error: any) {
+    res.status(error.code || 500).json({ message: error.message });
+  }
+});
 export { router as usersRouter };
