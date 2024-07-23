@@ -65,6 +65,11 @@
     background-color: #7684FE; 
     color: white;
   }
+
+  .btnGroup {
+    display: flex;
+    justify-content: space-between;
+  }
   
   /* Buttons */
   .button {
@@ -81,7 +86,7 @@
     font-size: 1.1rem;
     font-weight: 400;
     width: 20%;
-    margin-top: 8%;
+    margin-top: 4%;
   }
 
   .button:hover {

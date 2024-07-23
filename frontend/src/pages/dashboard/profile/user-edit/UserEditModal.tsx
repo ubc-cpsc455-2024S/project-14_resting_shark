@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import s from './UserEditModal.module.css';
 import { LuXCircle } from "react-icons/lu";
+import { userApi } from "../../../../api/userApi";
+import { useNavigate } from "react-router-dom";
+import { useAppSelector } from "../../../../redux/hooks";
 
 
 interface UserEditModalProps {
@@ -14,6 +17,10 @@ const UserEditModal: React.FC<UserEditModalProps> = ({ isOpen, onClose, user }) 
   const [formData, setFormData] = useState({ username: user.username, email: user.email, password: '', profilePicture: user.profilePicture });
   const [unsavedChanges, setUnsavedChanges] = useState(false);
 
+  const token = useAppSelector((state) => state.auth.jwtToken);
+  const navigate = useNavigate();
+
+
   useEffect(() => {
     if (isOpen) {
       setFormData({ username: user.username, email: user.email, password: '', profilePicture: user.profilePicture });
@@ -25,12 +32,26 @@ const UserEditModal: React.FC<UserEditModalProps> = ({ isOpen, onClose, user }) 
     setUnsavedChanges(true);
   };
 
-  const handleSave = () => {
-    // Implement the save functionality
-    console.log('Saved data:', formData);
-    setUnsavedChanges(false);
-    onClose();
+  const handleSave = async () => {
+    try {
+      const updatedData: Partial<{ username: string; email: string; password: string }> = {};
+      if (formData.username) updatedData.username = formData.username;
+      if (formData.email) updatedData.email = formData.email;
+      if (formData.password) updatedData.password = formData.password;
+
+      await userApi.updateUser(token, updatedData);
+
+      setUnsavedChanges(false);
+      onClose();
+    } catch (error) {
+      console.error('Failed to update user:', error);
+    }
   };
+
+  function deleteAccount() {
+    userApi.deleteUser(token);
+    navigate('/')
+  }
 
   const handleClose = () => {
     if (unsavedChanges) {
@@ -65,15 +86,19 @@ const UserEditModal: React.FC<UserEditModalProps> = ({ isOpen, onClose, user }) 
             <input type="email" name="email" value={formData.email} onChange={handleChange} className={s.inputField} />
             <label>Password</label>
             <input type="password" name="password" value={formData.password} onChange={handleChange} className={s.inputField} />
+            <div className={s.btnGroup}>
+            <button className={s.button} onClick={handleSave}>Save</button>
+            <button className={s.button} onClick={deleteAccount}>Delete Account</button>
+            </div>
           </div>
         )}
         {activeTab === 'profilePicture' && (
           <div>
             <label>Profile Picture</label>
             <input type="text" name="profilePicture" value={formData.profilePicture} onChange={handleChange} className={s.inputField} />
+            <button className={s.button} onClick={handleSave}>Save</button>
           </div>
         )}
-        <button className={s.button} onClick={handleSave}>Save</button>
       </div>
     </div>
   );
