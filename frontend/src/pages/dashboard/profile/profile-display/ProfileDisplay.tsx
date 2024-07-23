@@ -5,11 +5,15 @@ import { useState, useEffect } from "react";
 import { useAppSelector } from "../../../../redux/hooks";
 import { userApi } from "../../../../api/userApi";
 import { useNavigate } from "react-router-dom";
+import UserEditModal from "../user-edit/UserEditModal";
 
   export default function ProfileDisplay() {
     const token = useAppSelector((state) => state.auth.jwtToken);
     const [username, setUsername] = useState("");
     const navigate = useNavigate();
+
+    const [isUserEditModalOpen, setUserEditModalOpen] = useState(false);
+
 
     useEffect(() => {
       async function fetchData() {
@@ -22,6 +26,20 @@ import { useNavigate } from "react-router-dom";
       }
       fetchData();
     }, [token]);
+
+
+    const handleEditButtonClick = () => {
+      setUserEditModalOpen(true);
+    };
+  
+    const handleCloseModal = () => {
+      setUserEditModalOpen(false);
+    };
+
+    const handleSave = (updatedUserInfo: any) => {
+      // Handle saving the updated user info (e.g., update state, make API call)
+      setUsername(updatedUserInfo.username);
+    };
 
   const level = 4;
   const exp = 52;
@@ -44,7 +62,7 @@ import { useNavigate } from "react-router-dom";
         <div className={s.info}>
           <h1>
             {username}
-            <button className={s.editButton}>
+            <button className={s.editButton} onClick={handleEditButtonClick}>
               <LuPencil />
             </button>
           </h1>
@@ -66,6 +84,12 @@ import { useNavigate } from "react-router-dom";
         </button>
       </div>
       {/* TEMP CODE END */}
+      <UserEditModal
+        isOpen={isUserEditModalOpen}
+        onClose={handleCloseModal}
+        userInfo={{ username, email: '' }} // Assuming email is fetched from state or API
+        onSave={handleSave}
+      />
     </div>
   );
 }
