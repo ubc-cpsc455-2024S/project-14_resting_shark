@@ -2,6 +2,9 @@ import express, { Router, Request, Response } from 'express';
 import authMiddleware from '../middleware/authMiddleware';
 import lessonService from '../services/lessonService';
 import openAIService from '../services/openAIService';
+import multer from 'multer';
+import pdfParse from 'pdf-parse';
+import fs from 'fs';
 
 const router: Router = express.Router();
 
@@ -87,6 +90,24 @@ router.post('/api/chat', authMiddleware, async (req: Request, res: Response) => 
     } else {
       res.status(500).json({ message: 'An unknown error occurred' });
     }
+  }
+});
+
+const upload = multer({ dest: "./uploads/" });
+
+router.post("/api/upload", upload.single("file"), async (req: Request, res: Response) => {
+  try {
+    const file = (req as any).file;
+    if (!file) {
+      res.status(400).json({ error: "No file uploaded" });
+      return;
+    }
+
+    const dataBuffer = fs.readFileSync(file.path);
+    const data = await pdfParse(dataBuffer);
+    res.json({ text: data.text });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to process PDF" });
   }
 });
 
