@@ -3,21 +3,24 @@ import { LuFolderUp } from "react-icons/lu";
 import s from "./UploadSection.module.css";
 // import { requests } from "../../../../../api/requestTemplate";
 import { BASE_URL } from "../../../../../constants/Config";
+import LoadingScreen from "./LoadingScreen";
+import { useNavigate } from 'react-router-dom';
+
 
 export default function UploadSection() {
   const [file, setFile] = useState<File | null>(null);
   const [uploadStatus, setUploadStatus] = useState("");
   const [extractedText, setExtractedText] = useState("");
+  const [loading, setLoading] = useState(false); // New state variable
+  const navigate = useNavigate();
 
-  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = event.target.files ? event.target.files[0] : null;
+  const handleFileChange = (event: any) => {
+    const selectedFile = event.target.files[0];
     if (selectedFile && selectedFile.type === "application/pdf") {
       setFile(selectedFile);
       setUploadStatus("");
-      console.log("Selected file:", selectedFile);
     } else {
       setUploadStatus("Please upload a valid PDF file.");
-      console.log("Invalid file type selected");
     }
   };
 
@@ -27,60 +30,90 @@ export default function UploadSection() {
       console.log("No file selected for upload");
       return;
     }
-  
+
     const formData = new FormData();
     formData.append("file", file);
-  
+
     try {
-      const token = localStorage.getItem('jwtToken') ?? undefined;
+      const token = localStorage.getItem("jwtToken") ?? undefined;
       const headers: HeadersInit = {};
       if (token) {
-        headers['Authorization'] = `Bearer ${token}`;
+        headers["Authorization"] = `Bearer ${token}`;
       }
-  
-      const response = await fetch( BASE_URL + "/lesson/api/upload", {
+
+      const uploadResponse = await fetch(BASE_URL + "/lesson/api/upload", {
         method: "POST",
-        headers: headers,  // Note: Do not set 'Content-Type' header for FormData (Which I couldn't do with requestTemplate unless I modified the postRequest method)
+        headers: headers,// Note: Do not set 'Content-Type' header for FormData (Which I couldn't do with requestTemplate unless I modified the postRequest method)
         body: formData,
       });
-  
-      const result = await response.json();
-  
-      if (response.ok) {
+
+      const uploadResult = await uploadResponse.json();
+
+      if (uploadResponse.ok) {
         setUploadStatus("File uploaded successfully!");
-        setExtractedText(result.text);
-        console.log("Upload successful:", result);
+        setExtractedText(uploadResult.text);
+        console.log("Upload successful:", uploadResult);
+
+        // Start loading screen before the second request
+        setLoading(true);
+
+        // Now make a second request to generate the lesson
+        const lessonResponse = await fetch(BASE_URL + "/lesson", {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ content: uploadResult.text }),
+        });
+
+        const lessonResult = await lessonResponse.json();
+
+        if (lessonResponse.ok) {
+          console.log("HERE IS THE GENERATED LESSON:", lessonResult);
+          // Redirect to the new lesson
+          navigate(`/lesson/${lessonResult._id}`); 
+        } else {
+          console.error("Lesson generation failed:", lessonResult);
+          setUploadStatus("Lesson generation failed.");
+        }
       } else {
         setUploadStatus("File upload failed.");
-        // Contains the converted text of the file
-        console.error("Upload failed:", result);
+        console.error("Upload failed:", uploadResult);
       }
     } catch (error) {
       setUploadStatus("An error occurred during the upload.");
       console.error("Upload failed:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
   return (
-    <div className={s.uploadSectionContainer}>
-      <label htmlFor="file-upload" className={s.fileLabel}>
-        <LuFolderUp className={s.icon} />
-        Upload
-      </label>
-      <input
-        id="file-upload"
-        type="file"
-        accept="application/pdf"
-        className={s.fileInput}
-        onChange={handleFileChange}
-      />
-      <button onClick={handleUpload} className={s.uploadButton}>
-        Upload PDF
-      </button>
-      {uploadStatus && <p className={s.uploadStatus}>{uploadStatus}</p>}
-      {extractedText && (
-        <textarea className={s.textArea} value={extractedText} readOnly />
+    <>
+      {loading && <LoadingScreen />}
+      {!loading && (
+        <div className={s.uploadSectionContainer}>
+          <label htmlFor="file-upload" className={s.fileLabel}>
+            <LuFolderUp className={s.icon} />
+            Upload
+          </label>
+          <input
+            id="file-upload"
+            type="file"
+            accept="application/pdf"
+            className={s.fileInput}
+            onChange={handleFileChange}
+          />
+          <button onClick={handleUpload} className={s.uploadButton}>
+            Upload PDF
+          </button>
+          {uploadStatus && <p className={s.uploadStatus}>{uploadStatus}</p>}
+          {extractedText && (
+            <textarea className={s.textArea} value={extractedText} readOnly />
+          )}
+        </div>
       )}
-    </div>
+    </>
   );
 }

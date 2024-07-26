@@ -93,6 +93,12 @@ router.post('/api/chat', authMiddleware, async (req: Request, res: Response) => 
   }
 });
 
+
+/*
+Handles the PDF conversion to a string for lesson creation.
+Request Body:
+  - prompt: The text input from the user for which a response is requested.
+*/
 const upload = multer({ dest: "./uploads/" });
 
 router.post("/api/upload", upload.single("file"), async (req: Request, res: Response) => {
