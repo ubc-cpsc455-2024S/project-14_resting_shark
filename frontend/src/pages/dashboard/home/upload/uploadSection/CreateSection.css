@@ -1,0 +1,37 @@
+CreateSection.css
+.create-section-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .title-banner {
+    background: linear-gradient(45deg, #6a82fb, #5a8dee, #4e7ac7, #7683fe);
+    padding: 10px 25px;
+    border-radius: 10px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    animation: gradient 5s ease infinite;
+  }
+  
+  .title-banner h1 {
+    color: #ffffff;
+    font-family: 'Arial', sans-serif;
+    font-size: 1.7rem;
+    margin: 0;
+    text-align: center;
+    text-transform: uppercase;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+  }
+  
+  @keyframes gradient {
+    0% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+    100% {
+      background-position: 0% 50%;
+    }
+  }
+  

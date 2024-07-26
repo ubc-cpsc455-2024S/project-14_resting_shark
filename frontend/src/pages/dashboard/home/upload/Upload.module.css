@@ -1,6 +1,6 @@
 .uploadContainer {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
   margin-top: 4vh;
 }
