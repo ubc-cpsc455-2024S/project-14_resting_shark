@@ -1,3 +1,5 @@
+import * as React from "react";
+
 export default function Line(props: {
   x1: number;
   y1: number;

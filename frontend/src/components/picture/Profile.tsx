@@ -1,4 +1,5 @@
 import s from "./Profile.module.css";
+import * as React from "react";
 
 export default function Profile() {
   return (

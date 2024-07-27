@@ -1,6 +1,7 @@
 import { AstronomyLesson } from "../../../../../../api/mock/astronomy";
 import LessonCard from "../../../content/lesson/LessonCard";
 import s from "./Cards.module.css";
+import * as React from "react";
 
 interface CustomComponentProps {
   style?: React.CSSProperties;

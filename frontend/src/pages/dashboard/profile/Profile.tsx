@@ -2,6 +2,7 @@ import LessonsGraph from "./graphs/LessonsGraph";
 import ProfileDisplay from "./profile-display/ProfileDisplay";
 import s from "./Profile.module.css";
 import UserInfo from "./user-info/UserInfo";
+import * as React from "react";
 
 export default function Profile() {
   return (

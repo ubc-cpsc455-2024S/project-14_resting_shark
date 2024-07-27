@@ -4,6 +4,7 @@ import { useState } from "react";
 import "./AiHelper.css";
 import MainDisplay from "./main-display/MainDisplay";
 import { LuBot } from "react-icons/lu";
+import * as React from "react";
 
 export default function Body(props: BodyProps) {
   return (
@@ -61,8 +62,8 @@ const AIHelper = () => {
   const [isHintRequested, setIsHintRequested] = useState(false);
 
   const handleSendMessage = async () => {
-    const token = localStorage.getItem('jwtToken') ?? undefined;
-    
+    const token = localStorage.getItem("jwtToken") ?? undefined;
+
     if (!prompt) return;
 
     const userMessage: Message = { user: "user", text: prompt };

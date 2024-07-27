@@ -1,4 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
+import * as React from "react";
 import {
   LuX,
   LuChevronLeft,

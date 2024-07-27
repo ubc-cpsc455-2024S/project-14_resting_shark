@@ -1,6 +1,7 @@
 import { FaArrowDownLong, FaArrowUpLong } from "react-icons/fa6";
 import { LuMinus } from "react-icons/lu";
 import s from "./StatDisplay.module.css";
+import * as React from "react";
 
 export default function StatDisplay(props: {
   num: number;

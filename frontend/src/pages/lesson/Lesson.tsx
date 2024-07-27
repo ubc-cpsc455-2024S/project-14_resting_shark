@@ -11,13 +11,17 @@ import Intro from "../../class/Intro";
 import Matching from "../../class/Matching";
 import MultipleChoice from "../../class/MultipleChoice";
 import { useAppSelector, useAppDispatch } from "../../redux/hooks";
-import { setPageNumber, setButtonText } from "../../redux/slices/lessonPageSlice";
+import {
+  setPageNumber,
+  setButtonText,
+} from "../../redux/slices/lessonPageSlice";
 import { lessonApi } from "../../api/lessonApi";
 import Information from "../../components/Information/Information";
 import { LessonProvider } from "../../context/LessonProvider";
 import Header from "./header/Header";
 import Body from "./body/Body";
 import Banner from "../../components/misc/banner/Banner";
+import * as React from "react";
 
 function Lesson() {
   const { lessonId } = useParams();
@@ -28,9 +32,9 @@ function Lesson() {
   const buttonText = useAppSelector((state) => state.lessonPage.buttonText);
   const [streakCount, setStreakCount] = useState(0);
   const [lives, setLives] = useState(3);
-  const [bannerText, setBannerText] = useState<string | null>(null); 
-  const [showBanner, setShowBanner] = useState<boolean>(false); 
-  const [gameOver, setGameOver] = useState<boolean>(false); 
+  const [bannerText, setBannerText] = useState<string | null>(null);
+  const [showBanner, setShowBanner] = useState<boolean>(false);
+  const [gameOver, setGameOver] = useState<boolean>(false);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -65,7 +69,7 @@ function Lesson() {
   const updateStreak = (isCorrect: boolean) => {
     setStreakCount(isCorrect ? streakCount + 1 : 0);
   };
-  // Decrease the lives count when user answers incorrectly.  
+  // Decrease the lives count when user answers incorrectly.
   const updateLives = (decrease: boolean) => {
     if (decrease) {
       setLives((prevLives) => {

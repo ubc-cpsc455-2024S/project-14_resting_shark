@@ -1,4 +1,5 @@
-import './CreateSection.css';
+import "./CreateSection.css";
+import * as React from "react";
 
 export default function CreateSection() {
   return (

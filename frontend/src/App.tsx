@@ -10,6 +10,7 @@ import RegisterLogin from "./pages/Auth/RegisterLogin";
 import ProtectedRoute from "./pages/Auth/ProtectedRoute";
 import BackgroundUpdater from "./context/BackgroundUpdater";
 import LandingPage from "./pages/landingPage/LandingPage";
+import * as React from "react";
 
 function App() {
   return (

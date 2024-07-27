@@ -3,6 +3,7 @@ import s from "./LessonsGraph.module.css";
 import DateSelect from "./dropdown/DateSelect";
 import { useState } from "react";
 import StatDisplay from "./stat/StatDisplay";
+import * as React from "react";
 
 export default function LessonsGraph() {
   const otherSetting = {
