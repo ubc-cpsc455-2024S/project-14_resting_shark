@@ -6,7 +6,7 @@
   "scripts": {
     "install-server": "cd backend && npm install",
     "build-server": "cd backend && npm install typescript && npx tsc",
-    "start-server": "cd backend && node dist/app.js",
+    "start-server": "cd backend && cat node_modules/express/index.js && node dist/app.js",
     "install-client": "cd frontend && npm install",
     "build-client": "cd frontend && npm run build",
     "start-client": "cd frontend && npm run start"
