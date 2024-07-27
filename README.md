@@ -1,5 +1,7 @@
 # Group 14 - Mangoose
 
+We're developing an innovative web application designed for students and learners to enhance their understanding of various subjects. Users can upload images or PDFs to create interactive and personalized lessons featuring true/false, fill-in-the-blank, and multiple-choice questions. The platform includes user authentication, progress tracking, and gamified elements like streaks and levels to make learning engaging and effective.
+
 ![Status](https://github.com/ubc-cpsc455-2024S/project-14_resting_shark/actions/workflows/main.yml/badge.svg)
 
 ## Describe your topic/interest in about 150-200 words
