@@ -1,4 +1,4 @@
-import { LuHome, LuLogOut, LuRocket, LuUserCircle } from "react-icons/lu";
+import { LuLogOut, LuUserCircle } from "react-icons/lu";
 import s from "./Navbar.module.css";
 
 import { useAppDispatch } from "../../../redux/hooks";

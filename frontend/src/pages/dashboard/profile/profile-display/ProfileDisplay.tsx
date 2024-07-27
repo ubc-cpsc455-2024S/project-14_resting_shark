@@ -7,43 +7,47 @@ import { userApi } from "../../../../api/userApi";
 import { useNavigate } from "react-router-dom";
 import UserEditModal from "../user-edit/UserEditModal";
 
-  export default function ProfileDisplay() {
-    const token = useAppSelector((state) => state.auth.jwtToken);
-    const [username, setUsername] = useState("");
-    const navigate = useNavigate();
+export default function ProfileDisplay() {
+  const token = useAppSelector((state) => state.auth.jwtToken);
+  const [username, setUsername] = useState("");
+  const navigate = useNavigate();
 
-    const [isUserEditModalOpen, setUserEditModalOpen] = useState(false);
-    const [user, setUser] = useState({ username: "", email: "", profilePicture: "" });
+  const [isUserEditModalOpen, setUserEditModalOpen] = useState(false);
+  const [user, setUser] = useState({
+    username: "",
+    email: "",
+    profilePicture: "",
+  });
 
-
-    useEffect(() => {
-      async function fetchData() {
-        try {
-          const profileData = await userApi.getProfileData(token);
-          setUsername(profileData.username);
-          setUser({ username: profileData.username,
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const profileData = await userApi.getProfileData(token);
+        setUsername(profileData.username);
+        setUser({
+          username: profileData.username,
           email: profileData.email,
-                    profilePicture: profileData.profilePicture });
-        } catch (e: any) {
-          console.error(e.message);
-        }
+          profilePicture: profileData.profilePicture,
+        });
+      } catch (e: any) {
+        console.error(e.message);
       }
-      fetchData();
-    }, [token]);
+    }
+    fetchData();
+  }, [token]);
 
+  const handleEditButtonClick = () => {
+    setUserEditModalOpen(true);
+  };
 
-    const handleEditButtonClick = () => {
-      setUserEditModalOpen(true);
-    };
-  
-    const handleCloseModal = () => {
-      setUserEditModalOpen(false);
-    };
+  const handleCloseModal = () => {
+    setUserEditModalOpen(false);
+  };
 
-    const handleSave = (updatedUserInfo: any) => {
-      // Handle saving the updated user info (e.g., update state, make API call)
-      setUsername(updatedUserInfo.username);
-    };
+  //const handleSave = (updatedUserInfo: any) => {
+  //  // Handle saving the updated user info (e.g., update state, make API call)
+  //  setUsername(updatedUserInfo.username);
+  //};
 
   const level = 4;
   const exp = 52;
@@ -53,7 +57,7 @@ import UserEditModal from "../user-edit/UserEditModal";
 
   function deleteAccount() {
     userApi.deleteUser(token);
-    navigate('/')
+    navigate("/");
   }
 
   return (
@@ -79,19 +83,16 @@ import UserEditModal from "../user-edit/UserEditModal";
           <ProgressBar percentage={30} />
         </div>
       </div>
-      
 
       {/* TEMP CODE START */}
       <div>
-        <button onClick={deleteAccount}>
-          Delete Account
-        </button>
+        <button onClick={deleteAccount}>Delete Account</button>
       </div>
       {/* TEMP CODE END */}
       <UserEditModal
         isOpen={isUserEditModalOpen}
         onClose={handleCloseModal}
-        user={user} 
+        user={user}
       />
     </div>
   );
