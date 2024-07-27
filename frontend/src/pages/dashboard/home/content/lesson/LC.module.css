@@ -1,4 +1,4 @@
-/*.container {
+.container {
   background-color: white;
   border-radius: 15px;
   padding: 1.5em;
@@ -108,4 +108,4 @@
 .livesContainer {
   display: flex;
   align-items: center;
-}*/
+}

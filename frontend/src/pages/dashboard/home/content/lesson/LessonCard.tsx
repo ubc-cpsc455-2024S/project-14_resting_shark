@@ -1,7 +1,8 @@
 import { Link } from "react-router-dom";
-import s from "./LessonCard.module.css";
+import s from "./LC.module.css";
 import { LuDot } from "react-icons/lu";
 import { GoHeartFill } from "react-icons/go";
+import * as React from "react";
 
 export default function Lesson(props: { lesson: any; isFirst: boolean }) {
   const TOTAL_LIVES = 3;
@@ -40,8 +41,7 @@ export default function Lesson(props: { lesson: any; isFirst: boolean }) {
           </span>
           <ProgressBar
             percentage={
-              (props.lesson.completedPages / props.lesson.totalPages) *
-              100
+              (props.lesson.completedPages / props.lesson.totalPages) * 100
             }
           />
           <button className={s.continueToLearnButton}>Continue to learn</button>
