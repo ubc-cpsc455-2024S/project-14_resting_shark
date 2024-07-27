@@ -1,5 +1,6 @@
 import { motion } from "framer-motion";
 import s from "./Banner.module.css";
+import * as React from "react";
 
 const variants = {
   initial: { width: 0 },
@@ -7,7 +8,11 @@ const variants = {
   exit: { width: 0, transition: { duration: 0.4 } },
 };
 
-export default function Banner(props: { isCorrect: boolean; message: string; gameOver: boolean }) {
+export default function Banner(props: {
+  isCorrect: boolean;
+  message: string;
+  gameOver: boolean;
+}) {
   return (
     <motion.div
       className={

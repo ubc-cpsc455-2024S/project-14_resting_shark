@@ -1,5 +1,6 @@
 import { LuLogOut, LuUserCircle } from "react-icons/lu";
 import s from "./Navbar.module.css";
+import * as React from "react";
 
 import { useAppDispatch } from "../../../redux/hooks";
 import { logout } from "../../../redux/slices/authSlice";

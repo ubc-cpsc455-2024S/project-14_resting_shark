@@ -4,8 +4,8 @@ import s from "./UploadSection.module.css";
 // import { requests } from "../../../../../api/requestTemplate";
 import { BASE_URL } from "../../../../../constants/Config";
 import LoadingScreen from "./LoadingScreen";
-import { useNavigate } from 'react-router-dom';
-
+import { useNavigate } from "react-router-dom";
+import * as React from "react";
 
 export default function UploadSection() {
   const [file, setFile] = useState<File | null>(null);
@@ -43,7 +43,7 @@ export default function UploadSection() {
 
       const uploadResponse = await fetch(BASE_URL + "/lesson/api/upload", {
         method: "POST",
-        headers: headers,// Note: Do not set 'Content-Type' header for FormData (Which I couldn't do with requestTemplate unless I modified the postRequest method)
+        headers: headers, // Note: Do not set 'Content-Type' header for FormData (Which I couldn't do with requestTemplate unless I modified the postRequest method)
         body: formData,
       });
 
@@ -72,7 +72,7 @@ export default function UploadSection() {
         if (lessonResponse.ok) {
           console.log("HERE IS THE GENERATED LESSON:", lessonResult);
           // Redirect to the new lesson
-          navigate(`/lesson/${lessonResult._id}`); 
+          navigate(`/lesson/${lessonResult._id}`);
         } else {
           console.error("Lesson generation failed:", lessonResult);
           setUploadStatus("Lesson generation failed.");

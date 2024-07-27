@@ -9,4 +9,4 @@ export type BodyProps = {
   buttonText: string;
   gameOver: boolean;
   onSubmit: () => void;
-}
+};

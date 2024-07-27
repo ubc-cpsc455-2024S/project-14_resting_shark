@@ -6,6 +6,7 @@ import Matching from "../../class/Matching";
 import { useLessonContext } from "../../context/LessonProvider";
 import Line from "./lines/Line";
 import Banner from "../misc/banner/Banner";
+import * as React from "react";
 
 interface Position {
   x: number;
@@ -91,8 +92,8 @@ export default function MatchingQuestion(props: {
         props.setButtonText("Next");
       } else {
         setBannerText("So Close.");
-        props.updateLives(true)
-        props.updateStreak(false)
+        props.updateLives(true);
+        props.updateStreak(false);
       }
 
       setCanProgress(allCorrect);
@@ -307,7 +308,11 @@ export default function MatchingQuestion(props: {
       <div className="relative-container">
         <AnimatePresence>
           {showBanner ? (
-            <Banner isCorrect={canProgress} message={bannerText} gameOver={false}/>
+            <Banner
+              isCorrect={canProgress}
+              message={bannerText}
+              gameOver={false}
+            />
           ) : null}
         </AnimatePresence>
       </div>

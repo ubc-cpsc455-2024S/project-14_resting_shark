@@ -3,6 +3,7 @@ import { lessonApi } from "../../../../api/lessonApi";
 import { useAppSelector, useAppDispatch } from "../../../../redux/hooks";
 import LessonCard from "./lesson/LessonCard";
 import s from "./Content.module.css";
+import * as React from "react";
 
 export default function Content() {
   const lessons = useAppSelector((state) => state.dashboardPage.lessons);

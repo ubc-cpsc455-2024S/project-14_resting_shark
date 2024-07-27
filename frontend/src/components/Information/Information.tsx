@@ -11,6 +11,7 @@ import {
 import { useLessonContext } from "../../context/LessonProvider";
 import Info from "../../class/Info";
 import Intro from "../../class/Intro";
+import * as React from "react";
 
 // A page introducing content to users before they do questions
 export default function Information({ page }: { page: Info | Intro }) {

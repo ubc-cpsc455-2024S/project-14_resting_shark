@@ -1,6 +1,7 @@
 import { LuSlidersHorizontal } from "react-icons/lu";
 import Profile from "../../../../../components/picture/Profile";
 import s from "./GreetingAndSearch.module.css";
+import * as React from "react";
 
 export default function GreetingAndSearch() {
   return (

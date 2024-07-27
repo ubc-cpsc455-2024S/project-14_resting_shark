@@ -1,6 +1,7 @@
 // BackgroundUpdater.tsx
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import * as React from "react";
 
 const BackgroundUpdater: React.FC = () => {
   const location = useLocation();

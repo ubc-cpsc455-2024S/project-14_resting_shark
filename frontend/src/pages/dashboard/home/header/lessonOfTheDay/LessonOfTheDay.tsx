@@ -1,6 +1,7 @@
 import { LuCheck, LuSparkles } from "react-icons/lu";
 import s from "./LessonOfTheDay.module.css";
 import Cards from "./cards/Cards";
+import * as React from "react";
 
 export default function LessonOfTheDay() {
   return (

@@ -6,6 +6,7 @@ import { useAppSelector } from "../../../../redux/hooks";
 import { userApi } from "../../../../api/userApi";
 import { useNavigate } from "react-router-dom";
 import UserEditModal from "../user-edit/UserEditModal";
+import * as React from "react";
 
 export default function ProfileDisplay() {
   const token = useAppSelector((state) => state.auth.jwtToken);

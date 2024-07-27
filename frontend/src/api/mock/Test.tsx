@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { exampleApi } from "../exampleApi";
-
+import * as React from "react";
 
 export default function Test() {
   const [testData, setTestData] = useState("hi");
@@ -15,9 +15,7 @@ export default function Test() {
       }
     }
     fetchLesson();
-   }, []);
+  }, []);
 
-  return (
-    <div>{testData}</div>
-  )
+  return <div>{testData}</div>;
 }

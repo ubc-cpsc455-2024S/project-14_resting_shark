@@ -4,6 +4,7 @@ import s from "./Dashboard.module.css";
 import Home from "./home/Home";
 import Navbar from "./navbar/Navbar";
 import Profile from "./profile/Profile";
+import * as React from "react";
 
 export default function Dashboard() {
   const [page, setPage] = useState(<Home />);

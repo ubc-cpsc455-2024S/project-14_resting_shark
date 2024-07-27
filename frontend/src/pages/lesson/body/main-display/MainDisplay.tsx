@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import { useLessonContext } from "../../../../context/LessonProvider";
 import { BodyProps } from "../Body.d";
+import * as React from "react";
 
 export default function MainDisplay(props: BodyProps) {
   const {
@@ -14,7 +15,7 @@ export default function MainDisplay(props: BodyProps) {
 
   const onNextButtonPress = () => {
     if (props.gameOver) {
-      props.onSubmit(); 
+      props.onSubmit();
     } else {
       setTimeout(() => {
         if (!isQuestionPage) {

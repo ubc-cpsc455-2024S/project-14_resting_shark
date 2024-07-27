@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useAppDispatch } from "../../redux/hooks";
 import { authApi } from "../../api/authApi";
 import s from "./RegisterLogin.module.css";
+import * as React from "react";
 
 export default function RegisterLogin() {
   const dispatch = useAppDispatch();

@@ -5,6 +5,7 @@ import Choice from "./Choices/Choices";
 import "./MultipleChoice.css";
 import { useEffect, useState } from "react";
 import Banner from "../misc/banner/Banner";
+import * as React from "react";
 
 // Multiple Choice question component
 export default function MultipleChoiceQuestion(props: {
@@ -87,11 +88,11 @@ export default function MultipleChoiceQuestion(props: {
 
       if (allCorrect) {
         setBannerText("You got it!");
-        props.updateStreak(true)
+        props.updateStreak(true);
         props.setButtonText("Next");
       } else {
-        props.updateLives(true)
-        props.updateStreak(false)
+        props.updateLives(true);
+        props.updateStreak(false);
         setBannerText("Almost there.");
       }
 
@@ -121,7 +122,11 @@ export default function MultipleChoiceQuestion(props: {
       </div>
       <AnimatePresence>
         {showBanner ? (
-          <Banner isCorrect={canProgress} message={bannerText} gameOver={false}/>
+          <Banner
+            isCorrect={canProgress}
+            message={bannerText}
+            gameOver={false}
+          />
         ) : null}
       </AnimatePresence>
     </div>

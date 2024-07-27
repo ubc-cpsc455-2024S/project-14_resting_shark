@@ -1,4 +1,5 @@
-import './LoadingScreen.css';
+import "./LoadingScreen.css";
+import * as React from "react";
 
 const LoadingScreen = () => {
   return (

@@ -2,6 +2,7 @@ import { motion, stagger, useAnimate } from "framer-motion";
 import { useEffect, useState } from "react";
 import s from "./DateSelect.module.css";
 import { LuCalendarClock, LuChevronDown } from "react-icons/lu";
+import * as React from "react";
 
 const staggerMenuItems = stagger(0.1, { startDelay: 0.15 });
 

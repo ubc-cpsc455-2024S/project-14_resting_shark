@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, ReactNode } from "react";
+import * as React from "react";
 
 interface LessonContextType {
   farthestPage: number;
