@@ -1,5 +1,4 @@
 import express from "express";
-import { Application } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import bodyParser from "body-parser";
@@ -10,7 +9,7 @@ import { lessonsRouter } from "./routes/lesson";
 import { usersRouter } from "./routes/user";
 import { connectDB } from "./db/mongoConnection";
 
-const app: Application = express();
+const app = express();
 
 // middleware
 app.use(cors());
