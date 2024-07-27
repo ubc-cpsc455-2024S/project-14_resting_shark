@@ -1,6 +1,4 @@
 import LessonsGraph from "./graphs/LessonsGraph";
-import StatDisplay from "./graphs/stat/StatDisplay";
-import LogoutButton from "./LogoutButton/LogoutButton";
 import ProfileDisplay from "./profile-display/ProfileDisplay";
 import s from "./Profile.module.css";
 import UserInfo from "./user-info/UserInfo";

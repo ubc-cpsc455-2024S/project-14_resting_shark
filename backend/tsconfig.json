@@ -1,16 +1,19 @@
 {
   "compilerOptions": {
-    "target": "es2020",
+    "target": "es6",
     "module": "CommonJS",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "outDir": "./dist",
+    "outDir": "dist",
     "rootDir": "./src",
     "typeRoots": ["./node_modules/@types", "src/types"],
-    "types": ["node", "express"]
+    "types": ["node", "express"],
+    "moduleResolution": "node",
+    "sourceMap": true
   },
+  "lib": ["es2015"],
   "include": ["src/**/*.ts", "src/**/*", "package.json"],
   "exclude": ["node_modules"],
 }
