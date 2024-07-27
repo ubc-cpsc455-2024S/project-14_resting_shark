@@ -1,4 +1,4 @@
-const express = require("express");
+import express from "express";
 import { Application } from "express";
 import cors from "cors";
 import dotenv from "dotenv";
