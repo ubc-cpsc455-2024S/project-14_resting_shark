@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "es2020",
-    "module": "commonjs",
+    "module": "CommonJS",
     "strict": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
@@ -11,6 +11,6 @@
     "typeRoots": ["./node_modules/@types", "src/types"],
     "types": ["node", "express"]
   },
-  "include": ["src/**/*.ts", "src/**/*"],
+  "include": ["src/**/*.ts", "src/**/*", "package.json"],
   "exclude": ["node_modules"],
 }
