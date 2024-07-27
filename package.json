@@ -4,9 +4,9 @@
   "description": "Our project allows users to create and keep track of their own topics, notes, quizzes, and flashcards to help them study. They can also share their study material with other users, search for other user’s study material, and join study groups. Users can also search for and use other user’s shared study notes.",
   "main": "index.js",
   "scripts": {
-    "install-server": "cd backend && npm install",
-    "build-server": "cd backend && tsc",
-    "start-server": "cd backend && node dist/app.js",
+    "install-server": "cd backend2 && npm install",
+    "build-server": "cd backend2 && tsc",
+    "start-server": "cd backend2 && node dist/app.js",
     "install-client": "cd frontend && npm install",
     "build-client": "cd frontend && npm run build",
     "start-client": "cd frontend && npm run start"
