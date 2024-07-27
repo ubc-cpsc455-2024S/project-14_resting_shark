@@ -186,9 +186,6 @@ ENV/
 env.bak/
 venv.bak/
 
-# Uploads
-./backend/uploads
-
 # Spyder project settings
 .spyderproject
 .spyproject
