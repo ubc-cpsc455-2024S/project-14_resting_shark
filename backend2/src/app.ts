@@ -28,6 +28,10 @@ app.use("/protected", protectedRouter);
 app.use("/lesson", lessonsRouter);
 app.use("/user", usersRouter);
 
+app.get('/', (req, res) => {
+  res.send('Hello World!');
+});
+
 // server port
 const PORT: number = 3000;
 app.listen(PORT, async () => {
