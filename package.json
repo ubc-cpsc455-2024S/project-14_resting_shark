@@ -9,7 +9,8 @@
     "start-server": "cd backend && node dist/app.js",
     "install-client": "cd frontend && npm install",
     "build-client": "cd frontend && npm run build",
-    "start-client": "cd frontend && npm run start"
+    "start-client": "cd frontend && npm run start",
+    "postinstall": "cd backend node scripts/fix-express.js"
   },
   "keywords": [],
   "author": "",
