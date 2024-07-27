@@ -1,5 +1,7 @@
 # Group 14 - Mangoose
 
+![Status](https://github.com/ubc-cpsc455-2024S/project-14_resting_shark/actions/workflows/main.yml/badge.svg)
+
 ## Describe your topic/interest in about 150-200 words
 
 We are interested in creating a tool for students and learners who want to develop and/or reinforce their understanding and knowledge of various subjects. This web application will allow users to generate interactive lessons from images or PDFs (provided by the user) to support their education and studies through personalized and engaging learning experiences.
