@@ -2,7 +2,8 @@ import express, { Router, Request, Response } from 'express';
 import authMiddleware from '../middleware/authMiddleware';
 import lessonService from '../services/lessonService';
 import openAIService from '../services/openAIService';
-import fs from 'fs';
+import multer from 'multer';
+import pdfParse from 'pdf-parse';
 
 const router: Router = express.Router();
 
@@ -92,27 +93,27 @@ router.post('/api/chat', authMiddleware, async (req: Request, res: Response) => 
 });
 
 
-/*
-Handles the PDF conversion to a string for lesson creation.
-Request Body:
-  - prompt: The text input from the user for which a response is requested.
-*/
-// const upload = multer({ dest: "./uploads/" });
+/**
+ * Handles the PDF conversion to a string for lesson creation.
+ * Request Body:
+ *  - file: The PDF file to be converted.
+ */
+const upload = multer({ storage: multer.memoryStorage() }); // Store file in memory
 
-// router.post("/api/upload", upload.single("file"), async (req: Request, res: Response) => {
-//   try {
-//     const file = (req as any).file;
-//     if (!file) {
-//       res.status(400).json({ error: "No file uploaded" });
-//       return;
-//     }
+router.post("/api/upload", upload.single("file"), async (req: Request, res: Response) => {
+  try {
+    const file = req.file;
+    if (!file) {
+      res.status(400).json({ error: "No file uploaded" });
+      return;
+    }
 
-//     const dataBuffer = fs.readFileSync(file.path);
-//     const data = await pdfParse(dataBuffer);
-//     res.json({ text: data.text });
-//   } catch (error) {
-//     res.status(500).json({ error: "Failed to process PDF" });
-//   }
-// });
+    const dataBuffer = file.buffer; // Use file buffer from memory storage
+    const data = await pdfParse(dataBuffer);
+    res.json({ text: data.text });
+  } catch (error) {
+    res.status(500).json({ error: "Failed to process PDF" });
+  }
+});
 
 export { router as lessonsRouter };
