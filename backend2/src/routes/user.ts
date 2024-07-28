@@ -20,13 +20,27 @@ router.delete('/', authMiddleware, async (req: Request, res: Response) => {
 
 
 /*
-gets stats for a user. TODO: this is used for profile page, edit model to include all info needed to return full stats
+  for graph: given two iso date strings, will return all user information and the number of lessons completed for each day within the range in an array.
+  POST body:
+    - start: String -> an iso date string representing start date
+    - end: String -> an iso date string representing end date
+
+  returns:
+  {
+    ...userData,
+    completedLessonsByDay: [], // aray where each element is the number of lessons completed for each day in teh given range
+  }
 */
-router.get('/stats', authMiddleware, async (req: Request, res: Response) => {
+router.post('/stats', authMiddleware, async (req: Request, res: Response) => {
   try {
     const userId = req.user.id;
-    const stats = await userService.getUserStats(userId);
-    res.status(200).json(stats);
+    const { start, end } = req.body;
+    const user = await userService.getUser(userId);
+    const stats = await userService.getUserStats(userId, start, end)
+    res.status(200).json({
+      ...user,
+      ...stats,
+    });
   } catch (error: any) {
     res.status(error.code || 500).json({ message: error.message });
   }

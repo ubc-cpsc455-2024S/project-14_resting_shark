@@ -20,7 +20,7 @@ class UserService {
     }
   }
 
-  public async getUserStats(userId : string) {
+  public async getUser(userId : string) {
     try {
       const user = await User.findById(userId);
       if (!user) {
@@ -28,14 +28,17 @@ class UserService {
         error.code = 404;
         throw error; 
       }
-      return {
-        username: user?.username,
-        exp: user?.totalExp,
-      }
+      return user;
     } catch (error: any) {
       console.error('Error: ', error);
       throw new Error(error.message);
     }
+  }
+
+  // start and end are iso date strings
+  public async getUserStats(userId : string, start: string, end: string) {
+    
+    return {} //TODO
   }
 
 
