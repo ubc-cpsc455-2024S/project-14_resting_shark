@@ -29,7 +29,7 @@ router.delete('/', authMiddleware, async (req: Request, res: Response) => {
   returns:
   {
     ...userData,
-    completedLessonsByDay: [], // aray where each element is the number of lessons completed for each day in teh given range
+    completedLessonsByDay: [], //  an array of object with fields "date" and "count" representing number of lessons completed each day
   }
 */
 router.post('/stats', authMiddleware, async (req: Request, res: Response) => {

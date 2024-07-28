@@ -19,7 +19,7 @@ class LessonHistoryService {
     }
   }
 
-  // returns an array of integers representing number of lessons completed each day
+  // returns an array of object with fields "date" and "count" representing number of lessons completed each day
   // start and end are iso date strings
   public async getLessonsCompleted(userId: string, start: string, end: string) {
     const userObjId = new mongoose.Types.ObjectId(userId);
