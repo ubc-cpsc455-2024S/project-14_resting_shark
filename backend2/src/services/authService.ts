@@ -20,7 +20,15 @@ class AuthService {
 
       const hashedPassword = crypto.createHash('sha256').update(password).digest('hex');
 
-      await User.create({ name: name, email: email, username: username, password: hashedPassword });
+      await User.create({
+        name: name, 
+        email: email, 
+        username: username, 
+        password: hashedPassword,
+        dailyStreakCount: 0,
+        longestStreak: 0,
+        totalExp: 0,
+       });
       const foundUser = await User.findOne({ username });
       const token = this.getJwtToken(foundUser?._id, foundUser?.username);
 

@@ -28,6 +28,7 @@ export const handlers = [
   http.get(BASE_URL + "/user/stats", () => {
     return HttpResponse.json({
       username: "Mock User",
+      exp: 3400,
     });
   }),
 

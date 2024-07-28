@@ -30,6 +30,7 @@ class UserService {
       }
       return {
         username: user?.username,
+        exp: user?.totalExp,
       }
     } catch (error: any) {
       console.error('Error: ', error);
