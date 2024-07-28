@@ -23,22 +23,17 @@ class UserService {
   public async getUser(userId : string) {
     try {
       const user = await User.findById(userId);
+      const userObject = user?.toObject();
       if (!user) {
         const error: ErrorWithCode = new Error("User not found");
         error.code = 404;
         throw error; 
       }
-      return user;
+      return userObject;
     } catch (error: any) {
       console.error('Error: ', error);
       throw new Error(error.message);
     }
-  }
-
-  // start and end are iso date strings
-  public async getUserStats(userId : string, start: string, end: string) {
-    
-    return {} //TODO
   }
 
 

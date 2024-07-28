@@ -2,6 +2,7 @@ import express, { Router, Request, Response } from 'express';
 import authMiddleware from '../middleware/authMiddleware';
 import userService from '../services/userService';
 import ErrorWithCode from '../errors/ErrorWithCode';
+import lessonHistoryService from '../services/lessonHistoryService';
 
 const router: Router = express.Router();
 
@@ -20,7 +21,7 @@ router.delete('/', authMiddleware, async (req: Request, res: Response) => {
 
 
 /*
-  for graph: given two iso date strings, will return all user information and the number of lessons completed for each day within the range in an array.
+  given two iso date strings, will return all user information and the number of lessons completed for each day within the range in an array.
   POST body:
     - start: String -> an iso date string representing start date
     - end: String -> an iso date string representing end date
@@ -36,7 +37,7 @@ router.post('/stats', authMiddleware, async (req: Request, res: Response) => {
     const userId = req.user.id;
     const { start, end } = req.body;
     const user = await userService.getUser(userId);
-    const stats = await userService.getUserStats(userId, start, end)
+    const stats = await lessonHistoryService.getLessonsCompleted(userId, start, end);
     res.status(200).json({
       ...user,
       ...stats,
