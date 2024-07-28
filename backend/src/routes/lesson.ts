@@ -104,7 +104,7 @@ router.post("/api/upload", upload.single("file"), async (req: Request, res: Resp
   try {
     const file = req.file;
     if (!file) {
-      res.status(400).json({ error: "No file uploaded - test" });
+      res.status(400).json({ error: "No file uploaded" });
       return;
     }
 
