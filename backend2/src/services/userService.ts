@@ -20,18 +20,16 @@ class UserService {
     }
   }
 
-  public async getUserStats(userId : string) {
+  public async getUser(userId : string) {
     try {
       const user = await User.findById(userId);
+      const userObject = user?.toObject();
       if (!user) {
         const error: ErrorWithCode = new Error("User not found");
         error.code = 404;
         throw error; 
       }
-      return {
-        username: user?.username,
-        exp: user?.totalExp,
-      }
+      return userObject;
     } catch (error: any) {
       console.error('Error: ', error);
       throw new Error(error.message);
