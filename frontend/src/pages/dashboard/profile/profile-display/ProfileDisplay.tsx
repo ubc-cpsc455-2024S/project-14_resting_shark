@@ -11,6 +11,7 @@ import * as React from "react";
 export default function ProfileDisplay() {
   const token = useAppSelector((state) => state.auth.jwtToken);
   const [username, setUsername] = useState("");
+  const [exp, setExp] = useState(0);
   const navigate = useNavigate();
 
   const [isUserEditModalOpen, setUserEditModalOpen] = useState(false);
@@ -30,6 +31,7 @@ export default function ProfileDisplay() {
           email: profileData.email,
           profilePicture: profileData.profilePicture,
         });
+        setExp(profileData.exp);
       } catch (e: any) {
         console.error(e.message);
       }
@@ -50,11 +52,10 @@ export default function ProfileDisplay() {
   //  setUsername(updatedUserInfo.username);
   //};
 
-  const level = 4;
-  const exp = 52;
-
   const goose = "./images/goose.png";
   const hat = "./images/mango.png";
+  
+  const level = Math.floor(exp / 1000);
 
   function deleteAccount() {
     userApi.deleteUser(token);
@@ -81,7 +82,7 @@ export default function ProfileDisplay() {
               <FaStar /> {exp} XP
             </span>
           </div>
-          <ProgressBar percentage={30} />
+          <ProgressBar percentage={((exp % 1000) / 1000) * 100} />
         </div>
       </div>
 

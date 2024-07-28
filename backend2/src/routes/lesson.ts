@@ -2,10 +2,24 @@ import express, { Router, Request, Response } from 'express';
 import authMiddleware from '../middleware/authMiddleware';
 import lessonService from '../services/lessonService';
 import openAIService from '../services/openAIService';
+import LessonConfig from '../models/LessonConfig';
 import multer from 'multer';
 import pdfParse from 'pdf-parse';
 
 const router: Router = express.Router();
+
+/*
+get global lesson configurations
+*/
+router.get('/config', async (req: Request, res: Response) => {
+  try {
+    const configs = await LessonConfig.find();
+    console.log(configs)
+    res.status(200).json(configs[0]);
+  } catch (error: any) {
+    res.status(500).json("Could not fetch lesson config")
+  }
+});
 
 
 /*
@@ -69,7 +83,7 @@ router.get('/copy/:id', authMiddleware, async (req: Request, res: Response) => {
   } catch (error: any) {
     res.status(error.code || 500).json({ message: error.message });
   }
-})
+});
 
 
 /*
