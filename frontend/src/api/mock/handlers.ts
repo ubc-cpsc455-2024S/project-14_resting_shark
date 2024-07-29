@@ -403,7 +403,19 @@ export const handlers = [
     updated data
   }
 */
-http.patch('/user/profile', () => {
+  http.patch('/user/profile', () => {
 
-})
+  }),
+
+  // get the current user's pfp img paths + bgcolor
+  http.get('/user/profile', () => {
+    return HttpResponse.json({
+      "_id": "mock-pfp-id",
+      "bgColor": "#444444",
+      "baseImage": "./images/goose.png",
+      "accessory": "./images/mango.png",
+      "heldItem": "./images/knife.png",
+      "__v": 0
+  });
+  }),
 ];
