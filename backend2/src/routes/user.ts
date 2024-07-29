@@ -126,6 +126,18 @@ router.patch('/profile', authMiddleware, async (req: Request, res: Response) => 
   } catch (error: any) {
     res.status(error.code || 500).json({ message: error.message });
   }
+});
+
+
+// get the. current user's bg colour and pfp paths
+router.get('/profile', authMiddleware, async (req: Request, res: Response) => {
+  try {
+    const userId = req.user.id;
+    const config = await profileService.getProfile(userId);
+    res.status(200).json(config);
+  } catch (error: any) {
+    res.status(error.code || 500).json({ message: error.message });
+  }
 })
 
 export { router as usersRouter };

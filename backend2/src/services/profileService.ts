@@ -36,8 +36,29 @@ class ProfileService {
         return updatedProfile;
       }
     } catch (error: any) {
-      console.error('Error: ', error);
-      throw new Error(error.message);
+      console.error(error);
+      throw error;
+    }
+  }
+
+  public async getProfile(userId: string) {
+    try {
+      const user = await User.findById(userId);
+      if (!user?.profile) {
+        const error: ErrorWithCode = new Error("Current user has not set their profile picture yet");
+        error.code = 404;
+        throw error;
+      }
+
+      const profile = ProfilePicture.findById(user?.profile);
+      if (!profile) {
+        throw new Error("Error fetching profile picture");
+      } else {
+        return profile;
+      }
+    } catch (error: any) {
+      console.error(error);
+      throw error;
     }
   }
 
