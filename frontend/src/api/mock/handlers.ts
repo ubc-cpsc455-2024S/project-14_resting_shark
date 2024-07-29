@@ -338,5 +338,27 @@ export const handlers = [
       ],
       "__v": 0
   });
-  })
+  }),
+
+  // gets all original (not copies) lessons that do not belong to the current user
+  http.get("/lesson/all", () => {
+    return HttpResponse.json([
+      {
+        "_id": "66a4a945a453e0b6ebd50051",
+        "name": "Explore lesson 1"
+    },
+    {
+        "_id": "66a5601504e49048593d5820",
+        "name": "Explore lesson 2"
+    },
+    {
+        "_id": "66a562d404e49048593d582a",
+        "name": "Explore lesson 3"
+    },
+    {
+        "_id": "66a70758dabe31f8c14f51db",
+        "name": "Explore Lesson 4"
+    }
+    ]);
+  }),
 ];
