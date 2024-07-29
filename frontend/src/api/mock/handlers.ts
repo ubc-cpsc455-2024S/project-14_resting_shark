@@ -251,5 +251,92 @@ export const handlers = [
   */
   http.patch(BASE_URL + "/lesson/:id", () => {
     // empty
+  }),
+
+  // gets current lesson of the day
+  http.get(BASE_URL + "/lesson/lessonOfTheDay", () => {
+    return HttpResponse.json({
+      "_id": "fake_id",
+      "name": "Relational Databases",
+      "author": "669d7879973aa7e790841c4a",
+      "instanceOwner": "mock_user",
+      "lives": 3,
+      "streakCount": 0,
+      "pageProgress": -1,
+      "highScore": 0,
+      "currentScore": 0,
+      "content": [
+          {
+              "id": "ae4cc318-1a05-40c6-a964-6ea9e0662f7c",
+              "type": "intro",
+              "title": "Relational Databases",
+              "content": [
+                  "A relational database (RDB) is a database based on the relational model of data, as proposed by E. F. Codd in 1970.",
+                  "A database management system used to maintain relational databases is called a relational database management system (RDBMS).",
+                  "Many relational database systems are equipped with the option of using SQL (Structured Query Language) for querying and updating the database."
+              ],
+              "fact": "The term 'relational' in relational databases refers to how data is organized and accessed in the form of relations (tables)."
+          },
+          {
+              "id": "06e1d288-ee2f-4953-9924-ff973ce46f8f",
+              "type": "info",
+              "title": "History of Relational Databases",
+              "content": [
+                  "The concept of relational databases was defined by E. F. Codd at IBM in 1970.",
+                  "Codd introduced the term relational in his research paper 'A Relational Model of Data for Large Shared Data Banks.'",
+                  "Although Codd established 12 rules for relational databases, no commercial implementations conform to all of these rules."
+              ],
+              "fact": "The first system sold as an RDBMS was Multics Relational Data Store, released in June 1976."
+          },
+          {
+              "id": "b8490ca4-7e56-4dac-b6e6-bb9c73153405",
+              "type": "dnd",
+              "content": [
+                  "The relational database is based on the ",
+                  0,
+                  " model of data. The first RDBMS was ",
+                  1,
+                  ". By using ",
+                  2,
+                  ", users can query and manipulate the data."
+              ],
+              "draggable": {
+                  "relational": 0,
+                  "SQL": 2,
+                  "Multics Relational Data Store": 1,
+                  "NoSQL": -1,
+                  "XML": -1
+              }
+          },
+          {
+              "id": "29810a2a-56ec-446f-b5ab-d19f6c6ac3b9",
+              "type": "matching",
+              "terms": {
+                  "IBM Db2": 0,
+                  "Oracle": 1,
+                  "Ingres": 2,
+                  "SAP Sybase ASE": 3
+              },
+              "definitions": {
+                  "A widely used relational database management system developed in 1979 by Relational Software.": 1,
+                  "A database management system developed by IBM.": 0,
+                  "An RDBMS released in 1980 and known for its performance.": 2,
+                  "Another RDBMS used for enterprise applications, developed by Sybase.": 3
+              }
+          },
+          {
+              "id": "9d4a7363-1611-4e5e-9bfb-8f86b716b24f",
+              "type": "mc",
+              "question": "Who introduced the concept of the relational model for databases?",
+              "options": {
+                  "Alan Turing": false,
+                  "E. F. Codd": true,
+                  "Charles Babbage": false,
+                  "Bill Gates": false
+              }
+          }
+      ],
+      "__v": 0
+  });
   })
 ];

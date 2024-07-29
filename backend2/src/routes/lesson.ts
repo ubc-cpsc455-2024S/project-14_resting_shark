@@ -21,6 +21,16 @@ router.get('/config', async (req: Request, res: Response) => {
   }
 });
 
+// returns the current lesson of the day
+router.get('/lessonOfTheDay', async (req: Request, res: Response) => {
+  try {
+    const lesson = await lessonService.getLessonOfTheDay();
+    res.status(200).json(lesson);
+  } catch (error: any) {
+    res.status(error.code || 500).json({ message: error.message });
+  }
+});
+
 
 /*
 Gets summary of all lessons for a given user
