@@ -387,4 +387,23 @@ export const handlers = [
       ]
     });
   }),
+
+  /*
+ updates profile, but if user does not have a profile, creates one
+  POST body:
+  profile picture schema
+    {
+      profile : {
+        <fields>
+      }
+    }
+
+  returns:
+  {
+    updated data
+  }
+*/
+http.patch('/user/profile', () => {
+
+})
 ];
