@@ -50,6 +50,26 @@ class LessonService {
     }
   }
 
+    // updates a lesson
+    public async updateLesson(lessonId: string, lesson: any) {
+      console.log(`Updating lesson with id: ${lessonId}`);
+      console.log(`New lesson data: ${JSON.stringify(lesson)}`);
+
+      try {
+        const updatedLesson = await Lesson.findByIdAndUpdate(lessonId, lesson, { new: true });
+        if (!updatedLesson) {
+          const error: ErrorWithCode = new Error(`Lesson with id ${lessonId} not found`);
+          error.code = 404;
+          throw error;
+        }
+
+        return updatedLesson;
+      } catch (error: any) {
+        console.error(error);
+        throw error;
+      }
+    }
+
   // uses openai to generate, validate, parse, save, and return lesson
   public async generateLesson(userId: string, content: string) {
     try {
