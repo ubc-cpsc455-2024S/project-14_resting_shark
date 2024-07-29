@@ -23,13 +23,64 @@ export const handlers = [
     });
   }),
 
-  // TODO: not yet complete, need to add fields to user in order to return all stats needed
+
   // USER INTERCEPTORS ----------------------------------------------------------------------------------------------------------
-  http.get(BASE_URL + "/user/stats", () => {
+  http.post(BASE_URL + "/user/stats", () => {
     return HttpResponse.json({
-      username: "Mock User",
-      exp: 3400,
-    });
+      "_id": "mock-user",
+      "name": "mock-user",
+      "email": "mock-user@gmail.com",
+      "username": "mock-user",
+      "password": "sfkjldsfd",
+      "createdAt": "2024-07-21T18:02:37.715Z",
+      "updatedAt": "2024-07-21T18:02:37.715Z",
+      "__v": 0,
+      "totalExp": 38276,
+      "dailyStreakCount": 0,
+      "longestStreak": 0,
+      "completedLessonsByDay": [
+          {
+              "date": "2024-07-21",
+              "count": 0
+          },
+          {
+              "date": "2024-07-22",
+              "count": 0
+          },
+          {
+              "date": "2024-07-23",
+              "count": 0
+          },
+          {
+              "date": "2024-07-24",
+              "count": 0
+          },
+          {
+              "date": "2024-07-25",
+              "count": 0
+          },
+          {
+              "date": "2024-07-26",
+              "count": 0
+          },
+          {
+              "date": "2024-07-27",
+              "count": 1
+          },
+          {
+              "date": "2024-07-28",
+              "count": 0
+          },
+          {
+              "date": "2024-07-29",
+              "count": 3
+          },
+          {
+              "date": "2024-07-30",
+              "count": 0
+          }
+      ]
+  });
   }),
 
   http.delete(BASE_URL + "/user", () => {
