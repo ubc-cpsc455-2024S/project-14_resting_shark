@@ -7,12 +7,15 @@ class LessonHistoryService {
     const userObjId = new mongoose.Types.ObjectId(userId);
     const lessonObjId = new mongoose.Types.ObjectId(lessonId);
 
+    const record = {
+      userId: userObjId,
+      lessonId: lessonObjId,
+      timestamp: new Date(),
+    }
+
     try {
-      await LessonHistory.create({
-        userId: userObjId,
-        lessonId: lessonObjId,
-        timestamp: new Date()
-      });
+      await LessonHistory.create(record);
+      return record;
     } catch (error) {
       console.error("Error recording lesson history: ", error.message);
       throw error;
@@ -25,6 +28,8 @@ class LessonHistoryService {
     const userObjId = new mongoose.Types.ObjectId(userId);
     const startDate = new Date(start);
     const endDate = new Date(end);
+
+    const allDates = this.generateDateRange(startDate, endDate);
     
     try {
       const lessonsCompleted = await LessonHistory.aggregate([
@@ -53,10 +58,13 @@ class LessonHistoryService {
         }
       ]);
 
-      // Transform the result to an array of counts
-      const result = lessonsCompleted.map(entry => ({
-        date: entry._id,
-        count: entry.count
+      console.log("Lessons Completed: ", lessonsCompleted)
+
+
+      const lessonsMap = new Map<string, number>(lessonsCompleted.map((entry: any) => [entry._id, entry.count]));
+      const result: any[] = allDates.map(date => ({
+        date: date,
+        count: lessonsMap.get(date) || 0
       }));
 
       return {
@@ -67,6 +75,17 @@ class LessonHistoryService {
       throw error;
     }
   }
+
+  private generateDateRange(start: Date, end: Date){
+    const dates: string[] = [];
+      const current = new Date(start);
+      while (current <= end) {
+        dates.push(current.toISOString().split('T')[0]);
+        current.setDate(current.getDate() + 1);
+      }
+      console.log("Generated Dates: ", dates);
+      return dates;
+  };
 }
 
 export default new LessonHistoryService();
