@@ -52,6 +52,20 @@ router.get('/:id', authMiddleware, async (req: Request, res: Response) => {
   }
 });
 
+/*
+deletes a  lesson
+Reauest params:
+  - id: the id of the lesson
+*/
+router.delete('/:id', authMiddleware, async (req: Request, res: Response) => {
+  try {
+    const lessonId = req.params.id;
+    const lesson = await lessonService.deleteLesson(lessonId);
+    res.status(200).json(lesson);
+  } catch (error: any) {
+    res.status(500).json({ message: error.message });
+  }
+});
 
 /*
 generates a lesson using openai based on a given contents string, then returns the lesson.

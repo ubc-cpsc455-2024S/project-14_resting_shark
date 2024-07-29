@@ -34,7 +34,18 @@ class LessonService {
       const lesson = await Lesson.findById(lessonId);
       return lesson;
     } catch (error: any) {
-      console.error('Error:', error);
+      console.error(error);
+      throw error;
+    }
+  }
+
+  // deletes a lesson
+  public async deleteLesson(lessonId: string) {
+    try {
+      const lesson = await Lesson.findByIdAndDelete(lessonId);
+      return lesson;
+    } catch (error: any) {
+      console.error(error);
       throw error;
     }
   }

@@ -237,4 +237,8 @@ export const handlers = [
       reply: "This is a mock response from HelperAI.",
     });
   }),
+
+  http.delete(BASE_URL + "/lesson/:id", () => {
+    // empty
+  })
 ];
