@@ -17,7 +17,17 @@ router.get('/config', async (req: Request, res: Response) => {
     console.log(configs)
     res.status(200).json(configs[0]);
   } catch (error: any) {
-    res.status(500).json("Could not fetch lesson config")
+    res.status(error.code || 500).json({ message: error.message });
+  }
+});
+
+// returns the current lesson of the day
+router.get('/lessonOfTheDay', async (req: Request, res: Response) => {
+  try {
+    const lesson = await lessonService.getLessonOfTheDay();
+    res.status(200).json(lesson);
+  } catch (error: any) {
+    res.status(error.code || 500).json({ message: error.message });
   }
 });
 
@@ -32,7 +42,7 @@ router.get('/', authMiddleware, async (req: Request, res: Response) => {
     const lessons = await lessonService.getLessonsSummary(userId);
     res.status(200).json(lessons);
   } catch (error: any) {
-    res.status(500).json({ message: error.message });
+    res.status(error.code || 500).json({ message: error.message });
   }
 });
 
@@ -48,7 +58,7 @@ router.get('/:id', authMiddleware, async (req: Request, res: Response) => {
     const lesson = await lessonService.getLesson(lessonId);
     res.status(200).json(lesson);
   } catch (error: any) {
-    res.status(500).json({ message: error.message });
+    res.status(error.code || 500).json({ message: error.message });
   }
 });
 
@@ -63,7 +73,23 @@ router.delete('/:id', authMiddleware, async (req: Request, res: Response) => {
     const lesson = await lessonService.deleteLesson(lessonId);
     res.status(200).json(lesson);
   } catch (error: any) {
-    res.status(500).json({ message: error.message });
+    res.status(error.code || 500).json({ message: error.message });
+  }
+});
+
+/*
+updates an entire lesson, any fields provided will be updates. If a non existing field is provided, it will be silently ignored
+Reauest params:
+  - id: the id of the lesson
+*/
+router.patch('/:id', authMiddleware, async (req: Request, res: Response) => {
+  try {
+    const lessonId = req.params.id;
+    const { lesson } = req.body;
+    const updatedLesson = await lessonService.updateLesson(lessonId, lesson);
+    res.status(200).json(updatedLesson);
+  } catch (error: any) {
+    res.status(error.code || 500).json({ message: error.message });
   }
 });
 

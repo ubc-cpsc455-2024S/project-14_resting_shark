@@ -50,6 +50,42 @@ class LessonService {
     }
   }
 
+    // updates a lesson
+    public async updateLesson(lessonId: string, lesson: any) {
+      try {
+        const updatedLesson = await Lesson.findByIdAndUpdate(lessonId, lesson, { new: true });
+        if (!updatedLesson) {
+          const error: ErrorWithCode = new Error(`Lesson with id ${lessonId} not found`);
+          error.code = 404;
+          throw error;
+        }
+
+        return updatedLesson;
+      } catch (error: any) {
+        console.error(error);
+        throw error;
+      }
+    }
+
+    public async getLessonOfTheDay() {
+      try {
+        const SYSTEM_USER = process.env.SYSTEM_USERID as string
+        console.log(SYSTEM_USER)
+        const systemUserId = new mongoose.Types.ObjectId(SYSTEM_USER);
+        const lessons = await Lesson.find({ author: systemUserId }).sort({ date: 1 });
+        
+        const currentDate = new Date();
+        // Get the day of the week (0 = Sunday, 1 = Monday, ..., 6 = Saturday)
+        const dayOfWeekIndex = currentDate.getDay();
+        const lesson = lessons[dayOfWeekIndex];
+
+        return lesson;
+      } catch (error: any) {
+        console.error(error);
+        throw error;
+      }
+    }
+
   // uses openai to generate, validate, parse, save, and return lesson
   public async generateLesson(userId: string, content: string) {
     try {
