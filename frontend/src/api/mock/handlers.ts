@@ -25,6 +25,7 @@ export const handlers = [
 
 
   // USER INTERCEPTORS ----------------------------------------------------------------------------------------------------------
+  // given two iso date strings, will return all user information and the number of lessons completed for each day within the range in an array.
   http.post(BASE_URL + "/user/stats", () => {
     return HttpResponse.json({
       "_id": "mock-user",
@@ -85,6 +86,18 @@ export const handlers = [
 
   http.delete(BASE_URL + "/user", () => {
     // do nothing
+  }),
+
+  // LESSON HISTORY INTERCEPTORS:
+  // creates a record of the given user completing a lesson (call this whenever a user completes a lesson)
+  http.post(BASE_URL + "/lessonHistory/:id", () => {
+    const result = {
+      "userId": "mock",
+      "lessonId": "66a70bf3fc91dfc28e56b075",
+      "timestamp": "2024-07-29T03:26:43.839Z"
+    };
+
+    return HttpResponse.json(result);
   }),
 
   // LESSON INTERCEPTORS ----------------------------------------------------------------------------------------------------------
