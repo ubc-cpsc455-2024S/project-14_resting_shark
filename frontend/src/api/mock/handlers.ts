@@ -366,4 +366,25 @@ export const handlers = [
     }
     ]);
   }),
+
+  // PROFILE INTERCEPTORS
+  // get configs for profile
+  http.get(BASE_URL + 'user/profile/all', () => {
+    return HttpResponse.json({
+      "_id": "66a7446e4f2e540b8eab06e9",
+      "bgColors": [
+          "#FF0000",
+          "#008080"
+      ],
+      "baseImages": [
+          "./images/goose.png"
+      ],
+      "accessories": [
+          "./images/mango.png"
+      ],
+      "heldItems": [
+          ".images/knife.png"
+      ]
+    });
+  }),
 ];
