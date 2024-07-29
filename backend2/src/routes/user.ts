@@ -57,10 +57,39 @@ router.put('/', authMiddleware, async (req: Request, res: Response) => {
       return res.status(400).json({ message: "No update data provided" });
     }
 
-    const updatedUser = await userService.updateUser(userId, updateData);
+    const updatedUser = await userService.updateUserPersonalInfo(userId, updateData);
     res.status(200).json(updatedUser);
   } catch (error: any) {
     res.status(error.code || 500).json({ message: error.message });
   }
 });
+
+/*
+  given a user object, will update all non personal information fields (not username, return all user information and the number of lessons completed for each day within the range in an array.
+  POST body:
+    user object according to User Schema
+    {
+      user : {
+        <fields>
+      }
+    }
+
+  returns:
+  {
+    updated data
+  }
+
+
+*/
+router.patch('/', authMiddleware, async (req: Request, res: Response) => {
+  try {
+    const userId = req.user.id;
+    const { user } = req.body;
+    const updatedUser = await userService.updateUser(userId, user);
+    res.status(200).json(updatedUser);
+  } catch (error: any) {
+    res.status(error.code || 500).json({ message: error.message });
+  }
+})
+
 export { router as usersRouter };

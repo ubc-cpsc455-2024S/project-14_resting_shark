@@ -94,6 +94,14 @@ router.delete('/:id', authMiddleware, async (req: Request, res: Response) => {
 updates an entire lesson, any fields provided will be updates. If a non existing field is provided, it will be silently ignored
 Reauest params:
   - id: the id of the lesson
+
+Reuquest Body
+Lesson obj
+{
+  lesson : {
+    <your fields here>
+  }
+}
 */
 router.patch('/:id', authMiddleware, async (req: Request, res: Response) => {
   try {

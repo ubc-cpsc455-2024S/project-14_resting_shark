@@ -37,7 +37,7 @@ class UserService {
   }
 
 
-  public async updateUser(userId: string, updateData: Partial<{ username: string, password: string , email: string}>) {
+  public async updateUserPersonalInfo(userId: string, updateData: Partial<{ username: string, password: string , email: string}>) {
     try {
       if (updateData.username) {
         const existingUsername = await User.findOne({ username: updateData.username });
@@ -66,6 +66,24 @@ class UserService {
     } catch (error: any) {
       console.error('Error: ', error);
       throw new Error(error.message);
+    }
+  }
+
+  // update non personal information info
+  public async updateUser(id: string, user: any) {
+    const { _id, username, email, password, ...updateFields } = user;
+
+    try {
+      const updatedUser = await User.findByIdAndUpdate(id, updateFields, { new: true });
+      if (!updatedUser) {
+        const error: ErrorWithCode = new Error(`User with id ${id} not found`);
+        error.code = 404;
+        throw error;
+      }
+      return updatedUser;
+    } catch (error: any) {
+      console.error(error);
+      throw error;
     }
   }
 }
