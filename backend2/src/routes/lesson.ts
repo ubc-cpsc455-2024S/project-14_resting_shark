@@ -31,6 +31,19 @@ router.get('/lessonOfTheDay', async (req: Request, res: Response) => {
   }
 });
 
+/*
+gets all lesson summaries except for the current user
+*/
+router.get('/all', authMiddleware, async (req: Request, res: Response) => {
+  try {
+    const userId = req.user.id;
+    const lessons = await lessonService.getAllLessonSummary(userId);
+    res.status(200).json(lessons);
+  } catch (error: any) {
+    res.status(error.code || 500).json({ message: error.message });
+  }
+})
+
 
 /*
 Gets summary of all lessons for a given user

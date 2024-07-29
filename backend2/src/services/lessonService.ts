@@ -86,6 +86,25 @@ class LessonService {
       }
     }
 
+  // get all lessons except for current user
+  public async getAllLessonSummary(userId: string) {
+    const userObjectId = new mongoose.Types.ObjectId(userId);
+
+    try {
+      // we only get the "original" lessons and not copies to avoid dups
+      const lessons = await Lesson.find({
+        instanceOwner: { $ne: userObjectId }, // instanceOwner is not equal to userId
+        $expr: { $eq: ['$instanceOwner', '$author'] } // instanceOwner is equal to author
+      })
+      .select('_id name');
+
+      return lessons;
+    } catch (error: any) {
+      console.error('Error:', error);
+      throw error;
+    }
+  }
+
   // uses openai to generate, validate, parse, save, and return lesson
   public async generateLesson(userId: string, content: string) {
     try {

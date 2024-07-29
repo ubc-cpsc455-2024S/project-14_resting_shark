@@ -30,13 +30,13 @@ router.post("/login", async (req, res) => {
   try {
     const { username, password } = req.body;
 
-    // if (username === SYSTEM_USER) {
-    //   res.status(401).json({
-    //     status: 401,
-    //     message: "Cannot log in"
-    //   });
-    //   return;
-    // }
+    if (username === SYSTEM_USER) {
+      res.status(401).json({
+        status: 401,
+        message: "Cannot log in"
+      });
+      return;
+    }
 
     const token = await authService.loginUser(username, password);
 
