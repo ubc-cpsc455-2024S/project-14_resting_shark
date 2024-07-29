@@ -88,6 +88,11 @@ export const handlers = [
     // do nothing
   }),
 
+  // update user's non pesonal info
+  http.patch(BASE_URL + '/user', () => {
+    // do nothing
+  }),
+
   // LESSON HISTORY INTERCEPTORS:
   // creates a record of the given user completing a lesson (call this whenever a user completes a lesson)
   http.post(BASE_URL + "/lessonHistory/:id", () => {
