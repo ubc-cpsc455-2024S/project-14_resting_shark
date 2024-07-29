@@ -93,9 +93,35 @@ router.patch('/', authMiddleware, async (req: Request, res: Response) => {
 
 
 // gets all profile configs
-router.get('/profile/all', async (rea: Request, res: Response) => {
+router.get('/profile/all', async (req: Request, res: Response) => {
   try {
     const config = await profileService.getProfileConfigs();
+    res.status(200).json(config);
+  } catch (error: any) {
+    res.status(error.code || 500).json({ message: error.message });
+  }
+});
+
+/*
+ updates profile, but if user does not have a profile, creates one
+  POST body:
+  profile picture schema
+    {
+      profile : {
+        <fields>
+      }
+    }
+
+  returns:
+  {
+    updated data
+  }
+*/
+router.patch('/profile', authMiddleware, async (req: Request, res: Response) => {
+  try {
+    const userId = req.user.id;
+    const { profile } = req.body;
+    const config = await profileService.updateProfile(userId, profile);
     res.status(200).json(config);
   } catch (error: any) {
     res.status(error.code || 500).json({ message: error.message });
