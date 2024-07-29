@@ -11,7 +11,7 @@ import * as React from "react";
 export default function ProfileDisplay() {
   const token = useAppSelector((state) => state.auth.jwtToken);
   const [username, setUsername] = useState("");
-  const [exp, setExp] = useState(0);
+  const [totalExp, setTotalExp] = useState(0);
   const navigate = useNavigate();
 
   const [isUserEditModalOpen, setUserEditModalOpen] = useState(false);
@@ -21,17 +21,18 @@ export default function ProfileDisplay() {
     profilePicture: "",
   });
 
+  // TODO: move this to the outside component, since this api call will return both the user data and the graph data
   useEffect(() => {
     async function fetchData() {
       try {
-        const profileData = await userApi.getProfileData(token);
+        const profileData = await userApi.getProfileData(token, "fake start date", "fake end date");
         setUsername(profileData.username);
         setUser({
           username: profileData.username,
           email: profileData.email,
           profilePicture: profileData.profilePicture,
         });
-        setExp(profileData.exp);
+        setTotalExp(profileData.totalExp);
       } catch (e: any) {
         console.error(e.message);
       }
@@ -54,8 +55,8 @@ export default function ProfileDisplay() {
 
   const goose = "./images/goose.png";
   const hat = "./images/mango.png";
-  
-  const level = Math.floor(exp / 1000);
+
+  const level = Math.floor(totalExp / 1000);
 
   function deleteAccount() {
     userApi.deleteUser(token);
@@ -79,10 +80,10 @@ export default function ProfileDisplay() {
           <div className={s.expLevelContainer}>
             <span className={s.levelContainer}>Level {level}</span>
             <span className={s.expContainer}>
-              <FaStar /> {exp} XP
+              <FaStar /> {totalExp} XP
             </span>
           </div>
-          <ProgressBar percentage={((exp % 1000) / 1000) * 100} />
+          <ProgressBar percentage={((totalExp % 1000) / 1000) * 100} />
         </div>
       </div>
 

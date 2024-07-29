@@ -6,9 +6,13 @@ export const userApi = {
   updateUser,
 };
 
-// gets data on profile page
-async function getProfileData(token: string | undefined) {
-  const data = await requests.getRequest(token, "/user/stats");
+// gets data on profile page. takes a start date and end date, both of which are iso date strings in UTC
+async function getProfileData(token: string | undefined, start: string, end: string) {
+  const requestBody = {
+    start: start,
+    end: end,
+  }
+  const data = await requests.postRequest(token, "/user/stats", requestBody);
   return data;
 }
 
