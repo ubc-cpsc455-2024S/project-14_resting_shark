@@ -1,6 +1,7 @@
 import express, { Router, Request, Response } from 'express';
 import authMiddleware from '../middleware/authMiddleware';
 import userService from '../services/userService';
+import profileService from '../services/profileService';
 import ErrorWithCode from '../errors/ErrorWithCode';
 import lessonHistoryService from '../services/lessonHistoryService';
 
@@ -78,8 +79,6 @@ router.put('/', authMiddleware, async (req: Request, res: Response) => {
   {
     updated data
   }
-
-
 */
 router.patch('/', authMiddleware, async (req: Request, res: Response) => {
   try {
@@ -87,6 +86,17 @@ router.patch('/', authMiddleware, async (req: Request, res: Response) => {
     const { user } = req.body;
     const updatedUser = await userService.updateUser(userId, user);
     res.status(200).json(updatedUser);
+  } catch (error: any) {
+    res.status(error.code || 500).json({ message: error.message });
+  }
+});
+
+
+// gets all profile configs
+router.get('/profile/all', async (rea: Request, res: Response) => {
+  try {
+    const config = await profileService.getProfileConfigs();
+    res.status(200).json(config);
   } catch (error: any) {
     res.status(error.code || 500).json({ message: error.message });
   }

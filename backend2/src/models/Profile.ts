@@ -2,8 +2,11 @@ import mongoose from "mongoose";
 
 
 const ProfileSchema = new mongoose.Schema({
-  bgColor: Array,                      // hex codes
-  baseImage: Array,                    // image urls (ex canadian goose, the white goose, the cute brown one)
-  accessory: Array,                    // image urls
-  heldItem: Array,  
+  bgColors: Array,                      // hex codes
+  baseImages: Array,                    // image urls (ex canadian goose, the white goose, the cute brown one)
+  accessories: Array,                    // image urls
+  heldItems: Array,  
 });
+
+const Profile = mongoose.model("Profile", ProfileSchema);
+export default Profile;
