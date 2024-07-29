@@ -238,7 +238,18 @@ export const handlers = [
     });
   }),
 
+  // deletes a lesson
   http.delete(BASE_URL + "/lesson/:id", () => {
+    // empty
+  }),
+
+
+  /*
+  updates an entire lesson, any fields provided will be updates. If a non existing field is provided, it will be silently ignored
+  Reauest params:
+    - id: the id of the lesson
+  */
+  http.patch(BASE_URL + "/lesson/:id", () => {
     // empty
   })
 ];
