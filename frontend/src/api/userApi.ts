@@ -3,7 +3,7 @@ import { requests } from "./requestTemplate";
 export const userApi = {
   getProfileData,
   deleteUser,
-  updateUser,
+  updateUserPersonalInfo,
 };
 
 // gets data on profile page. takes a start date and end date, both of which are iso date strings in UTC
@@ -21,7 +21,8 @@ async function deleteUser(token: string | undefined) {
   await requests.deleteRequest(token, "/user");
 }
 
-async function updateUser(token: string | undefined, updateData: Partial<{ username: string; email: string; password: string }>) {
-  const data = await requests.putRequest(token, "/user", updateData);
+// updates either or all the username, password or email fields for a given user
+async function updateUserPersonalInfo(token: string | undefined, updateData: Partial<{ username: string; email: string; password: string }>) {
+  const data = await requests.patchRequest(token, "/user/profileinfo", updateData);
   return data;
 }

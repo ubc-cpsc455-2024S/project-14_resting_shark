@@ -49,14 +49,15 @@ router.post('/stats', authMiddleware, async (req: Request, res: Response) => {
 });
 
 
-router.put('/', authMiddleware, async (req: Request, res: Response) => {
+/*
+  updates user's profile information, strictly only the personal info including their username, email, and password.
+  PATCH request to /api/user/
+*/
+
+router.patch('/profileinfo', authMiddleware, async (req: Request, res: Response) => {
   try {
     const userId = req.user.id;
     const updateData = req.body;
-
-    if (!updateData.username && !updateData.email && !updateData.password) {
-      return res.status(400).json({ message: "No update data provided" });
-    }
 
     const updatedUser = await userService.updateUserPersonalInfo(userId, updateData);
     res.status(200).json(updatedUser);

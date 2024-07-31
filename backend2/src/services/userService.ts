@@ -36,9 +36,12 @@ class UserService {
     }
   }
 
-
+  // update user's personal information (username, email, and password)
   public async updateUserPersonalInfo(userId: string, updateData: Partial<{ username: string, password: string , email: string}>) {
     try {
+      if (!updateData.username && !updateData.email && !updateData.password) {
+        throw { code: 400, message: "No update data provided" };
+      }
       if (updateData.username) {
         const existingUsername = await User.findOne({ username: updateData.username });
         if (existingUsername && existingUsername._id.toString() !== userId) {

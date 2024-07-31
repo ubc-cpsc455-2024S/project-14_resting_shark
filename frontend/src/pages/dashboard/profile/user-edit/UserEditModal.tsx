@@ -56,7 +56,7 @@ const UserEditModal: React.FC<UserEditModalProps> = ({
       if (formData.email) updatedData.email = formData.email;
       if (formData.password) updatedData.password = formData.password;
 
-      await userApi.updateUser(token, updatedData);
+      await userApi.updateUserPersonalInfo(token, updatedData);
 
       setUnsavedChanges(false);
       onClose();
