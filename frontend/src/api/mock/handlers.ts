@@ -88,6 +88,13 @@ export const handlers = [
     // do nothing
   }),
 
+  // update user's personal info
+  http.patch(BASE_URL + "/info", () => {
+    // do nothing
+  }),
+
+  
+
   // update user's non pesonal info
   http.patch(BASE_URL + '/user', () => {
     // do nothing

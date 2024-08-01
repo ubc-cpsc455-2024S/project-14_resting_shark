@@ -1,4 +1,5 @@
 import User from "../models/User";
+import crypto from 'crypto';
 import ErrorWithCode from "../errors/ErrorWithCode";
 
 class UserService {
@@ -54,6 +55,9 @@ class UserService {
         if (existingEmail && existingEmail._id.toString() !== userId) {
           throw new Error("Email already associated with a different account.");
         }
+      }
+      if (updateData.password) {
+        updateData.password = crypto.createHash('sha256').update(updateData.password).digest('hex');
       }
 
       // Update the user

@@ -23,6 +23,6 @@ async function deleteUser(token: string | undefined) {
 
 // updates either or all the username, password or email fields for a given user
 async function updateUserPersonalInfo(token: string | undefined, updateData: Partial<{ username: string; email: string; password: string }>) {
-  const data = await requests.patchRequest(token, "/user/profileinfo", updateData);
+  const data = await requests.patchRequest(token, "/user/info", updateData);
   return data;
 }
