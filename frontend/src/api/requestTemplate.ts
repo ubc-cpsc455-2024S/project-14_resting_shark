@@ -4,6 +4,7 @@ export const requests = {
   getRequest,
   postRequest,
   putRequest,
+  patchRequest,
   deleteRequest,
 }
 
@@ -96,6 +97,37 @@ async function putRequest(token?: string, url?: string, body?: any) {
     return data;
   } else {
     throw new Error(data.message + ": " + data.details + " at PUT " + url); // for debugging
+    // throw new Error(data.details); // for production
+  }
+}
+
+// performs a patch request to the given url with the given jwt token. Throws an error on faliure
+async function patchRequest(token?: string, url?: string, body?: any) {
+  // req headers
+  const headers = {
+    'Authorization': `Bearer ${token}`,
+    'Content-Type' : 'application/json'
+  };
+  let response;
+  let data;
+
+  // try to call backend
+  try {
+    response = await fetch(BASE_URL + url, {
+      method: 'PATCH',
+      headers: headers,
+      body: JSON.stringify(body),
+    });
+    data = await response.json();
+  } catch (e) {
+    throw new Error(e + " for PATCH " + url)
+  }
+  
+  // if nothing went wrong, return data
+  if (response.ok) {
+    return data;
+  } else {
+    throw new Error(data.message + ": " + data.details + " at PATCH " + url); // for debugging
     // throw new Error(data.details); // for production
   }
 }
