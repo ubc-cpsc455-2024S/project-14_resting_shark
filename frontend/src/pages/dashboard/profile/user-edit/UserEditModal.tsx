@@ -25,6 +25,9 @@ const UserEditModal: React.FC<UserEditModalProps> = ({
     profilePicture: user.profilePicture,
   });
   const [unsavedChanges, setUnsavedChanges] = useState(false);
+  const [usernameErrorMessage, setUsernameErrorMessage] = useState<string | null>(null);
+  const [emailErrorMessage, setEmailErrorMessage] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const token = useAppSelector((state) => state.auth.jwtToken);
   const navigate = useNavigate();
@@ -37,12 +40,20 @@ const UserEditModal: React.FC<UserEditModalProps> = ({
         password: "",
         profilePicture: user.profilePicture,
       });
+      setUsernameErrorMessage(null);
+      setEmailErrorMessage(null);
+      setSuccessMessage(null);
     }
   }, [isOpen, user]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
     setUnsavedChanges(true);
+    if (e.target.name === "username") {
+      setUsernameErrorMessage(null);
+    } else if (e.target.name === "email") {
+      setEmailErrorMessage(null);
+    }
   };
 
   const handleSave = async () => {
@@ -59,9 +70,18 @@ const UserEditModal: React.FC<UserEditModalProps> = ({
       await userApi.updateUserPersonalInfo(token, updatedData);
 
       setUnsavedChanges(false);
-      onClose();
-    } catch (error) {
+      setSuccessMessage("Profile updated successfully!");
+      setTimeout(() => {
+        onClose();
+      }, 1800);
+    } catch (error: any) {
       console.error("Failed to update user:", error);
+      if (error.message.includes("Username")) {
+        setUsernameErrorMessage("Did not update profile information: " + error.message.split(':')[0]);
+      } else if (error.message.includes("Email")) {
+        setEmailErrorMessage("Did not update profile information: " + error.message.split(':')[0]);
+       }
+      setSuccessMessage(null);
     }
   };
 
@@ -113,6 +133,7 @@ const UserEditModal: React.FC<UserEditModalProps> = ({
         </div>
         {activeTab === "userInfo" && (
           <div>
+            <div className={s.inputContainer}>
             <label>Username</label>
             <input
               type="text"
@@ -121,6 +142,8 @@ const UserEditModal: React.FC<UserEditModalProps> = ({
               onChange={handleChange}
               className={s.inputField}
             />
+            {usernameErrorMessage && <p className={s.errorMessage}>{usernameErrorMessage}</p>}
+
             <label>Email</label>
             <input
               type="email"
@@ -129,6 +152,8 @@ const UserEditModal: React.FC<UserEditModalProps> = ({
               onChange={handleChange}
               className={s.inputField}
             />
+            {emailErrorMessage && <p className={s.errorMessage}>{emailErrorMessage}</p>}
+
             <label>Password</label>
             <input
               type="password"
@@ -137,6 +162,9 @@ const UserEditModal: React.FC<UserEditModalProps> = ({
               onChange={handleChange}
               className={s.inputField}
             />
+            </div>
+            {successMessage && <p className={s.successMessage}>{successMessage}</p>}
+
             <div className={s.btnGroup}>
               <button className={s.button} onClick={handleSave}>
                 Save

@@ -17,10 +17,11 @@
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
     padding: 2%;
     width: 60%;
-    height: 60%;
+    height: 70%;
     margin-top: 7%;
     z-index: 13;
     position: relative;
+    margin: auto;
   }
 
   .header {
@@ -69,9 +70,9 @@
   .btnGroup {
     display: flex;
     justify-content: space-between;
+    margin-top: 20px;
   }
   
-  /* Buttons */
   .button {
     color: white;
     border: none;
@@ -106,13 +107,37 @@
   }
   
   .inputField {
-    width: 100%;
-    padding: 10px;
-    margin: 10px 0;
+    width: 95%;
+    padding: 8px;
+    margin: 8px 0;
     background-color: white;
     border: 1px solid #202225;
     color: black;
     border-radius: 5px;
     margin-bottom: 2%;
+    font-family: "Fira Sans", sans-serif;
+    font-size: 0.9rem;
   }
   
+  .successMessage {
+    color: green;
+    font-weight: bold;
+    font-family: "Fira Sans", sans-serif;
+    margin-top: 10px;
+    padding: 10px;
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    border-radius: 5px;
+  }
+  
+  .errorMessage {
+    color: red;
+    font-weight: bold;
+    padding: 2px;
+    font-family: "Fira Sans", sans-serif;
+    font-size: 0.9rem;
+  }
+
+  .inputContainer {
+    margin-bottom: 10px;
+  }
