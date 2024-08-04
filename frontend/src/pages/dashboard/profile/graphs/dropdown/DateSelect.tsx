@@ -41,13 +41,76 @@ function useMenuAnimation(isOpen: boolean) {
   return scope;
 }
 
+function getDateRange(period: string) {
+  const currentDate = new Date();
+  const options: Intl.DateTimeFormatOptions = { month: "long", day: "numeric" };
+
+  let startDate = new Date(currentDate);
+
+  switch (period) {
+    case "This week":
+      startDate.setDate(currentDate.getDate() - currentDate.getDay());
+      break;
+    case "Last week":
+      const lastWeekStart = new Date(currentDate);
+      lastWeekStart.setDate(currentDate.getDate() - currentDate.getDay() - 7);
+      const lastWeekEnd = new Date(lastWeekStart);
+      lastWeekEnd.setDate(lastWeekStart.getDate() + 6);
+      return {
+        startDate: lastWeekStart.toLocaleDateString("en-US", options),
+        endDate: lastWeekEnd.toLocaleDateString("en-US", options),
+      };
+    case "Last last week":
+      const lastLastWeekStart = new Date(currentDate);
+      lastLastWeekStart.setDate(
+        currentDate.getDate() - currentDate.getDay() - 14
+      );
+      const lastLastWeekEnd = new Date(lastLastWeekStart);
+      lastLastWeekEnd.setDate(lastLastWeekStart.getDate() + 6);
+      return {
+        startDate: lastLastWeekStart.toLocaleDateString("en-US", options),
+        endDate: lastLastWeekEnd.toLocaleDateString("en-US", options),
+      };
+    default:
+      throw new Error(
+        "Invalid period specified. Use 'This week', 'Last week', or 'Last last week'"
+      );
+  }
+
+  const endDate = new Date(startDate);
+  endDate.setDate(startDate.getDate() + 6);
+
+  return {
+    startDate: startDate.toLocaleDateString("en-US", options),
+    endDate: endDate.toLocaleDateString("en-US", options),
+  };
+}
+
 export default function DateSelect(props: {
   interval: string;
   setInterval: React.Dispatch<React.SetStateAction<string>>;
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const scope = useMenuAnimation(isOpen);
-  const [selection, setSelection] = useState(0);
+  // selection is the current week that's being display
+  const [selection, setSelection] = useState("This week");
+
+  const thisWeekRange = getDateRange("This week");
+  const lastWeekRange = getDateRange("Last week");
+  const lastlastWeekRange = getDateRange("Last last week");
+
+  function getDisplay(selection: string) {
+    switch (selection) {
+      case "This week":
+        return thisWeekRange;
+      case "Last week":
+        return lastWeekRange;
+      case "Last last week":
+        return lastlastWeekRange;
+      default:
+        return thisWeekRange;
+    }
+  }
 
   return (
     <nav className={s.menu} ref={scope}>
@@ -58,7 +121,7 @@ export default function DateSelect(props: {
       >
         <div className={s.placeholder}>
           <LuCalendarClock size={16} />
-          {props.interval}
+          {getDisplay(selection).startDate} - {getDisplay(selection).endDate}
         </div>
         <div
           className={`${s.arrow} arrow`}
@@ -74,9 +137,30 @@ export default function DateSelect(props: {
         }}
         className={s.dropdown}
       >
-        <li>This week</li>
-        <li>Last week</li>
-        <li>This year</li>
+        <li
+          onClick={() => {
+            setSelection("This week");
+            setIsOpen(false);
+          }}
+        >
+          {thisWeekRange.startDate} - {thisWeekRange.endDate}
+        </li>
+        <li
+          onClick={() => {
+            setSelection("Last week");
+            setIsOpen(false);
+          }}
+        >
+          {lastWeekRange.startDate} - {lastWeekRange.endDate}
+        </li>
+        <li
+          onClick={() => {
+            setSelection("Last last week");
+            setIsOpen(false);
+          }}
+        >
+          {lastlastWeekRange.startDate} - {lastlastWeekRange.endDate}
+        </li>
       </ul>{" "}
     </nav>
   );
