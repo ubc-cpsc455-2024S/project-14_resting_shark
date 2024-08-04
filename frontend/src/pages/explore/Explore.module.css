@@ -1,0 +1,18 @@
+.container {
+  width: 100%;
+  margin-left: 1.8vw;
+  margin-right: 1.8vw;
+  margin-top: 1.3vh;
+  margin-bottom: 1.3vh;
+}
+
+.container h1 {
+  font-size: 1.59rem;
+  font-weight: 600;
+}
+
+.lessonsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1vw;
+}

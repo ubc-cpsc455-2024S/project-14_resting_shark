@@ -10,10 +10,10 @@ async function enableMocking() {
     return;
   }
 
-  // const { worker } = await import("./api/mock/browser.ts");
+  const { worker } = await import("./api/mock/browser.ts");
 
   // comment out this line to shut down mock server
-  // return worker.start();
+  //  return worker.start();
 }
 
 enableMocking().then(() => {

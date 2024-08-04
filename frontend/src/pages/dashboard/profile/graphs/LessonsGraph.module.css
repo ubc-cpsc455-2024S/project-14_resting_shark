@@ -2,9 +2,9 @@
   background-color: white;
   box-shadow: 0 5px 30px 5px rgba(40, 8, 167, 0.03);
   border-radius: 20px;
-  margin-top: 1vh;
   padding: 1em;
   padding-left: 1.9em;
+  width: 70%;
 }
 
 .container h1 {

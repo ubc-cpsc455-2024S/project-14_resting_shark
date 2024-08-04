@@ -5,6 +5,7 @@ import Home from "./home/Home";
 import Navbar from "./navbar/Navbar";
 import Profile from "./profile/Profile";
 import * as React from "react";
+import Explore from "../explore/Explore";
 
 export default function Dashboard() {
   const [page, setPage] = useState(<Home />);
@@ -17,11 +18,19 @@ export default function Dashboard() {
     setPage(<Home />);
   };
 
+  const setPageExplore = () => {
+    setPage(<Explore />);
+  };
+
   return (
     <>
       <div className={s.mainPage}>
         <div className={s.navbarContainer}>
-          <Navbar setPageProfile={setPageProfile} setPageHome={setPageHome} />
+          <Navbar
+            setPageExplore={setPageExplore}
+            setPageProfile={setPageProfile}
+            setPageHome={setPageHome}
+          />
         </div>
         {page}
       </div>

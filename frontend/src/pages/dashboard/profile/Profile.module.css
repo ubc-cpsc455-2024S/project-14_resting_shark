@@ -5,13 +5,15 @@
   margin-top: 1.3vh;
   margin-bottom: 1.3vh;
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+  flex-direction: column;
   gap: 2vw;
 }
 
-.statsContainer {
-  width: 70%;
+.body {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  gap: 1.8vw;
 }
 
 .header {
