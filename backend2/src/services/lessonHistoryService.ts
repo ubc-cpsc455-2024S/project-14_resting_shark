@@ -14,8 +14,8 @@ class LessonHistoryService {
     }
 
     try {
-      await LessonHistory.create(record);
-      return record;
+      const newRecord = await LessonHistory.create(record);
+      return newRecord;
     } catch (error) {
       console.error("Error recording lesson history: ", error.message);
       throw error;
