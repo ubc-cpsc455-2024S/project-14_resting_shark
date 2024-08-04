@@ -37,7 +37,7 @@ export default function Lesson(props: { lesson: any; isFirst: boolean }) {
         <div className={s.bottomContainer}>
           <span className={s.name}>{props.lesson.name}</span>
           <span className={s.totalQuestions}>
-            {props.lesson.totalQuestions} questions
+            {props.lesson.totalPages} questions
           </span>
           <ProgressBar
             percentage={
