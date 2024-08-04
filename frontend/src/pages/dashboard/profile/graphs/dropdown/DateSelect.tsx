@@ -89,11 +89,12 @@ function getDateRange(period: string) {
 export default function DateSelect(props: {
   interval: string;
   setInterval: React.Dispatch<React.SetStateAction<string>>;
+  selection: string;
+  setSelection: React.Dispatch<React.SetStateAction<string>>;
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const scope = useMenuAnimation(isOpen);
   // selection is the current week that's being display
-  const [selection, setSelection] = useState("This week");
 
   const thisWeekRange = getDateRange("This week");
   const lastWeekRange = getDateRange("Last week");
@@ -121,7 +122,7 @@ export default function DateSelect(props: {
       >
         <div className={s.placeholder}>
           <LuCalendarClock size={16} />
-          {getDisplay(selection).startDate} - {getDisplay(selection).endDate}
+          {getDisplay(props.selection).startDate} - {getDisplay(props.selection).endDate}
         </div>
         <div
           className={`${s.arrow} arrow`}
@@ -139,7 +140,7 @@ export default function DateSelect(props: {
       >
         <li
           onClick={() => {
-            setSelection("This week");
+            props.setSelection("This week");
             setIsOpen(false);
           }}
         >
@@ -147,7 +148,7 @@ export default function DateSelect(props: {
         </li>
         <li
           onClick={() => {
-            setSelection("Last week");
+            props.setSelection("Last week");
             setIsOpen(false);
           }}
         >
@@ -155,7 +156,7 @@ export default function DateSelect(props: {
         </li>
         <li
           onClick={() => {
-            setSelection("Last last week");
+            props.setSelection("Last last week");
             setIsOpen(false);
           }}
         >

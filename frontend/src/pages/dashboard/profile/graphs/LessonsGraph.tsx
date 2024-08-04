@@ -13,7 +13,9 @@ export default function LessonsGraph() {
     height: 300,
     grid: { horizontal: true },
   };
+  const [selection, setSelection] = useState("This week");
   const [lessonData, setLessonData] = useState([0, 0, 0, 0, 0, 0, 0]);
+  const [interval, setInterval] = useState("");
   const [statData, setStatData] = useState([
     { num: 0, label: "Min. Complete", change: -1 },
     { num: 0, label: "Avg. Complete", change: 0 },
@@ -21,14 +23,11 @@ export default function LessonsGraph() {
   ]);
   const weekData = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
 
-  const [interval, setInterval] = useState("");
-
   // get lesson activity (lesson Data) and set states
   useEffect(() => {
     async function fetchData() {
       try {
-        // TODOL "This week" is hardcoded
-        const dateRange = getDateRange("This week");
+        const dateRange = getDateRange(selection);
         const profileData = await userApi.getProfileData(token, dateRange.startDate.toISOString(), dateRange.endDate.toISOString());
         const activityArray = profileData.completedLessonsByDay.map((item: any) => item.count);
         setLessonData(activityArray);
@@ -47,31 +46,32 @@ export default function LessonsGraph() {
       }
     }
     fetchData();
-  }, [token]);
+  }, [token, selection]);
 
   function getDateRange(period: string) {
-    const currentDate = new Date();
+    let currentDate = new Date();
     let startDate = new Date();
+    let endDate = new Date();
   
     switch (period) {
       case 'This week':
         startDate.setDate(currentDate.getDate() - 6);
         break;
       case 'Last week':
-        currentDate.setDate(currentDate.getDate() - 7);
         startDate.setDate(currentDate.getDate() - 13);
+        endDate.setDate(currentDate.getDate() - 7);
         break;
       case 'Last last week':
-          currentDate.setDate(currentDate.getDate() - 13);
-          startDate.setDate(currentDate.getDate() - 29);
+          startDate.setDate(currentDate.getDate() - 19);
+          endDate.setDate(currentDate.getDate() - 13);
         break;
       default:
-        throw new Error("Invalid period specified. Use 'This week' or 'Last week'");
+        throw new Error("Invalid period specified. Use 'This week' or 'Last week' or 'Last last week'");
     }
   
     return {
       startDate: startDate,
-      endDate: currentDate,
+      endDate: endDate,
     };
   }
 
@@ -79,7 +79,7 @@ export default function LessonsGraph() {
     <div className={s.container}>
       <div className={s.header}>
         <h1>Lessons Completed</h1>
-        <DateSelect interval={interval} setInterval={setInterval} />
+        <DateSelect interval={interval} setInterval={setInterval} selection={selection} setSelection={setSelection} />
       </div>
       <div className={s.statDisplayContainer}>
         {statData.map((item) => (
