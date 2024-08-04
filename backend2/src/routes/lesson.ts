@@ -80,8 +80,9 @@ Reauest params:
 */
 router.delete("/:id", authMiddleware, async (req: Request, res: Response) => {
   try {
+    const userId = req.user.id;
     const lessonId = req.params.id;
-    const lesson = await lessonService.deleteLesson(lessonId);
+    const lesson = await lessonService.deleteLesson(userId, lessonId);
     res.status(200).json(lesson);
   } catch (error: any) {
     res.status(error.code || 500).json({ message: error.message });
@@ -103,9 +104,10 @@ Lesson obj
 */
 router.patch("/:id", authMiddleware, async (req: Request, res: Response) => {
   try {
+    const userId = req.user.id;
     const lessonId = req.params.id;
     const { lesson } = req.body;
-    const updatedLesson = await lessonService.updateLesson(lessonId, lesson);
+    const updatedLesson = await lessonService.updateLesson(userId, lessonId, lesson);
     res.status(200).json(updatedLesson);
   } catch (error: any) {
     res.status(error.code || 500).json({ message: error.message });

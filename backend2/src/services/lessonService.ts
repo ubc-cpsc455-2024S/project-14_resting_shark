@@ -39,8 +39,9 @@ class LessonService {
   }
 
   // deletes a lesson
-  public async deleteLesson(lessonId: string) {
+  public async deleteLesson(userId: string, lessonId: string) {
     try {
+      await this.checkPermission(userId, lessonId);
       const lesson = await Lesson.findByIdAndDelete(lessonId);
       return lesson;
     } catch (error: any) {
@@ -50,8 +51,9 @@ class LessonService {
   }
 
   // updates a lesson
-  public async updateLesson(lessonId: string, lesson: any) {
+  public async updateLesson(userId: string, lessonId: string, lesson: any) {
     try {
+      await this.checkPermission(userId, lessonId);
       const updatedLesson = await Lesson.findByIdAndUpdate(lessonId, lesson, {
         new: true,
       });
@@ -67,6 +69,24 @@ class LessonService {
     } catch (error: any) {
       console.error(error);
       throw error;
+    }
+  }
+
+  // checks if the lesson belongs to the user, throws error if not
+  private async checkPermission(userId: string, lessonId: string) {
+    const lesson = await Lesson.findById(lessonId);
+
+    if (!lesson) {
+      const error: ErrorWithCode = new Error();
+      error.code = 404;
+      error.message = "Lesson not found.";
+      throw error;
+    }
+
+    if (lesson.instanceOwner.toString() !== userId) {
+      const error: ErrorWithCode = new Error();
+      error.code = 401;
+      error.message = "You cannot modify this lesson as you do not own this lesson.";
     }
   }
 
