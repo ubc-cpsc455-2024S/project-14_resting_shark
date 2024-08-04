@@ -39,7 +39,7 @@ export default function ExploreLesson(props: { name: string; id: string }) {
         <span className={s.name}>{props.name}</span>
         <span className={s.totalQuestions}>12 questions</span>
         <button onClick={onLessonClick} className={s.continueToLearnButton}>
-          {isLoading ? <div className="loader"></div> : "Start lesson"}
+          {isLoading ? <div className="loader"></div> : "Make a copy"}
         </button>
       </div>
     </div>
