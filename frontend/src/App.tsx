@@ -11,6 +11,7 @@ import ProtectedRoute from "./pages/Auth/ProtectedRoute";
 import BackgroundUpdater from "./context/BackgroundUpdater";
 import LandingPage from "./pages/landingPage/LandingPage";
 import * as React from "react";
+import FinishedLesson from "./pages/FinishedLesson/FinishedLesson";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="register" element={<RegisterLogin />} />
           <Route path="/" element={<LandingPage />} />
           <Route path="*" element={<PageNotFound />} />
+          <Route path="/finished" element={<FinishedLesson />} />
           <Route path="/test" element={<Test />} />
 
           <Route element={<ProtectedRoute />}>

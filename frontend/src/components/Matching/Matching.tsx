@@ -89,11 +89,12 @@ export default function MatchingQuestion(props: {
 
       if (allCorrect) {
         setBannerText("Perfect!");
+        props.updateStreak(true);
         props.setButtonText("Next");
       } else {
-        setBannerText("So Close.");
         props.updateLives(true);
         props.updateStreak(false);
+        setBannerText("So Close.");
       }
 
       setCanProgress(allCorrect);
