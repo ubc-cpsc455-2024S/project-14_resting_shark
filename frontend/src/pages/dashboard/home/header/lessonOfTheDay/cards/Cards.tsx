@@ -7,6 +7,7 @@ import * as React from "react";
 interface CustomComponentProps {
   style?: React.CSSProperties;
   name: string;
+  id: string;
 }
 
 const topStyle = {
@@ -22,7 +23,7 @@ const botStyle = {
 };
 
 export default function Cards() {
-  const [lesson, setLesson] = useState({name: ""});
+  const [lesson, setLesson] = useState({name: "", _id: ""});
 
   // get the lesson name of lesson of the day
   useEffect(() => {
@@ -39,16 +40,16 @@ export default function Cards() {
 
   return (
     <div className={s.container}>
-      <Card style={botStyle} name={lesson.name} />
-      <Card style={topStyle} name={lesson.name} />
+      <Card style={botStyle} name={lesson.name} id={lesson._id} />
+      <Card style={topStyle} name={lesson.name} id={lesson._id} />
     </div>
   );
 }
 
-const Card: React.FC<CustomComponentProps> = ({ style, name }) => {
+const Card: React.FC<CustomComponentProps> = ({ style, name, id }) => {
   return (
     <div className={s.cardContainer} style={style}>
-      <ExploreLesson name={name} />
+      <ExploreLesson name={name} id={id} />
     </div>
   );
 };

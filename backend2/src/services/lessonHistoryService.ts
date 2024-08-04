@@ -6,6 +6,8 @@ class LessonHistoryService {
   public async record(userId: string, lessonId: string) {
     const userObjId = new mongoose.Types.ObjectId(userId);
     const lessonObjId = new mongoose.Types.ObjectId(lessonId);
+    console.log(lessonId)
+    console.log(lessonObjId)
 
     const record = {
       userId: userObjId,
@@ -13,9 +15,12 @@ class LessonHistoryService {
       timestamp: new Date(),
     }
 
+    console.log("record:")
+    console.log(record)
+
     try {
-      await LessonHistory.create(record);
-      return record;
+      const newRecord = await LessonHistory.create(record);
+      return newRecord;
     } catch (error) {
       console.error("Error recording lesson history: ", error.message);
       throw error;

@@ -21,7 +21,8 @@ export default function LessonsGraph() {
     { num: 0, label: "Avg. Complete", change: 0 },
     { num: 0, label: "Max. Complete", change: 1 },
   ]);
-  const weekData = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
+  const defaultWeekDays = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
+  const [weekData, setWeekData] = useState(defaultWeekDays);
 
   // get lesson activity (lesson Data) and set states
   useEffect(() => {
@@ -41,6 +42,11 @@ export default function LessonsGraph() {
         const startDateDisplayString = Intl.DateTimeFormat('en-US', {month: "long", day: "numeric"}).format(dateRange.startDate);
         const endDateDisplayString = Intl.DateTimeFormat('en-US', {month: "long", day: "numeric"}).format(dateRange.endDate);
         setInterval(startDateDisplayString + " - " + endDateDisplayString);
+
+        const today = new Date().getDay();
+        let shiftedWeekdays = defaultWeekDays.slice(today).concat(defaultWeekDays.slice(0, today + 1));
+        shiftedWeekdays = shiftedWeekdays.slice(defaultWeekDays.slice(0, today + 1).length);
+        setWeekData(shiftedWeekdays);
       } catch (e: any) {
         console.error(e.message);
       }
