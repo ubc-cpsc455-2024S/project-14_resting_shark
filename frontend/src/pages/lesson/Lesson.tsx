@@ -14,6 +14,7 @@ import { useAppSelector, useAppDispatch } from "../../redux/hooks";
 import {
   setPageNumber,
   setButtonText,
+  resetLessonState,
 } from "../../redux/slices/lessonPageSlice";
 import { lessonApi } from "../../api/lessonApi";
 import Information from "../../components/Information/Information";
@@ -22,6 +23,8 @@ import Header from "./header/Header";
 import Body from "./body/Body";
 import Banner from "../../components/misc/banner/Banner";
 import * as React from "react";
+import FinishedLesson from "../FinishedLesson/FinishedLesson";
+import { BASE_URL } from "../../constants/Config";
 
 function Lesson() {
   const { lessonId } = useParams();
@@ -35,12 +38,30 @@ function Lesson() {
   const [bannerText, setBannerText] = useState<string | null>(null);
   const [showBanner, setShowBanner] = useState<boolean>(false);
   const [gameOver, setGameOver] = useState<boolean>(false);
+  const [title, setTitle] = useState<string>("");
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   // fetch lesson data
   useEffect(() => {
+    const fetchTitle = async () => {
+      try {
+        const response = await fetch(
+          BASE_URL + `/lesson/${lessonId}/title`
+        );
+        if (!response.ok) {
+          throw new Error("Failed to fetch title");
+        }
+        const data = await response.json();
+        setTitle(data.title);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchTitle();
+
     dispatch(
       lessonApi.fetchFullLesson({
         token: token,
@@ -56,6 +77,11 @@ function Lesson() {
     } else if (contentList.length === 0) {
       // if content list is still loading, do not set button
       return;
+    } else if (contentList[pageNumber] === undefined) {
+      navigate("/finished", {
+        state: { title: title, lives: lives, streak: streakCount },
+      });
+      dispatch(resetLessonState());
     } else if (contentList[pageNumber].type === "intro") {
       dispatch(setButtonText("Let's Go!"));
     } else if (contentList[pageNumber].type === "info") {
@@ -67,11 +93,13 @@ function Lesson() {
 
   // Updates the streak count when user answers correctly.
   const updateStreak = (isCorrect: boolean) => {
+    console.log("This is 'isCorrect' : " + isCorrect);  
     setStreakCount(isCorrect ? streakCount + 1 : 0);
   };
   // Decrease the lives count when user answers incorrectly.
   const updateLives = (decrease: boolean) => {
     if (decrease) {
+      console.log("This is 'decrase' : " + decrease);
       setLives((prevLives) => {
         const newLives = prevLives - 1;
         if (newLives <= 0) {
@@ -153,6 +181,12 @@ function Lesson() {
               dispatch(setButtonText(buttonText))
             }
           />
+        </div>
+      );
+    } else if (page.type === "finished") {
+      return (
+        <div className="main-container">
+          <FinishedLesson />
         </div>
       );
     } else {

@@ -80,7 +80,6 @@ export default function MultipleChoiceQuestion(props: {
 
       if (selectedChoice === null) {
         allCorrect = false;
-        console.log("bruh");
       } else {
         allCorrect = options[selectedChoice];
         console.log(options[selectedChoice]);

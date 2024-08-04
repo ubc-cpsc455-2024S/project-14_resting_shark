@@ -27,11 +27,15 @@ const lessonPageSlice = createSlice({
     },
     setButtonText: (state, action: PayloadAction<string>) => {
       state.buttonText = action.payload;
-    }
+    },
+    resetLessonState(state) {
+      state.pageNumber = 0;
+      state.buttonText = 'Start';
+    },
   },
 });
 
-export const { setPageNumber, setButtonText } = lessonPageSlice.actions;
+export const { setPageNumber, setButtonText, resetLessonState } = lessonPageSlice.actions;
 
 // Selectors
 export const selectPageNumber = (state: RootState) => state.lessonPage.pageNumber;

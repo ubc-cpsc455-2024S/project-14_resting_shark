@@ -9,6 +9,7 @@ const fetchLessons = createAsyncThunk('lessons', async (token?: string) => {
 interface FetchFullLessonArgs {
   token?: string;
   lessonId?: string;
+  title?: string;
 }
 
 const fetchFullLesson = createAsyncThunk('fullLesson', async(args: FetchFullLessonArgs) => {

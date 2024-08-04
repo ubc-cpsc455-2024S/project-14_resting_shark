@@ -9,8 +9,8 @@ import pdfParse from "pdf-parse";
 const router: Router = express.Router();
 
 /*
-get global lesson configurations
-*/
+  get global lesson configurations
+  */
 router.get("/config", async (req: Request, res: Response) => {
   try {
     const configs = await LessonConfig.find();
@@ -32,8 +32,8 @@ router.get("/lessonOfTheDay", async (req: Request, res: Response) => {
 });
 
 /*
-gets all lesson summaries except for the current user
-*/
+  gets all lesson summaries except for the current user
+  */
 router.get("/all", authMiddleware, async (req: Request, res: Response) => {
   try {
     const userId = req.user.id;
@@ -45,9 +45,9 @@ router.get("/all", authMiddleware, async (req: Request, res: Response) => {
 });
 
 /*
-Gets summary of all lessons for a given user
-Returns a list of lessons with _id and name
-*/
+  Gets summary of all lessons for a given user
+  Returns a list of lessons with _id and name
+  */
 router.get("/", authMiddleware, async (req: Request, res: Response) => {
   try {
     const userId = req.user.id;
@@ -59,10 +59,10 @@ router.get("/", authMiddleware, async (req: Request, res: Response) => {
 });
 
 /*
-Gets a full lesson, with each component inside of the contents list
-Reauest params:
-  - id: the id of the lesson
-*/
+  Gets a full lesson, with each component inside of the contents list
+  Reauest params:
+    - id: the id of the lesson
+  */
 router.get("/:id", authMiddleware, async (req: Request, res: Response) => {
   try {
     const lessonId = req.params.id;
@@ -74,10 +74,10 @@ router.get("/:id", authMiddleware, async (req: Request, res: Response) => {
 });
 
 /*
-deletes a  lesson
-Reauest params:
-  - id: the id of the lesson
-*/
+  deletes a  lesson
+  Reauest params:
+    - id: the id of the lesson
+  */
 router.delete("/:id", authMiddleware, async (req: Request, res: Response) => {
   try {
     const lessonId = req.params.id;
@@ -89,18 +89,18 @@ router.delete("/:id", authMiddleware, async (req: Request, res: Response) => {
 });
 
 /*
-updates an entire lesson, any fields provided will be updates. If a non existing field is provided, it will be silently ignored
-Reauest params:
-  - id: the id of the lesson
+  updates an entire lesson, any fields provided will be updates. If a non existing field is provided, it will be silently ignored
+  Reauest params:
+    - id: the id of the lesson
 
-Reuquest Body
-Lesson obj
-{
-  lesson : {
-    <your fields here>
+  Reuquest Body
+  Lesson obj
+  {
+    lesson : {
+      <your fields here>
+    }
   }
-}
-*/
+  */
 router.patch("/:id", authMiddleware, async (req: Request, res: Response) => {
   try {
     const lessonId = req.params.id;
@@ -113,8 +113,23 @@ router.patch("/:id", authMiddleware, async (req: Request, res: Response) => {
 });
 
 /*
-generates a lesson using openai based on a given contents string, then returns the lesson.
+Gets the title of a lesson by id
+Reauest params:
+  - id: the id of the lesson
 */
+router.get("/:id/title", async (req: Request, res: Response) => {
+  try {
+    const lessonId = req.params.id;
+    const title = await lessonService.getLessonTitle(lessonId);
+    res.status(200).json({ title });
+  } catch (error: any) {
+    res.status(error.code || 500).json({ message: error.message });
+  }
+});
+
+/*
+  generates a lesson using openai based on a given contents string, then returns the lesson.
+  */
 router.post("/", authMiddleware, async (req: Request, res: Response) => {
   const userId = req.user.id;
   const { content } = req.body;
@@ -127,10 +142,10 @@ router.post("/", authMiddleware, async (req: Request, res: Response) => {
 });
 
 /*
-makes and returns a fresh copy of someone else's lesson, where the instanceOwner will be the current user
-Reauest params:
-  - id: the id of the lesson to be copied
-*/
+  makes and returns a fresh copy of someone else's lesson, where the instanceOwner will be the current user
+  Reauest params:
+    - id: the id of the lesson to be copied
+  */
 router.get("/copy/:id", authMiddleware, async (req: Request, res: Response) => {
   const userId = req.user.id;
   const lessonId = req.params.id;
@@ -144,10 +159,10 @@ router.get("/copy/:id", authMiddleware, async (req: Request, res: Response) => {
 });
 
 /*
-Handles chat requests by sending a user prompt to the OpenAI service and returning the response.
-Request Body:
-  - prompt: The text input from the user for which a response is requested.
-*/
+  Handles chat requests by sending a user prompt to the OpenAI service and returning the response.
+  Request Body:
+    - prompt: The text input from the user for which a response is requested.
+  */
 router.post(
   "/api/chat",
   authMiddleware,

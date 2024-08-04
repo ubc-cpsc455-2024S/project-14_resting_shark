@@ -37,6 +37,15 @@ class LessonService {
     }
   }
 
+  // return lesson title of a lesson
+  public getLessonTitle = async (lessonId: string) => {
+    const lesson = await Lesson.findById(lessonId);
+    if (!lesson) {
+      throw new Error('Lesson not found');
+    }
+    return lesson.name;
+  }  
+
   // deletes a lesson
   public async deleteLesson(lessonId: string) {
     try {
