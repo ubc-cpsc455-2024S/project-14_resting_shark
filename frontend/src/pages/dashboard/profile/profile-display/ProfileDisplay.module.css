@@ -1,9 +1,11 @@
 .container {
   background: white;
   box-shadow: 0 5px 30px 5px rgba(40, 8, 167, 0.03);
-  height: 35%;
+  height: 40%;
   border-radius: 20px;
   padding: 1.6em;
+  margin-top: 0;
+  width: 30%;
 }
 
 .header {
@@ -96,4 +98,8 @@
   width: 100%;
   position: absolute;
   z-index: 10;
+}
+
+.deleteButtonContainer {
+  margin-top: 1em;
 }

@@ -11,6 +11,7 @@ import { IoIosRocket } from "react-icons/io";
 export default function Navbar(props: {
   setPageProfile: () => void;
   setPageHome: () => void;
+  setPageExplore: () => void;
 }) {
   const dispatch = useAppDispatch();
   const [page, setPage] = useState("home");
@@ -23,6 +24,11 @@ export default function Navbar(props: {
   const handleHomeClick = () => {
     setPage("home");
     props.setPageHome();
+  };
+
+  const handleExploreClick = () => {
+    setPage("explore");
+    props.setPageExplore();
   };
 
   return (
@@ -38,6 +44,7 @@ export default function Navbar(props: {
             <span>Home</span>
           </div>
           <div
+            onClick={handleExploreClick}
             className={`${s.navButton} ${page == "explore" ? s.active : ""}`}
           >
             <IoIosRocket className={s.icon} />

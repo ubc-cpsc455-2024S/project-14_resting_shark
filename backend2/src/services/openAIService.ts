@@ -29,8 +29,6 @@ class OpenAIService {
 
         model: "gpt-4o-mini",
       });
-    
-      console.log(completion.choices[0])
       
       // trim + clean data
       let result = completion.choices[0].message.content?.replace(/\n/g, '').replace(/\"/g, '"');
@@ -42,8 +40,6 @@ class OpenAIService {
       } else {
         trimmedResult = result;
       }
-
-      console.log(trimmedResult)
 
       // repair json (fix quotes, brackets, etc)
       let repairedResult;

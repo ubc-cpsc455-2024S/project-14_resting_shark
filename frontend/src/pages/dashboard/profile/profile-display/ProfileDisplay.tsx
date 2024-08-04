@@ -11,6 +11,7 @@ import * as React from "react";
 export default function ProfileDisplay() {
   const token = useAppSelector((state) => state.auth.jwtToken);
   const [username, setUsername] = useState("");
+  const [totalExp, setTotalExp] = useState(0);
   const navigate = useNavigate();
 
   const [isUserEditModalOpen, setUserEditModalOpen] = useState(false);
@@ -20,20 +21,27 @@ export default function ProfileDisplay() {
     profilePicture: "",
   });
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const profileData = await userApi.getProfileData(token);
-        setUsername(profileData.username);
-        setUser({
-          username: profileData.username,
-          email: profileData.email,
-          profilePicture: profileData.profilePicture,
-        });
-      } catch (e: any) {
-        console.error(e.message);
-      }
+  // TODO: move this to the outside component, since this api call will return both the user data and the graph data
+  const fetchData = async () => {
+    try {
+      const profileData = await userApi.getProfileData(
+        token,
+        "fake start date",
+        "fake end date"
+      );
+      setUsername(profileData.username);
+      setUser({
+        username: profileData.username,
+        email: profileData.email,
+        profilePicture: profileData.profilePicture,
+      });
+      setTotalExp(profileData.totalExp);
+    } catch (e: any) {
+      console.error(e.message);
     }
+  };
+
+  useEffect(() => {
     fetchData();
   }, [token]);
 
@@ -43,6 +51,7 @@ export default function ProfileDisplay() {
 
   const handleCloseModal = () => {
     setUserEditModalOpen(false);
+    fetchData();
   };
 
   //const handleSave = (updatedUserInfo: any) => {
@@ -50,11 +59,10 @@ export default function ProfileDisplay() {
   //  setUsername(updatedUserInfo.username);
   //};
 
-  const level = 4;
-  const exp = 52;
-
   const goose = "./images/goose.png";
   const hat = "./images/mango.png";
+
+  const level = Math.floor(totalExp / 1000);
 
   function deleteAccount() {
     userApi.deleteUser(token);
@@ -78,15 +86,15 @@ export default function ProfileDisplay() {
           <div className={s.expLevelContainer}>
             <span className={s.levelContainer}>Level {level}</span>
             <span className={s.expContainer}>
-              <FaStar /> {exp} XP
+              <FaStar /> {totalExp} XP
             </span>
           </div>
-          <ProgressBar percentage={30} />
+          <ProgressBar percentage={((totalExp % 1000) / 1000) * 100} />
         </div>
       </div>
 
       {/* TEMP CODE START */}
-      <div>
+      <div className={s.deleteButtonContainer}>
         <button onClick={deleteAccount}>Delete Account</button>
       </div>
       {/* TEMP CODE END */}
