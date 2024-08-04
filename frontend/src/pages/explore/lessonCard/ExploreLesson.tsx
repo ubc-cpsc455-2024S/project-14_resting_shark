@@ -3,20 +3,28 @@ import { requests } from "../../../api/requestTemplate";
 import { useAppSelector } from "../../../redux/hooks";
 import s from "./ExploreLesson.module.css";
 import * as React from "react";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function ExploreLesson(props: { name: string; id: string }) {
   const token = useAppSelector((state) => state.auth.jwtToken);
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
 
   const onLessonClick = async () => {
+    setIsLoading(true);
     try {
       const response = await requests.getRequest(
         token,
         `/lesson/copy/${props.id}`
       );
 
-      const lessonsData = await response;
+      await response;
+      navigate(`/lesson/${props.id}`);
     } catch (error: any) {
       console.error("Error duplicating lesson:", error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -31,7 +39,7 @@ export default function ExploreLesson(props: { name: string; id: string }) {
         <span className={s.name}>{props.name}</span>
         <span className={s.totalQuestions}>12 questions</span>
         <button onClick={onLessonClick} className={s.continueToLearnButton}>
-          Duplicate lesson
+          {isLoading ? <div className="loader"></div> : "Start lesson"}
         </button>
       </div>
     </div>
