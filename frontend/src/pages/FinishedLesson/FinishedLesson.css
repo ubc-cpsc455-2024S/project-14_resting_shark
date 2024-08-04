@@ -1,0 +1,56 @@
+.finishedLessonContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
+    color: #fff;
+    text-align: center;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .messageContainer {
+    animation: fadeIn 2s ease-in-out;
+  }
+  
+  .congratsMessage {
+    font-size: 3rem;
+    margin: 0;
+    animation: slideInFromTop 1s ease-in-out;
+  }
+  
+  .detailsMessage {
+    font-size: 1.5rem;
+    margin: 20px 0 0 0;
+    animation: slideInFromBottom 1s ease-in-out;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+  @keyframes slideInFromTop {
+    from {
+      transform: translateY(-100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+  
+  @keyframes slideInFromBottom {
+    from {
+      transform: translateY(100%);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+  
