@@ -1,6 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import "./DragAndDrop.css";
-import { DndContext, useDraggable, useDroppable } from "@dnd-kit/core";
+import {
+  DndContext,
+  useDndMonitor,
+  useDraggable,
+  useDroppable,
+} from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
 import DragAndDrop from "../../class/DragAndDrop";
 import { useLessonContext } from "../../context/LessonProvider";
@@ -10,8 +15,6 @@ import * as React from "react";
 
 function DragAndDropQuestion(props: {
   page: DragAndDrop;
-  updateStreak: (isCorrect: boolean) => void;
-  updateLives: (decrease: boolean) => void;
   setButtonText: (buttonText: string) => void;
 }) {
   const content = props.page.content;
@@ -32,6 +35,10 @@ function DragAndDropQuestion(props: {
     checkAnswer,
     canCheckAnswers,
     setCheckAnswer,
+    lives,
+    streak,
+    setLives,
+    setStreak,
   } = useLessonContext();
 
   useEffect(() => {
@@ -42,6 +49,8 @@ function DragAndDropQuestion(props: {
     setShowBanner(false);
     setCheckAnswer(false);
     props.setButtonText("Submit");
+    setLives(lives);
+    setStreak(streak);
   }, []);
 
   const [isCorrectList, setIsCorrectList] = useState<{
@@ -85,12 +94,12 @@ function DragAndDropQuestion(props: {
 
       if (allCorrect) {
         setBannerText("Amazing!");
-        props.updateStreak(true);
         props.setButtonText("Next");
+        setStreak(streak + 1);
       } else {
         setBannerText("Try Again!");
-        props.updateLives(true);
-        props.updateStreak(false);
+        setLives(lives - 1);
+        setStreak(0);
       }
 
       setIsCorrectList(newCorrectList);
@@ -111,7 +120,7 @@ function DragAndDropQuestion(props: {
                   return <span key={id}>{option}</span>;
                 } else {
                   return (
-                    <Droppable key={option} id={option}>
+                    <Droppable key={option} id={option} parents={parents}>
                       {parents[option] ? (
                         <Draggable
                           isCorrect={isCorrectList[option]}
@@ -219,15 +228,30 @@ function DragAndDropQuestion(props: {
   }
 }
 
-function Droppable(props: { id: any; children: any }) {
+function Droppable(props: {
+  id: any;
+  children: any;
+  parents: { [key: string]: string | null };
+}) {
+  const [containsDraggable, setContainsDraggable] = useState(false);
+
   const { setNodeRef, isOver } = useDroppable({
     id: props.id,
   });
+
+  useEffect(() => {
+    if (!props.parents[props.id]) {
+      setContainsDraggable(false);
+    } else {
+      setContainsDraggable(true);
+    }
+  }, [props.parents]);
 
   return (
     <span
       ref={setNodeRef}
       className={`${isOver ? "droppable-over" : ""} droppable`}
+      style={containsDraggable ? { minWidth: "0px" } : { minWidth: "5.2rem" }}
     >
       {props.children}
     </span>

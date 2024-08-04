@@ -20,8 +20,6 @@ export default function Body(props: BodyProps) {
           setButtonText={props.setButtonText}
           renderedPage={props.renderedPage}
           buttonText={props.buttonText}
-          onSubmit={props.onSubmit}
-          gameOver={props.gameOver}
         />
       </div>
       <div className="right-body">
