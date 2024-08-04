@@ -1,6 +1,11 @@
 import { useEffect, useRef, useState } from "react";
 import "./DragAndDrop.css";
-import { DndContext, useDraggable, useDroppable } from "@dnd-kit/core";
+import {
+  DndContext,
+  useDndMonitor,
+  useDraggable,
+  useDroppable,
+} from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
 import DragAndDrop from "../../class/DragAndDrop";
 import { useLessonContext } from "../../context/LessonProvider";
@@ -111,7 +116,7 @@ function DragAndDropQuestion(props: {
                   return <span key={id}>{option}</span>;
                 } else {
                   return (
-                    <Droppable key={option} id={option}>
+                    <Droppable key={option} id={option} parents={parents}>
                       {parents[option] ? (
                         <Draggable
                           isCorrect={isCorrectList[option]}
@@ -219,15 +224,30 @@ function DragAndDropQuestion(props: {
   }
 }
 
-function Droppable(props: { id: any; children: any }) {
+function Droppable(props: {
+  id: any;
+  children: any;
+  parents: { [key: string]: string | null };
+}) {
+  const [containsDraggable, setContainsDraggable] = useState(false);
+
   const { setNodeRef, isOver } = useDroppable({
     id: props.id,
   });
+
+  useEffect(() => {
+    if (!props.parents[props.id]) {
+      setContainsDraggable(false);
+    } else {
+      setContainsDraggable(true);
+    }
+  }, [props.parents]);
 
   return (
     <span
       ref={setNodeRef}
       className={`${isOver ? "droppable-over" : ""} droppable`}
+      style={containsDraggable ? { minWidth: "0px" } : { minWidth: "5.2rem" }}
     >
       {props.children}
     </span>
