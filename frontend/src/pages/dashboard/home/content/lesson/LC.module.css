@@ -108,4 +108,35 @@
 .livesContainer {
   display: flex;
   align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+
+.button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.firstLink .button {
+  color: white;
+}
+
+.dropdown {
+  position: absolute;
+  right: 5px;
+  top: 20px;
+  background: white;
+  color: #ff278a;
+  padding: 8px;
+  border-radius: 3px;
+  font-size: 0.85rem;
+  padding-left: 15px;
+  padding-right: 15px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 5px 30px 2.5px rgba(40, 8, 167, 0.15);
+  cursor: pointer;
 }
