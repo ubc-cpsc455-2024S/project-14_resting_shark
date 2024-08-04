@@ -1,20 +1,38 @@
 import { LuCheck, LuSparkles } from "react-icons/lu";
+import { useState, useEffect } from "react";
+import { lessonApi } from "../../../../../api/lessonApi";
 import s from "./LessonOfTheDay.module.css";
 import Cards from "./cards/Cards";
 import * as React from "react";
 
 export default function LessonOfTheDay() {
+  const [lesson, setLesson] = useState({name: "", _id: ""});
+
+  // get the lesson name of lesson of the day
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const lesson = await lessonApi.fetchLessonOfTheDay("");
+        setLesson(lesson);
+      } catch (e: any) {
+        console.error(e.message);
+      }
+    }
+    fetchData();
+  }, []);
+
   return (
     <div className={s.wrapper}>
       <div className={s.lessonOfTheDayContainer}>
-        <LessonsDisplay />
-        <LessonInfo />
+        <LessonsDisplay lesson={lesson} />
+        <LessonInfo lesson={lesson} />
       </div>
     </div>
   );
 }
 
-function LessonsDisplay() {
+function LessonsDisplay({ lesson }: any) {
+  console.log(lesson)
   return (
     <div className={s.lessonDisplay}>
       <Cards />
@@ -22,8 +40,9 @@ function LessonsDisplay() {
   );
 }
 
-function LessonInfo() {
+function LessonInfo({ lesson }: any) {
   const activity = [true, true, false, false, false, false, false];
+  const date = new Date();
   const streakIndicator = activity.map((item, key) => {
     if (item) {
       return (
@@ -42,7 +61,7 @@ function LessonInfo() {
         <LuSparkles className={s.icon} />
         <div>Lesson Of The Day</div>
       </div>
-      <div className={s.title}>June 30: The History of Ducks</div>
+      <div className={s.title}>{date.toLocaleDateString("en-US", { month: "long", day: "numeric" })}: {lesson.name}</div>
       <div className={s.streakContainer}>{streakIndicator}</div>
     </div>
   );
