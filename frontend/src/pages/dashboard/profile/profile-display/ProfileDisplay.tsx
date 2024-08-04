@@ -21,8 +21,8 @@ export default function ProfileDisplay() {
     profilePicture: "",
   });
 
-  useEffect(() => {
-    async function fetchData() {
+  // TODO: move this to the outside component, since this api call will return both the user data and the graph data
+ const fetchData = async () => {
       try {
         const profileData = await userApi.getProfileData(token, "", "");
         setUsername(profileData.username);
@@ -35,9 +35,11 @@ export default function ProfileDisplay() {
       } catch (e: any) {
         console.error(e.message);
       }
-    }
-    fetchData();
-  }, [token]);
+    };
+  
+    useEffect(() => {
+      fetchData();
+    }, [token]);
 
   const handleEditButtonClick = () => {
     setUserEditModalOpen(true);
@@ -45,6 +47,7 @@ export default function ProfileDisplay() {
 
   const handleCloseModal = () => {
     setUserEditModalOpen(false);
+    fetchData();
   };
 
   //const handleSave = (updatedUserInfo: any) => {
