@@ -10,8 +10,6 @@ import * as React from "react";
 // Multiple Choice question component
 export default function MultipleChoiceQuestion(props: {
   page: MultipleChoice;
-  updateStreak: (isCorrect: boolean) => void;
-  updateLives: (decrease: boolean) => void;
   setButtonText: (buttonText: string) => void;
 }) {
   const [selectedChoice, setSelectedChoice] = useState<string | null>(null);
@@ -35,6 +33,10 @@ export default function MultipleChoiceQuestion(props: {
     setCheckAnswer,
     checkAnswer,
     canProgress,
+    setLives,
+    setStreak,
+    streak,
+    lives,
   } = useLessonContext();
 
   const [showBanner, setShowBanner] = useState(false);
@@ -69,6 +71,12 @@ export default function MultipleChoiceQuestion(props: {
     if (canCheckAnswers && localCanCheckAnswers) {
       setShowBanner(true);
       setTimeout(() => setShowBanner(false), 2500);
+      if (!canProgress) {
+        setStreak(0);
+        setLives(lives - 1);
+      } else {
+        setStreak(streak + 1);
+      }
     }
   }, [localCheck]);
 
@@ -87,11 +95,8 @@ export default function MultipleChoiceQuestion(props: {
 
       if (allCorrect) {
         setBannerText("You got it!");
-        props.updateStreak(true);
         props.setButtonText("Next");
       } else {
-        props.updateLives(true);
-        props.updateStreak(false);
         setBannerText("Almost there.");
       }
 
