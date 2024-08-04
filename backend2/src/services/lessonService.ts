@@ -8,7 +8,8 @@ class LessonService {
   // summary that is displayed on dashboard
   public async getLessonsSummary(userId: string) {
     try {
-      const lessons = await Lesson.find({ instanceOwner: userId });
+      // mongo stores creation date info inside of id, which is why we can sort by it
+      const lessons = await Lesson.find({ instanceOwner: userId }).sort({ _id: -1 });
       const result = lessons.map((lesson) => {
         return {
           _id: lesson._id,
