@@ -47,6 +47,7 @@ export default function DateSelect(props: {
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const scope = useMenuAnimation(isOpen);
+  const [selection, setSelection] = useState(0);
 
   return (
     <nav className={s.menu} ref={scope}>
@@ -74,7 +75,7 @@ export default function DateSelect(props: {
         className={s.dropdown}
       >
         <li>This week</li>
-        <li>This month</li>
+        <li>Last week</li>
         <li>This year</li>
       </ul>{" "}
     </nav>
