@@ -1,5 +1,3 @@
-import { useEffect, useState } from "react";
-import { lessonApi } from "../../../../../../api/lessonApi";
 import ExploreLesson from "../../../../../explore/lessonCard/ExploreLesson";
 import s from "./Cards.module.css";
 import * as React from "react";
@@ -22,22 +20,7 @@ const botStyle = {
   opacity: "0.85",
 };
 
-export default function Cards() {
-  const [lesson, setLesson] = useState({name: "", _id: ""});
-
-  // get the lesson name of lesson of the day
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const lesson = await lessonApi.fetchLessonOfTheDay("");
-        setLesson(lesson);
-      } catch (e: any) {
-        console.error(e.message);
-      }
-    }
-    fetchData();
-  }, []);
-
+export default function Cards({ lesson }: any) {
   return (
     <div className={s.container}>
       <Card style={botStyle} name={lesson.name} id={lesson._id} />

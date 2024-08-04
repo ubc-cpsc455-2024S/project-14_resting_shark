@@ -35,7 +35,7 @@ function LessonsDisplay({ lesson }: any) {
   console.log(lesson)
   return (
     <div className={s.lessonDisplay}>
-      <Cards />
+      <Cards lesson={lesson} />
     </div>
   );
 }
