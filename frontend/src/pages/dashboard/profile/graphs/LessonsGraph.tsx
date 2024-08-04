@@ -1,27 +1,70 @@
 import { areaElementClasses, LineChart } from "@mui/x-charts";
 import s from "./LessonsGraph.module.css";
 import DateSelect from "./dropdown/DateSelect";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useAppSelector } from "../../../../redux/hooks";
+import { userApi } from "../../../../api/userApi";
 import StatDisplay from "./stat/StatDisplay";
 import * as React from "react";
 
 export default function LessonsGraph() {
+  const token = useAppSelector((state) => state.auth.jwtToken);
   const otherSetting = {
     height: 300,
     grid: { horizontal: true },
   };
-
-  const lessonData = [23, 1, 14, 7, 4, 9, 10];
-
+  const [lessonData, setLessonData] = useState([0, 0, 0, 0, 0, 0, 0]);
+  const [statData, setStatData] = useState([
+    { num: 0, label: "Min. Complete", change: -1 },
+    { num: 0, label: "Avg. Complete", change: 0 },
+    { num: 0, label: "Max. Complete", change: 1 },
+  ]);
   const weekData = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
 
   const [interval, setInterval] = useState("12 July - 19 July");
 
-  const statData = [
-    { num: 1, label: "Min. Complete", change: -1 },
-    { num: 10, label: "Avg. Complete", change: 0 },
-    { num: 23, label: "Max. Complete", change: 1 },
-  ];
+  // get lesson activity (lesson Data)
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const dateRange = getDateRange("This week");
+        const profileData = await userApi.getProfileData(token, dateRange.startDate.toISOString(), dateRange.endDate.toISOString());
+        const activityArray = profileData.completedLessonsByDay.map((item: any) => item.count);
+        setLessonData(activityArray);
+        
+        setStatData([
+          { num: Math.min(...activityArray), label: "Min. Complete", change: -1 },
+          { num: Math.round(activityArray.reduce((acc: number, val: number) => acc + val, 0) / activityArray.length), label: "Avg. Complete", change: 0 },
+          { num: Math.max(...activityArray), label: "Max. Complete", change: 1 },
+        ]);
+      } catch (e: any) {
+        console.error(e.message);
+      }
+    }
+    fetchData();
+  }, [token]);
+
+  function getDateRange(period: string) {
+    const currentDate = new Date();
+    let startDate = new Date();
+  
+    switch (period) {
+      case 'This week':
+        startDate.setDate(currentDate.getDate() - 6);
+        break;
+      case 'Last week':
+        currentDate.setDate(currentDate.getDate() - 7);
+        startDate.setDate(currentDate.getDate() - 13);
+        break;
+      default:
+        throw new Error("Invalid period specified. Use 'This week' or 'Last week'");
+    }
+  
+    return {
+      startDate: startDate,
+      endDate: currentDate,
+    };
+  }
 
   return (
     <div className={s.container}>
