@@ -19,7 +19,6 @@ export default function Explore() {
         const response = await requests.getRequest(token, "/lesson/all");
 
         const lessonsData = await response;
-        console.log(lessonsData);
         setLessons(lessonsData);
       } catch (error: any) {
         console.error("Error fetching lessons:", error.message);
@@ -36,7 +35,7 @@ export default function Explore() {
       <h1>Discover</h1>
       <div className={s.lessonsContainer}>
         {lessons.map((item, index) => (
-          <ExploreLesson name={item.name} />
+          <ExploreLesson key={index} name={item.name} id={item._id} />
         ))}
       </div>
     </div>
