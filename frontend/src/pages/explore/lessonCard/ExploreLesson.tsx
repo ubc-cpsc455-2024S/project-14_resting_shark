@@ -1,3 +1,4 @@
+import { GoHeartFill } from "react-icons/go";
 import { requests } from "../../../api/requestTemplate";
 import { useAppSelector } from "../../../redux/hooks";
 import s from "./ExploreLesson.module.css";
@@ -21,7 +22,11 @@ export default function ExploreLesson(props: { name: string; id: string }) {
 
   return (
     <div className={s.container}>
-      <div className={s.livesContainer}></div>
+      <div className={s.livesContainer}>
+        <GoHeartFill color={"#7683fe"} className={s.heart} />
+        <GoHeartFill color={"#7683fe"} className={s.heart} />
+        <GoHeartFill color={"#7683fe"} className={s.heart} />
+      </div>
       <div className={s.bottomContainer}>
         <span className={s.name}>{props.name}</span>
         <span className={s.totalQuestions}>12 questions</span>
