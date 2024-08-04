@@ -24,7 +24,7 @@ export default function ProfileDisplay() {
   // TODO: move this to the outside component, since this api call will return both the user data and the graph data
  const fetchData = async () => {
       try {
-        const profileData = await userApi.getProfileData(token, "fake start date", "fake end date");
+        const profileData = await userApi.getProfileData(token, "", "");
         setUsername(profileData.username);
         setUser({
           username: profileData.username,
