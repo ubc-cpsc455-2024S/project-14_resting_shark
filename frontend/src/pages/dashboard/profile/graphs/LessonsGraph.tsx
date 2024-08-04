@@ -21,12 +21,13 @@ export default function LessonsGraph() {
   ]);
   const weekData = ["sun", "mon", "tue", "wed", "thu", "fri", "sat"];
 
-  const [interval, setInterval] = useState("12 July - 19 July");
+  const [interval, setInterval] = useState("");
 
-  // get lesson activity (lesson Data)
+  // get lesson activity (lesson Data) and set states
   useEffect(() => {
     async function fetchData() {
       try {
+        // TODOL "This week" is hardcoded
         const dateRange = getDateRange("This week");
         const profileData = await userApi.getProfileData(token, dateRange.startDate.toISOString(), dateRange.endDate.toISOString());
         const activityArray = profileData.completedLessonsByDay.map((item: any) => item.count);
@@ -37,6 +38,10 @@ export default function LessonsGraph() {
           { num: Math.round(activityArray.reduce((acc: number, val: number) => acc + val, 0) / activityArray.length), label: "Avg. Complete", change: 0 },
           { num: Math.max(...activityArray), label: "Max. Complete", change: 1 },
         ]);
+
+        const startDateDisplayString = Intl.DateTimeFormat('en-US', {month: "long", day: "numeric"}).format(dateRange.startDate);
+        const endDateDisplayString = Intl.DateTimeFormat('en-US', {month: "long", day: "numeric"}).format(dateRange.endDate);
+        setInterval(startDateDisplayString + " - " + endDateDisplayString);
       } catch (e: any) {
         console.error(e.message);
       }

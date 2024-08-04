@@ -74,8 +74,7 @@ export default function DateSelect(props: {
         className={s.dropdown}
       >
         <li>This week</li>
-        <li>This month</li>
-        <li>This year</li>
+        <li>Last week</li>
       </ul>{" "}
     </nav>
   );
