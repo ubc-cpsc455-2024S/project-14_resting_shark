@@ -61,6 +61,10 @@ export default function LessonsGraph() {
         currentDate.setDate(currentDate.getDate() - 7);
         startDate.setDate(currentDate.getDate() - 13);
         break;
+      case 'Last last week':
+          currentDate.setDate(currentDate.getDate() - 13);
+          startDate.setDate(currentDate.getDate() - 29);
+        break;
       default:
         throw new Error("Invalid period specified. Use 'This week' or 'Last week'");
     }
