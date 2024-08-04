@@ -16,7 +16,14 @@ const fetchFullLesson = createAsyncThunk('fullLesson', async(args: FetchFullLess
   return response;
 });
 
+// fetches the current lesson of the day
+async function fetchLessonOfTheDay(token: string | undefined) {
+  const data = await requests.getRequest(token, "/lesson/lessonOfTheDay");
+  return data;
+}
+
 export const lessonApi = {
   fetchLessons,
   fetchFullLesson,
+  fetchLessonOfTheDay,
 };
