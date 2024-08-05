@@ -129,7 +129,7 @@ class LessonService {
       const lessons = await Lesson.find({
         instanceOwner: { $ne: userObjectId }, // instanceOwner is not equal to userId
         $expr: { $eq: ["$instanceOwner", "$author"] }, // instanceOwner is equal to author
-      }).select("_id name");
+      }).select("_id name content");
 
       return lessons;
     } catch (error: any) {
