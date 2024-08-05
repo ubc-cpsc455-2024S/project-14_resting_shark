@@ -6,11 +6,18 @@ import "./MultipleChoice.css";
 import { useEffect, useState } from "react";
 import Banner from "../misc/banner/Banner";
 import * as React from "react";
+import { requests } from "../../api/requestTemplate";
+import { useAppSelector } from "../../redux/hooks";
 
 // Multiple Choice question component
 export default function MultipleChoiceQuestion(props: {
   page: MultipleChoice;
+  id: any;
   setButtonText: (buttonText: string) => void;
+  lives: number;
+  streak: number;
+  setLives: React.Dispatch<React.SetStateAction<number>>;
+  setStreak: React.Dispatch<React.SetStateAction<number>>;
 }) {
   const [selectedChoice, setSelectedChoice] = useState<string | null>(null);
   const [showResult, setShowResult] = useState<boolean>(false);
@@ -23,6 +30,8 @@ export default function MultipleChoiceQuestion(props: {
 
   const [localCheck, setLocalCheck] = useState(false);
 
+  const token = useAppSelector((state) => state.auth.jwtToken);
+
   const {
     setCanProgress,
     bannerText,
@@ -33,10 +42,6 @@ export default function MultipleChoiceQuestion(props: {
     setCheckAnswer,
     checkAnswer,
     canProgress,
-    setLives,
-    setStreak,
-    streak,
-    lives,
   } = useLessonContext();
 
   const [showBanner, setShowBanner] = useState(false);
@@ -67,15 +72,23 @@ export default function MultipleChoiceQuestion(props: {
     }
   }, [selectedChoice]);
 
+  async function updateLesson(lives: number, streak: number) {
+    await requests.patchRequest(token, `/lesson/${props.id}`, {
+      lesson: { lives: lives, streakCount: streak },
+    });
+  }
+
   useEffect(() => {
     if (canCheckAnswers && localCanCheckAnswers) {
       setShowBanner(true);
       setTimeout(() => setShowBanner(false), 2500);
       if (!canProgress) {
-        setStreak(0);
-        setLives(lives - 1);
+        props.setStreak(0);
+        props.setLives(props.lives - 1);
+        updateLesson(props.lives - 1, 0);
       } else {
-        setStreak(streak + 1);
+        props.setStreak(props.streak + 1);
+        updateLesson(props.lives, props.streak + 1);
       }
     }
   }, [localCheck]);

@@ -29,8 +29,8 @@ function Lesson() {
   const buttonText = useAppSelector((state) => state.lessonPage.buttonText);
   const fullLesson = useAppSelector((state) => state.fullLesson);
 
-  const [startLives, setStartLives] = useState(3);
-  const [startStreak, setStartStreak] = useState(0);
+  const [lives, setLives] = useState(3);
+  const [streak, setStreak] = useState(0);
   const [chapters, setChapters] = useState({});
   const [pageNumber, setPageNumber] = useState(0);
   const [startPage, setStartPage] = useState(0);
@@ -59,23 +59,20 @@ function Lesson() {
     let updatedLesson = await requests.getRequest(token, `/lesson/${lessonId}`);
     console.log("fetched lesson", updatedLesson);
 
-    if (startPage < pageNumber && updatedLesson) {
+    if (startPage <= pageNumber && updatedLesson) {
       updatedLesson.pageProgress = pageNumber;
-      console.log(
-        "startPage is " + startPage + " and currPageNumber is " + pageNumber
-      );
+    }
 
-      if (updatedLesson !== null && updatedLesson !== undefined) {
-        try {
-          await requests.patchRequest(token, `/lesson/${lessonId}`, {
-            updatedLesson,
-          });
-        } catch (error) {
-          console.error("Failed to update lesson:", error);
-        }
-      } else {
-        console.log("lesson null");
+    if (updatedLesson !== null && updatedLesson !== undefined) {
+      try {
+        await requests.patchRequest(token, `/lesson/${lessonId}`, {
+          lesson: { ...updatedLesson },
+        });
+      } catch (error) {
+        console.error("Failed to update lesson:", error);
       }
+    } else {
+      console.log("lesson null");
     }
   }
 
@@ -92,10 +89,14 @@ function Lesson() {
           lessonApi.fetchFullLesson({ token, lessonId })
         );
         if (lessonApi.fetchFullLesson.fulfilled.match(resultAction)) {
-          setStartLives(resultAction.payload.lives);
-          setStartStreak(resultAction.payload.streakCount);
-          setPageNumber(resultAction.payload.pageProgress + 1);
-          setStartPage(resultAction.payload.pageProgress + 1);
+          setLives(resultAction.payload.lives);
+          setStreak(resultAction.payload.streakCount);
+          if (resultAction.payload.pageProgress === -1) {
+            setPageNumber(resultAction.payload.pageProgress + 1);
+          } else {
+            setPageNumber(resultAction.payload.pageProgress);
+          }
+          setStartPage(resultAction.payload.pageProgress);
         } else {
           console.error("Failed to fetch lesson:", resultAction.error);
         }
@@ -145,6 +146,11 @@ function Lesson() {
               dispatch(setButtonText(buttonText))
             }
             page={page as DragAndDrop}
+            id={lessonId}
+            lives={lives}
+            setLives={setLives}
+            streak={streak}
+            setStreak={setStreak}
           />
         </div>
       );
@@ -156,6 +162,11 @@ function Lesson() {
               dispatch(setButtonText(buttonText))
             }
             page={page as Matching}
+            id={lessonId}
+            lives={lives}
+            setLives={setLives}
+            streak={streak}
+            setStreak={setStreak}
           />
         </div>
       );
@@ -167,6 +178,11 @@ function Lesson() {
             setButtonText={(buttonText: string) =>
               dispatch(setButtonText(buttonText))
             }
+            id={lessonId}
+            lives={lives}
+            setLives={setLives}
+            streak={streak}
+            setStreak={setStreak}
           />
         </div>
       );
@@ -192,8 +208,8 @@ function Lesson() {
           contentList={contentList}
           direction={direction}
           setPageNumber={(pageNumber: number) => setPageNumber(pageNumber)}
-          startLives={startLives}
-          startStreak={startStreak}
+          lives={lives}
+          streak={streak}
         />
         <Body
           pageNumber={pageNumber}
