@@ -16,6 +16,7 @@ interface Position {
 export default function MatchingQuestion(props: {
   page: Matching;
   setButtonText: (buttonText: string) => void;
+  buttonText: string
 }) {
   const termsObject = props.page.terms;
   const definitionsObject = props.page.definitions;
@@ -78,7 +79,7 @@ export default function MatchingQuestion(props: {
   }, [localCheck]);
 
   useEffect(() => {
-    if (checkAnswer !== localCheck) {
+    if (checkAnswer !== localCheck && props.buttonText == "Submit") {
       setLocalCheck(checkAnswer);
 
       let allCorrect = true;

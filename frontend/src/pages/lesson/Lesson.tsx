@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import "./Lesson.css";
 import { useEffect, useState } from "react";
 import Content from "../../class/Content";
@@ -14,14 +14,17 @@ import { useAppSelector, useAppDispatch } from "../../redux/hooks";
 import {
   setPageNumber,
   setButtonText,
+  resetLessonState,
 } from "../../redux/slices/lessonPageSlice";
 import { lessonApi } from "../../api/lessonApi";
 import Information from "../../components/Information/Information";
 import { LessonProvider } from "../../context/LessonProvider";
 import Header from "./header/Header";
 import Body from "./body/Body";
+import Banner from "../../components/misc/banner/Banner";
 import * as React from "react";
 import FinishedLesson from "../FinishedLesson/FinishedLesson";
+import { requests } from "../../api/requestTemplate";
 
 function Lesson() {
   const { lessonId } = useParams();
@@ -30,56 +33,53 @@ function Lesson() {
   const pageNumber = useAppSelector((state) => state.lessonPage.pageNumber);
   const direction = useAppSelector((state) => state.lessonPage.direction);
   const buttonText = useAppSelector((state) => state.lessonPage.buttonText);
-  const fullLesson = useAppSelector((state) => state.fullLesson);
-
-  const [startLives, setStartLives] = useState(3);
-  const [startStreak, setStartStreak] = useState(0);
-  const [chapters, setChapters] = useState({});
+  const [streakCount, setStreakCount] = useState(0);
+  const [lives, setLives] = useState(3);
+  const [bannerText, setBannerText] = useState<string | null>(null);
+  const [showBanner, setShowBanner] = useState<boolean>(false);
+  const [gameOver, setGameOver] = useState<boolean>(false);
+  const [title, setTitle] = useState<string>("");
 
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
+  // fetch lesson data
   useEffect(() => {
-    if (contentList.length != 0 && fullLesson) {
-      const secondChapter = contentList[1] as Info;
-      const currChapter = {
-        title: fullLesson.lesson?.name,
-        chapters: [
-          "Intro",
-          secondChapter.title,
-          ...contentList
-            .slice(2)
-            .map((item: any, index: number) => "Question " + (index + 2)),
-        ],
-      };
-
-      setChapters(currChapter);
-    }
-  }, [contentList, fullLesson]);
-
-  useEffect(() => {
-    async function fetchLesson() {
+    const fetchTitle = async () => {
       try {
-        const resultAction = await dispatch(
-          lessonApi.fetchFullLesson({ token, lessonId })
+        const token = localStorage.getItem("jwtToken") ?? undefined;
+        const response = await requests.getRequest(
+          token,
+          `/lesson/${lessonId}`
         );
-        if (lessonApi.fetchFullLesson.fulfilled.match(resultAction)) {
-          setStartLives(resultAction.payload.lives);
-          setStartStreak(resultAction.payload.streakCount);
-        } else {
-          console.error("Failed to fetch lesson:", resultAction.error);
-        }
+        setTitle(response.name);
       } catch (error) {
-        console.error("Error in fetchLesson:", error);
+        console.error(error);
       }
-    }
-    if (lessonId) {
-      fetchLesson();
-    }
-  }, [lessonId, dispatch, token]);
+    };
 
+    fetchTitle();
+
+    dispatch(
+      lessonApi.fetchFullLesson({
+        token: token,
+        lessonId: lessonId,
+      })
+    );
+  }, [lessonId, dispatch]);
+
+  // Changes button text
   useEffect(() => {
-    if (contentList.length === 0) {
+    if (gameOver) {
+      dispatch(setButtonText("Return to Dashboard"));
+    } else if (contentList.length === 0) {
+      // if content list is still loading, do not set button
       return;
+    } else if (contentList[pageNumber] === undefined) {
+      navigate("/finished", {
+        state: { title: title, lives: lives, streak: streakCount },
+      });
+      dispatch(resetLessonState());
     } else if (contentList[pageNumber].type === "intro") {
       dispatch(setButtonText("Let's Go!"));
     } else if (contentList[pageNumber].type === "info") {
@@ -87,7 +87,41 @@ function Lesson() {
     } else {
       dispatch(setButtonText("Submit"));
     }
-  }, [pageNumber, contentList, dispatch]);
+  }, [pageNumber, contentList, dispatch, gameOver]);
+
+  // Updates the streak count when user answers correctly.
+  const updateStreak = (isCorrect: boolean) => {
+    setStreakCount(isCorrect ? streakCount + 1 : 0);
+  };
+  // Decrease the lives count when user answers incorrectly.
+  const updateLives = (decrease: boolean) => {
+    if (decrease) {
+      setLives((prevLives) => {
+        const newLives = prevLives - 1;
+        if (newLives <= 0) {
+          setBannerText("Game Over");
+          setGameOver(true);
+          setShowBanner(true);
+          dispatch(setButtonText("Return to Dashboard")); // Change button text
+        }
+        return newLives;
+      });
+    }
+  };
+
+  // Handle submission logic when the game is over
+  const onSubmit = () => {
+    if (gameOver) {
+      // Reset score
+      setStreakCount(0);
+      setLives(3);
+      setShowBanner(false);
+      setBannerText(null);
+      setGameOver(false);
+      // Navigate to dashboard
+      navigate("/dashboard");
+    }
+  };
 
   // returns the content as a React Component
   const renderPage = (page: Content) => {
@@ -114,6 +148,9 @@ function Lesson() {
               dispatch(setButtonText(buttonText))
             }
             page={page as DragAndDrop}
+            updateStreak={updateStreak}
+            updateLives={updateLives}
+            buttonText={buttonText}
           />
         </div>
       );
@@ -125,6 +162,9 @@ function Lesson() {
               dispatch(setButtonText(buttonText))
             }
             page={page as Matching}
+            updateStreak={updateStreak}
+            updateLives={updateLives}
+            buttonText={buttonText}
           />
         </div>
       );
@@ -133,9 +173,12 @@ function Lesson() {
         <div className="main-container">
           <MultipleChoiceQuestion
             page={page as MultipleChoice}
+            updateStreak={updateStreak}
+            updateLives={updateLives}
             setButtonText={(buttonText: string) =>
               dispatch(setButtonText(buttonText))
             }
+            buttonText={buttonText}
           />
         </div>
       );
@@ -157,14 +200,14 @@ function Lesson() {
     <LessonProvider>
       <div className="container">
         <Header
+          lives={lives}
           pageNumber={pageNumber}
+          streakCount={streakCount}
           contentList={contentList}
           direction={direction}
           setPageNumber={(pageNumber: number) =>
             dispatch(setPageNumber(pageNumber))
           }
-          startLives={startLives}
-          startStreak={startStreak}
         />
         <Body
           pageNumber={pageNumber}
@@ -177,8 +220,12 @@ function Lesson() {
           }
           renderedPage={renderedPage}
           buttonText={buttonText}
-          chapters={chapters}
+          gameOver={gameOver}
+          onSubmit={onSubmit}
         />
+        {showBanner && (
+          <Banner isCorrect={false} message={bannerText!} gameOver={gameOver} />
+        )}
       </div>
     </LessonProvider>
   );

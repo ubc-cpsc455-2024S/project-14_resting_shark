@@ -11,6 +11,7 @@ import * as React from "react";
 function DragAndDropQuestion(props: {
   page: DragAndDrop;
   setButtonText: (buttonText: string) => void;
+  buttonText: string
 }) {
   const content = props.page.content;
   const draggableObject = props.page.draggable;
@@ -63,7 +64,7 @@ function DragAndDropQuestion(props: {
   }, [localCheck]);
 
   useEffect(() => {
-    if (checkAnswer !== localCheck) {
+    if (checkAnswer !== localCheck && props.buttonText == "Submit") {
       setLocalCheck(checkAnswer);
 
       let allCorrect = true;

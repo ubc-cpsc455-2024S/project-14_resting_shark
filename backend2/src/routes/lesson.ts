@@ -115,21 +115,6 @@ router.patch("/:id", authMiddleware, async (req: Request, res: Response) => {
 });
 
 /*
-Gets the title of a lesson by id
-Reauest params:
-  - id: the id of the lesson
-*/
-router.get("/:id/title", async (req: Request, res: Response) => {
-  try {
-    const lessonId = req.params.id;
-    const title = await lessonService.getLessonTitle(lessonId);
-    res.status(200).json({ title });
-  } catch (error: any) {
-    res.status(error.code || 500).json({ message: error.message });
-  }
-});
-
-/*
   generates a lesson using openai based on a given contents string, then returns the lesson.
   */
 router.post("/", authMiddleware, async (req: Request, res: Response) => {

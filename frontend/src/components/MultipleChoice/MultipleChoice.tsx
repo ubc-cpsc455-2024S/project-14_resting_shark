@@ -8,9 +8,11 @@ import Banner from "../misc/banner/Banner";
 import * as React from "react";
 
 // Multiple Choice question component
+// TODO Fix logic
 export default function MultipleChoiceQuestion(props: {
   page: MultipleChoice;
   setButtonText: (buttonText: string) => void;
+  buttonText: string
 }) {
   const [selectedChoice, setSelectedChoice] = useState<string | null>(null);
   const [showResult, setShowResult] = useState<boolean>(false);
@@ -81,7 +83,7 @@ export default function MultipleChoiceQuestion(props: {
   }, [localCheck]);
 
   useEffect(() => {
-    if (checkAnswer !== localCheck) {
+    if (checkAnswer !== localCheck && props.buttonText == "Submit") {
       setLocalCheck(checkAnswer);
 
       let allCorrect = true;
@@ -90,7 +92,6 @@ export default function MultipleChoiceQuestion(props: {
         allCorrect = false;
       } else {
         allCorrect = options[selectedChoice];
-        console.log(options[selectedChoice]);
       }
 
       if (allCorrect) {
