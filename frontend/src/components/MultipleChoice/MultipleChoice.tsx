@@ -8,7 +8,6 @@ import Banner from "../misc/banner/Banner";
 import * as React from "react";
 
 // Multiple Choice question component
-// TODO Fix logic
 export default function MultipleChoiceQuestion(props: {
   page: MultipleChoice;
   setButtonText: (buttonText: string) => void;
