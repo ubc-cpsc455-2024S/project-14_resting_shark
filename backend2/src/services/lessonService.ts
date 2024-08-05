@@ -223,26 +223,10 @@ class LessonService {
 
     // turn userid string into object id
     let userObjId;
-    let authorObjId;
     try {
       userObjId = new mongoose.Types.ObjectId(userId);
-      authorObjId = new mongoose.Types.ObjectId(lesson.author);
     } catch (error) {
       console.error("Invalid userId format:", error);
-      throw error;
-    }
-
-    // Check if the user already has an instance of the lesson
-    const existingInstance = await Lesson.findOne({
-      author: lesson.author,
-      instanceOwner: userObjId,
-    });
-
-    if (existingInstance) {
-      const error: ErrorWithCode = new Error(
-        "User already has an instance of this lesson"
-      );
-      error.code = 409;
       throw error;
     }
 
@@ -251,6 +235,11 @@ class LessonService {
     const copiedLesson = new Lesson({
       ...lessonData,
       instanceOwner: userObjId,
+      lives: 3,
+      streakCount: 0,
+      pageProgress: -1, // page progress is set to -1 if this lesson has never been opened before
+      highScore: 0,
+      currentScore: 0,
     });
 
     // save
