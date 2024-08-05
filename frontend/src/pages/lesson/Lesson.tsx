@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import "./Lesson.css";
 import { useEffect, useState } from "react";
 import Content from "../../class/Content";
@@ -37,11 +37,9 @@ function Lesson() {
   const [chapters, setChapters] = useState({});
 
   const dispatch = useAppDispatch();
-  console.log(fullLesson);
-  console.log(contentList);
 
   useEffect(() => {
-    if (contentList && fullLesson) {
+    if (contentList.length != 0 && fullLesson) {
       const secondChapter = contentList[1] as Info;
       const currChapter = {
         title: fullLesson.lesson?.name,
@@ -74,7 +72,6 @@ function Lesson() {
         console.error("Error in fetchLesson:", error);
       }
     }
-
     if (lessonId) {
       fetchLesson();
     }
