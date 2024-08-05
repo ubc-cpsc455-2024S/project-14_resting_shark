@@ -1,12 +1,13 @@
-import { useEffect, useState } from "react";
-import { lessonApi } from "../../../../../../api/lessonApi";
 import ExploreLesson from "../../../../../explore/lessonCard/ExploreLesson";
+import Lesson from "../../../content/lesson/LessonCard";
 import s from "./Cards.module.css";
 import * as React from "react";
 
 interface CustomComponentProps {
   style?: React.CSSProperties;
   name: string;
+  id: string;
+  length: number;
 }
 
 const topStyle = {
@@ -21,34 +22,21 @@ const botStyle = {
   opacity: "0.85",
 };
 
-export default function Cards() {
-  const [lesson, setLesson] = useState({name: ""});
-
-  // get the lesson name of lesson of the day
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const lesson = await lessonApi.fetchLessonOfTheDay("");
-        setLesson(lesson);
-      } catch (e: any) {
-        console.error(e.message);
-      }
-    }
-    fetchData();
-  }, []);
+export default function Cards({ lesson }: any) {
+  const length = lesson.content ? lesson.content.length : 0;
 
   return (
     <div className={s.container}>
-      <Card style={botStyle} name={lesson.name} />
-      <Card style={topStyle} name={lesson.name} />
+      <Card style={botStyle} name={lesson.name} id={lesson._id} length={length} />
+      <Card style={topStyle} name={lesson.name} id={lesson._id} length={length} />
     </div>
   );
 }
 
-const Card: React.FC<CustomComponentProps> = ({ style, name }) => {
+const Card: React.FC<CustomComponentProps> = ({ style, name, id, length }) => {
   return (
     <div className={s.cardContainer} style={style}>
-      <ExploreLesson name={name} />
+      <ExploreLesson name={name} id={id} length={length} />
     </div>
   );
 };

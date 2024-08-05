@@ -15,8 +15,6 @@ interface Position {
 
 export default function MatchingQuestion(props: {
   page: Matching;
-  updateStreak: (isCorrect: boolean) => void;
-  updateLives: (decrease: boolean) => void;
   setButtonText: (buttonText: string) => void;
   buttonText: string
 }) {
@@ -47,6 +45,10 @@ export default function MatchingQuestion(props: {
     checkAnswer,
     canCheckAnswers,
     setCheckAnswer,
+    setLives,
+    lives,
+    streak,
+    setStreak,
   } = useLessonContext();
 
   const [showBanner, setShowBanner] = useState(false);
@@ -67,6 +69,12 @@ export default function MatchingQuestion(props: {
     if (canCheckAnswers && localCanCheckAnswers) {
       setShowBanner(true);
       setTimeout(() => setShowBanner(false), 2500);
+      if (!canProgress) {
+        setStreak(0);
+        setLives(lives - 1);
+      } else {
+        setStreak(streak + 1);
+      }
     }
   }, [localCheck]);
 
@@ -90,11 +98,8 @@ export default function MatchingQuestion(props: {
 
       if (allCorrect) {
         setBannerText("Perfect!");
-        props.updateStreak(true);
         props.setButtonText("Next");
       } else {
-        props.updateLives(true);
-        props.updateStreak(false);
         setBannerText("So Close.");
       }
 

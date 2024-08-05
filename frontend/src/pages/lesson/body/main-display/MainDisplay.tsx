@@ -14,33 +14,29 @@ export default function MainDisplay(props: BodyProps) {
   } = useLessonContext();
 
   const onNextButtonPress = () => {
-    if (props.gameOver) {
-      props.onSubmit();
-    } else {
-      setTimeout(() => {
-        if (!isQuestionPage) {
-          if (props.pageNumber + 1 < props.contentList.length) {
-            props.setPageNumber(props.pageNumber + 1);
-            if (props.pageNumber + 1 < farthestPage) {
-              setFarthestPage(farthestPage + 1);
-            }
+    setTimeout(() => {
+      if (!isQuestionPage) {
+        if (props.pageNumber + 1 < props.contentList.length) {
+          props.setPageNumber(props.pageNumber + 1);
+          if (props.pageNumber + 1 < farthestPage) {
+            setFarthestPage(farthestPage + 1);
           }
+        }
+      } else {
+        if (props.pageNumber + 1 <= farthestPage) {
+          props.setPageNumber(props.pageNumber + 1);
         } else {
-          if (props.pageNumber + 1 <= farthestPage) {
-            props.setPageNumber(props.pageNumber + 1);
-          } else {
-            if (canCheckAnswers) {
-              broadcastCheckAnswer();
-              if (canProgress) {
-                setFarthestPage(farthestPage + 1);
-                props.setPageNumber(props.pageNumber + 1);
-                props.setButtonText("Next");
-              }
+          if (canCheckAnswers) {
+            broadcastCheckAnswer();
+            if (canProgress) {
+              setFarthestPage(farthestPage + 1);
+              props.setPageNumber(props.pageNumber + 1);
+              props.setButtonText("Next");
             }
           }
         }
-      }, 150);
-    }
+      }
+    }, 150);
   };
 
   return (

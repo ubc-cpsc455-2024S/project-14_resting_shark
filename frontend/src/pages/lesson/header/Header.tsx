@@ -9,6 +9,8 @@ import {
 import { Link } from "react-router-dom";
 import Content from "../../../class/Content";
 import { HeaderProps } from "./Header.d";
+import { useLessonContext } from "../../../context/LessonProvider";
+import { useEffect } from "react";
 
 export default function Header(props: HeaderProps) {
   return (
@@ -18,12 +20,12 @@ export default function Header(props: HeaderProps) {
       </div>
       <div className="middle-head">
         <ProgressHeader
-          lives={props.lives}
           pageNumber={props.pageNumber}
-          streakCount={props.streakCount}
           contentList={props.contentList}
           direction={props.direction}
           setPageNumber={props.setPageNumber}
+          startLives={props.startLives}
+          startStreak={props.startStreak}
         />
       </div>
       <div className="right-head">
@@ -47,26 +49,33 @@ function ExitButton() {
 }
 
 function ProgressHeader(props: {
-  lives: number;
   pageNumber: number;
-  streakCount: number;
   contentList: Content[];
   direction: string;
   setPageNumber: (pageNumber: number) => void;
+  startLives: number;
+  startStreak: number;
 }) {
+  const { streak, setStreak, lives, setLives } = useLessonContext();
+
+  useEffect(() => {
+    setStreak(props.startStreak);
+    setLives(props.startLives);
+  }, []);
+
   return (
     <div className="progress-container">
       <div className="progress-stats">
         <div className="stat">
           <img src="/Lesson/heart.png" alt="heart" />
-          <span>{props.lives}</span>
+          <span>{lives}</span>
         </div>
         <div className="page-count">
           {props.pageNumber + 1}/{props.contentList.length}
         </div>
         <div className="stat">
           <img src="/Lesson/streak.png" alt="streak" />
-          <span>{props.streakCount}</span>
+          <span>{streak}</span>
         </div>
         <div></div>
       </div>

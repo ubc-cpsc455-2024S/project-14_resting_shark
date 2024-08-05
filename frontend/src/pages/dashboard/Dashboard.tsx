@@ -31,6 +31,7 @@ export default function Dashboard() {
             setPageProfile={setPageProfile}
             setPageHome={setPageHome}
           />
+          <div className={s.navbarSpace}></div>
         </div>
         {page}
       </div>

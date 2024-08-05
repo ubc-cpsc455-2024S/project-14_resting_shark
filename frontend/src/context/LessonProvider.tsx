@@ -15,6 +15,10 @@ interface LessonContextType {
   broadcastCheckAnswer: () => void;
   bannerText: string;
   setBannerText: (bannerText: string) => void;
+  lives: number;
+  setLives: (lives: number) => void;
+  streak: number;
+  setStreak: (streaks: number) => void;
 }
 
 const LessonContext = createContext<LessonContextType | undefined>(undefined);
@@ -38,6 +42,8 @@ export function LessonProvider({ children }: LessonProviderProps) {
   const [canCheckAnswers, setCanCheckAnswers] = useState(false);
   const [checkAnswer, setCheckAnswer] = useState(false);
   const [bannerText, setBannerText] = useState("");
+  const [lives, setLives] = useState(3);
+  const [streak, setStreak] = useState(0);
 
   const broadcastCheckAnswer = () => {
     setCheckAnswer((prevState) => !prevState);
@@ -59,6 +65,10 @@ export function LessonProvider({ children }: LessonProviderProps) {
         setCheckAnswer,
         bannerText,
         setBannerText,
+        lives,
+        setLives,
+        streak,
+        setStreak,
       }}
     >
       {children}

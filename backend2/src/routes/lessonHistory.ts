@@ -13,8 +13,8 @@ returns: the created object
 router.post("/:id", authMiddleware, async (req: Request, res: Response) => {
   try {
     const userId = req.user.id;
-    const { lessonId } = req.params;
-    const record = await lessonHistoryService.record(userId, lessonId);
+    const { id } = req.params;
+    const record = await lessonHistoryService.record(userId, id);
     res.status(201).json(record);
   } catch (error: any) {
     res.status(500).json(error.message)

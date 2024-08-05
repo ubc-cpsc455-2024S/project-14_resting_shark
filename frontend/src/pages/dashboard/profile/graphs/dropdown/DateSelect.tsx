@@ -45,40 +45,27 @@ function getDateRange(period: string) {
   const currentDate = new Date();
   const options: Intl.DateTimeFormatOptions = { month: "long", day: "numeric" };
 
-  let startDate = new Date(currentDate);
+  let startDate = new Date();
+  let endDate = new Date();
 
   switch (period) {
     case "This week":
-      startDate.setDate(currentDate.getDate() - currentDate.getDay());
+      startDate.setDate(currentDate.getDate() - 6);
+      endDate = new Date(currentDate);
       break;
     case "Last week":
-      const lastWeekStart = new Date(currentDate);
-      lastWeekStart.setDate(currentDate.getDate() - currentDate.getDay() - 7);
-      const lastWeekEnd = new Date(lastWeekStart);
-      lastWeekEnd.setDate(lastWeekStart.getDate() + 6);
-      return {
-        startDate: lastWeekStart.toLocaleDateString("en-US", options),
-        endDate: lastWeekEnd.toLocaleDateString("en-US", options),
-      };
+      startDate.setDate(currentDate.getDate() - 13);
+      endDate.setDate(currentDate.getDate() - 7);
+      break;
     case "Last last week":
-      const lastLastWeekStart = new Date(currentDate);
-      lastLastWeekStart.setDate(
-        currentDate.getDate() - currentDate.getDay() - 14
-      );
-      const lastLastWeekEnd = new Date(lastLastWeekStart);
-      lastLastWeekEnd.setDate(lastLastWeekStart.getDate() + 6);
-      return {
-        startDate: lastLastWeekStart.toLocaleDateString("en-US", options),
-        endDate: lastLastWeekEnd.toLocaleDateString("en-US", options),
-      };
+      startDate.setDate(currentDate.getDate() - 20);
+      endDate.setDate(currentDate.getDate() - 14);
+      break;
     default:
       throw new Error(
         "Invalid period specified. Use 'This week', 'Last week', or 'Last last week'"
       );
   }
-
-  const endDate = new Date(startDate);
-  endDate.setDate(startDate.getDate() + 6);
 
   return {
     startDate: startDate.toLocaleDateString("en-US", options),
