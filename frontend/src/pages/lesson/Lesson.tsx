@@ -11,10 +11,7 @@ import Intro from "../../class/Intro";
 import Matching from "../../class/Matching";
 import MultipleChoice from "../../class/MultipleChoice";
 import { useAppSelector, useAppDispatch } from "../../redux/hooks";
-import {
-  setPageNumber,
-  setButtonText,
-} from "../../redux/slices/lessonPageSlice";
+import { setButtonText } from "../../redux/slices/lessonPageSlice";
 import { lessonApi } from "../../api/lessonApi";
 import Information from "../../components/Information/Information";
 import { LessonProvider } from "../../context/LessonProvider";
@@ -22,12 +19,12 @@ import Header from "./header/Header";
 import Body from "./body/Body";
 import * as React from "react";
 import FinishedLesson from "../FinishedLesson/FinishedLesson";
+import { requests } from "../../api/requestTemplate";
 
 function Lesson() {
   const { lessonId } = useParams();
   const token = useAppSelector((state) => state.auth.jwtToken);
   const contentList = useAppSelector((state) => state.fullLesson.contentList);
-  const pageNumber = useAppSelector((state) => state.lessonPage.pageNumber);
   const direction = useAppSelector((state) => state.lessonPage.direction);
   const buttonText = useAppSelector((state) => state.lessonPage.buttonText);
   const fullLesson = useAppSelector((state) => state.fullLesson);
@@ -35,6 +32,8 @@ function Lesson() {
   const [startLives, setStartLives] = useState(3);
   const [startStreak, setStartStreak] = useState(0);
   const [chapters, setChapters] = useState({});
+  const [pageNumber, setPageNumber] = useState(0);
+  const [startPage, setStartPage] = useState(0);
 
   const dispatch = useAppDispatch();
 
@@ -48,13 +47,43 @@ function Lesson() {
           secondChapter.title,
           ...contentList
             .slice(2)
-            .map((item: any, index: number) => "Question " + (index + 2)),
+            .map((item: any, index: number) => "Question " + (index + 1)),
         ],
       };
 
       setChapters(currChapter);
     }
   }, [contentList, fullLesson]);
+
+  async function updateLesson() {
+    let updatedLesson = await requests.getRequest(token, `/lesson/${lessonId}`);
+    console.log("fetched lesson", updatedLesson);
+
+    if (startPage < pageNumber && updatedLesson) {
+      updatedLesson.pageProgress = pageNumber;
+      console.log(
+        "startPage is " + startPage + " and currPageNumber is " + pageNumber
+      );
+
+      if (updatedLesson !== null && updatedLesson !== undefined) {
+        try {
+          await requests.patchRequest(token, `/lesson/${lessonId}`, {
+            updatedLesson,
+          });
+        } catch (error) {
+          console.error("Failed to update lesson:", error);
+        }
+      } else {
+        console.log("lesson null");
+      }
+    }
+  }
+
+  useEffect(() => {
+    return () => {
+      updateLesson();
+    };
+  }, [pageNumber]);
 
   useEffect(() => {
     async function fetchLesson() {
@@ -65,6 +94,8 @@ function Lesson() {
         if (lessonApi.fetchFullLesson.fulfilled.match(resultAction)) {
           setStartLives(resultAction.payload.lives);
           setStartStreak(resultAction.payload.streakCount);
+          setPageNumber(resultAction.payload.pageProgress + 1);
+          setStartPage(resultAction.payload.pageProgress + 1);
         } else {
           console.error("Failed to fetch lesson:", resultAction.error);
         }
@@ -160,18 +191,14 @@ function Lesson() {
           pageNumber={pageNumber}
           contentList={contentList}
           direction={direction}
-          setPageNumber={(pageNumber: number) =>
-            dispatch(setPageNumber(pageNumber))
-          }
+          setPageNumber={(pageNumber: number) => setPageNumber(pageNumber)}
           startLives={startLives}
           startStreak={startStreak}
         />
         <Body
           pageNumber={pageNumber}
           contentList={contentList}
-          setPageNumber={(pageNumber: number) =>
-            dispatch(setPageNumber(pageNumber))
-          }
+          setPageNumber={(pageNumber: number) => setPageNumber(pageNumber)}
           setButtonText={(buttonText: string) =>
             dispatch(setButtonText(buttonText))
           }

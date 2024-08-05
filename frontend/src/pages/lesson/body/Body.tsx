@@ -38,8 +38,6 @@ function ChaptersNav(props: { chapters: any; pageNumber: number }) {
     dispatch(setPageNumber(page));
   };
 
-  console.log(props.chapters);
-
   return (
     <div className="left-container">
       <div className="chapters">
