@@ -1,4 +1,4 @@
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import "./Lesson.css";
 import { useEffect, useState } from "react";
 import Content from "../../class/Content";
@@ -22,7 +22,6 @@ import Header from "./header/Header";
 import Body from "./body/Body";
 import * as React from "react";
 import FinishedLesson from "../FinishedLesson/FinishedLesson";
-import { BASE_URL } from "../../constants/Config";
 
 function Lesson() {
   const { lessonId } = useParams();
@@ -31,32 +30,52 @@ function Lesson() {
   const pageNumber = useAppSelector((state) => state.lessonPage.pageNumber);
   const direction = useAppSelector((state) => state.lessonPage.direction);
   const buttonText = useAppSelector((state) => state.lessonPage.buttonText);
+  const fullLesson = useAppSelector((state) => state.fullLesson);
+
+  const [startLives, setStartLives] = useState(3);
+  const [startStreak, setStartStreak] = useState(0);
+  const [chapters, setChapters] = useState({});
 
   const dispatch = useAppDispatch();
 
-  // fetch lesson data
   useEffect(() => {
-    const fetchTitle = async () => {
+    if (contentList.length != 0 && fullLesson) {
+      const secondChapter = contentList[1] as Info;
+      const currChapter = {
+        title: fullLesson.lesson?.name,
+        chapters: [
+          "Intro",
+          secondChapter.title,
+          ...contentList
+            .slice(2)
+            .map((item: any, index: number) => "Question " + (index + 2)),
+        ],
+      };
+
+      setChapters(currChapter);
+    }
+  }, [contentList, fullLesson]);
+
+  useEffect(() => {
+    async function fetchLesson() {
       try {
-        const response = await fetch(BASE_URL + `/lesson/${lessonId}/title`);
-        if (!response.ok) {
-          throw new Error("Failed to fetch title");
+        const resultAction = await dispatch(
+          lessonApi.fetchFullLesson({ token, lessonId })
+        );
+        if (lessonApi.fetchFullLesson.fulfilled.match(resultAction)) {
+          setStartLives(resultAction.payload.lives);
+          setStartStreak(resultAction.payload.streakCount);
+        } else {
+          console.error("Failed to fetch lesson:", resultAction.error);
         }
-        await response.json();
       } catch (error) {
-        console.error(error);
+        console.error("Error in fetchLesson:", error);
       }
-    };
-
-    fetchTitle();
-
-    dispatch(
-      lessonApi.fetchFullLesson({
-        token: token,
-        lessonId: lessonId,
-      })
-    );
-  }, [lessonId, dispatch]);
+    }
+    if (lessonId) {
+      fetchLesson();
+    }
+  }, [lessonId, dispatch, token]);
 
   useEffect(() => {
     if (contentList.length === 0) {
@@ -144,6 +163,8 @@ function Lesson() {
           setPageNumber={(pageNumber: number) =>
             dispatch(setPageNumber(pageNumber))
           }
+          startLives={startLives}
+          startStreak={startStreak}
         />
         <Body
           pageNumber={pageNumber}
@@ -156,6 +177,7 @@ function Lesson() {
           }
           renderedPage={renderedPage}
           buttonText={buttonText}
+          chapters={chapters}
         />
       </div>
     </LessonProvider>

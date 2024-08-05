@@ -5,4 +5,6 @@ export type HeaderProps = {
   contentList: Content[];
   direction: string;
   setPageNumber: (pageNumber: number) => void;
+  startLives: number;
+  startStreak: number;
 };

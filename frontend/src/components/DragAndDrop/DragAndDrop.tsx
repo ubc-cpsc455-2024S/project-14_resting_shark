@@ -1,11 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import "./DragAndDrop.css";
-import {
-  DndContext,
-  useDndMonitor,
-  useDraggable,
-  useDroppable,
-} from "@dnd-kit/core";
+import { DndContext, useDraggable, useDroppable } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
 import DragAndDrop from "../../class/DragAndDrop";
 import { useLessonContext } from "../../context/LessonProvider";

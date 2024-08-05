@@ -19,8 +19,6 @@ export default function Content() {
     <LessonCard isFirst={index === 0} lesson={item} key={index} />
   ));
 
-  console.log(lessons)
-
   return (
     <div className={s.recentLessonsWrapper}>
       <div className={s.recentLessonsLabel}>Recent Lessons</div>
