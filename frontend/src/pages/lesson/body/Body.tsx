@@ -1,16 +1,18 @@
 import { requests } from "../../../api/requestTemplate";
 import { BodyProps } from "./Body.d";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./AiHelper.css";
 import MainDisplay from "./main-display/MainDisplay";
 import { LuBot } from "react-icons/lu";
 import * as React from "react";
+import { useAppDispatch, useAppSelector } from "../../../redux/hooks";
+import { setPageNumber } from "../../../redux/slices/lessonPageSlice";
 
 export default function Body(props: BodyProps) {
   return (
     <div className="body">
       <div className="left-body">
-        <ChaptersNav />
+        <ChaptersNav chapters={props.chapters} pageNumber={props.pageNumber} />
       </div>
       <div className="middle-body">
         <MainDisplay
@@ -29,19 +31,28 @@ export default function Body(props: BodyProps) {
   );
 }
 
-function ChaptersNav() {
+function ChaptersNav(props: { chapters: any; pageNumber: number }) {
+  const dispatch = useAppDispatch();
+
+  const navigate = (page: number) => {
+    dispatch(setPageNumber(page));
+  };
+
   return (
     <div className="left-container">
       <div className="chapters">
-        <h1>Astronomy</h1>
+        <h1>{props.chapters.title}</h1>
         <div className="list-container">
           <ul>
-            <li className="active">Intro</li>
-            <li>The Sun</li>
-            <li>Galaxies</li>
-            <li>The Solar System</li>
-            <li>Planets</li>
-            <li>Stars</li>
+            {props.chapters.chapters.map((item: string, index: number) => (
+              <li
+                className={props.pageNumber == index ? "active" : ""}
+                onClick={() => navigate(index)}
+                key={index}
+              >
+                {item}
+              </li>
+            ))}
           </ul>
         </div>
       </div>

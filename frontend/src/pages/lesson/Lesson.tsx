@@ -30,11 +30,33 @@ function Lesson() {
   const pageNumber = useAppSelector((state) => state.lessonPage.pageNumber);
   const direction = useAppSelector((state) => state.lessonPage.direction);
   const buttonText = useAppSelector((state) => state.lessonPage.buttonText);
+  const fullLesson = useAppSelector((state) => state.fullLesson);
+
   const [startLives, setStartLives] = useState(3);
   const [startStreak, setStartStreak] = useState(0);
-  const [navigation, setNavigation] = useState({});
+  const [chapters, setChapters] = useState({});
 
   const dispatch = useAppDispatch();
+  console.log(fullLesson);
+  console.log(contentList);
+
+  useEffect(() => {
+    if (contentList && fullLesson) {
+      const secondChapter = contentList[1] as Info;
+      const currChapter = {
+        title: fullLesson.lesson?.name,
+        chapters: [
+          "Intro",
+          secondChapter.title,
+          ...contentList
+            .slice(2)
+            .map((item: any, index: number) => "Question " + (index + 2)),
+        ],
+      };
+
+      setChapters(currChapter);
+    }
+  }, [contentList, fullLesson]);
 
   useEffect(() => {
     async function fetchLesson() {
@@ -158,6 +180,7 @@ function Lesson() {
           }
           renderedPage={renderedPage}
           buttonText={buttonText}
+          chapters={chapters}
         />
       </div>
     </LessonProvider>
