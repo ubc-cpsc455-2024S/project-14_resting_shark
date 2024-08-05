@@ -7,6 +7,7 @@ import ExploreLesson from "./lessonCard/ExploreLesson";
 interface Lesson {
   _id: string;
   name: string;
+  content: any[];
 }
 
 export default function Explore() {
@@ -35,7 +36,7 @@ export default function Explore() {
       <h1>Discover</h1>
       <div className={s.lessonsContainer}>
         {lessons.map((item, index) => (
-          <ExploreLesson key={index} name={item.name} id={item._id} />
+          <ExploreLesson key={index} name={item.name} id={item._id} length={item.content.length} />
         ))}
       </div>
     </div>

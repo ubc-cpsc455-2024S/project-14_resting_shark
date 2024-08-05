@@ -6,7 +6,7 @@ import * as React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export default function ExploreLesson(props: { name: string; id: string }) {
+export default function ExploreLesson(props: { name: string; id: string; length: number }) {
   const token = useAppSelector((state) => state.auth.jwtToken);
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
@@ -37,7 +37,7 @@ export default function ExploreLesson(props: { name: string; id: string }) {
       </div>
       <div className={s.bottomContainer}>
         <span className={s.name}>{props.name}</span>
-        <span className={s.totalQuestions}>12 questions</span>
+        <span className={s.totalQuestions}>{props.length} questions</span>
         <button onClick={onLessonClick} className={s.continueToLearnButton}>
           {isLoading ? <div className="loader"></div> : "Make a copy"}
         </button>

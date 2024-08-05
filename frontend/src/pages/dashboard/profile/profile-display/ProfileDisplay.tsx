@@ -60,11 +60,6 @@ export default function ProfileDisplay() {
 
   const level = Math.floor(totalExp / 1000);
 
-  function deleteAccount() {
-    userApi.deleteUser(token);
-    navigate("/");
-  }
-
   return (
     <div className={s.container}>
       <div className={s.header}>
@@ -88,12 +83,6 @@ export default function ProfileDisplay() {
           <ProgressBar percentage={((totalExp % 1000) / 1000) * 100} />
         </div>
       </div>
-
-      {/* TEMP CODE START */}
-      <div className={s.deleteButtonContainer}>
-        <button onClick={deleteAccount}>Delete Account</button>
-      </div>
-      {/* TEMP CODE END */}
       <UserEditModal
         isOpen={isUserEditModalOpen}
         onClose={handleCloseModal}
