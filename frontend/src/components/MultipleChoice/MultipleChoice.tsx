@@ -14,6 +14,7 @@ export default function MultipleChoiceQuestion(props: {
   updateStreak: (isCorrect: boolean) => void;
   updateLives: (decrease: boolean) => void;
   setButtonText: (buttonText: string) => void;
+  buttonText: string
 }) {
   const [selectedChoice, setSelectedChoice] = useState<string | null>(null);
   const [showResult, setShowResult] = useState<boolean>(false);
@@ -74,7 +75,7 @@ export default function MultipleChoiceQuestion(props: {
   }, [localCheck]);
 
   useEffect(() => {
-    if (checkAnswer !== localCheck) {
+    if (checkAnswer !== localCheck && props.buttonText == "Submit") {
       setLocalCheck(checkAnswer);
 
       let allCorrect = true;
@@ -83,7 +84,6 @@ export default function MultipleChoiceQuestion(props: {
         allCorrect = false;
       } else {
         allCorrect = options[selectedChoice];
-        console.log(options[selectedChoice]);
       }
 
       if (allCorrect) {

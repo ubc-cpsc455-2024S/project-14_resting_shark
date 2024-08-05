@@ -13,6 +13,7 @@ function DragAndDropQuestion(props: {
   updateStreak: (isCorrect: boolean) => void;
   updateLives: (decrease: boolean) => void;
   setButtonText: (buttonText: string) => void;
+  buttonText: string
 }) {
   const content = props.page.content;
   const draggableObject = props.page.draggable;
@@ -59,7 +60,7 @@ function DragAndDropQuestion(props: {
   }, [localCheck]);
 
   useEffect(() => {
-    if (checkAnswer !== localCheck) {
+    if (checkAnswer !== localCheck && props.buttonText == "Submit") {
       setLocalCheck(checkAnswer);
 
       let allCorrect = true;

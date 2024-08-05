@@ -48,7 +48,10 @@ function Lesson() {
     const fetchTitle = async () => {
       try {
         const token = localStorage.getItem("jwtToken") ?? undefined;
-        const response = await requests.getRequest(token, `/lesson/${lessonId}`);
+        const response = await requests.getRequest(
+          token,
+          `/lesson/${lessonId}`
+        );
         setTitle(response.name);
       } catch (error) {
         console.error(error);
@@ -88,13 +91,11 @@ function Lesson() {
 
   // Updates the streak count when user answers correctly.
   const updateStreak = (isCorrect: boolean) => {
-    console.log("This is 'isCorrect' : " + isCorrect);  
     setStreakCount(isCorrect ? streakCount + 1 : 0);
   };
   // Decrease the lives count when user answers incorrectly.
   const updateLives = (decrease: boolean) => {
     if (decrease) {
-      console.log("This is 'decrase' : " + decrease);
       setLives((prevLives) => {
         const newLives = prevLives - 1;
         if (newLives <= 0) {
@@ -149,6 +150,7 @@ function Lesson() {
             page={page as DragAndDrop}
             updateStreak={updateStreak}
             updateLives={updateLives}
+            buttonText={buttonText}
           />
         </div>
       );
@@ -162,6 +164,7 @@ function Lesson() {
             page={page as Matching}
             updateStreak={updateStreak}
             updateLives={updateLives}
+            buttonText={buttonText}
           />
         </div>
       );
@@ -175,6 +178,7 @@ function Lesson() {
             setButtonText={(buttonText: string) =>
               dispatch(setButtonText(buttonText))
             }
+            buttonText={buttonText}
           />
         </div>
       );

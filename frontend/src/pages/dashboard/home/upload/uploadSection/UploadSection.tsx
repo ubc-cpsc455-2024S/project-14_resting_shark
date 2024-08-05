@@ -70,7 +70,7 @@ export default function UploadSection() {
         const lessonResult = await lessonResponse.json();
 
         if (lessonResponse.ok) {
-          console.log("HERE IS THE GENERATED LESSON:", lessonResult);
+          console.log("Generated Lesson: ", lessonResult);
           // Redirect to the new lesson
           navigate(`/lesson/${lessonResult._id}`);
         } else {
