@@ -44,8 +44,7 @@ export default function LessonsGraph() {
         setInterval(startDateDisplayString + " - " + endDateDisplayString);
 
         const today = new Date().getDay();
-        let shiftedWeekdays = defaultWeekDays.slice(today).concat(defaultWeekDays.slice(0, today + 1));
-        shiftedWeekdays = shiftedWeekdays.slice(defaultWeekDays.slice(0, today + 1).length);
+        let shiftedWeekdays = defaultWeekDays.slice(today + 1).concat(defaultWeekDays.slice(0, today + 1));
         setWeekData(shiftedWeekdays);
       } catch (e: any) {
         console.error(e.message);
