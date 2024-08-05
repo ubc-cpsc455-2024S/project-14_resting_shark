@@ -24,7 +24,7 @@ import Body from "./body/Body";
 import Banner from "../../components/misc/banner/Banner";
 import * as React from "react";
 import FinishedLesson from "../FinishedLesson/FinishedLesson";
-import { BASE_URL } from "../../constants/Config";
+import { requests } from "../../api/requestTemplate";
 
 function Lesson() {
   const { lessonId } = useParams();
@@ -47,14 +47,9 @@ function Lesson() {
   useEffect(() => {
     const fetchTitle = async () => {
       try {
-        const response = await fetch(
-          BASE_URL + `/lesson/${lessonId}/title`
-        );
-        if (!response.ok) {
-          throw new Error("Failed to fetch title");
-        }
-        const data = await response.json();
-        setTitle(data.title);
+        const token = localStorage.getItem("jwtToken") ?? undefined;
+        const response = await requests.getRequest(token, `/lesson/${lessonId}`);
+        setTitle(response.name);
       } catch (error) {
         console.error(error);
       }
