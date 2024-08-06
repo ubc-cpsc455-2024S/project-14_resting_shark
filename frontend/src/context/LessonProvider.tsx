@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, ReactNode } from "react";
 import * as React from "react";
 
+// Define the interface for the context
 interface LessonContextType {
   farthestPage: number;
   setFarthestPage: (page: number) => void;
@@ -15,35 +16,33 @@ interface LessonContextType {
   broadcastCheckAnswer: () => void;
   bannerText: string;
   setBannerText: (bannerText: string) => void;
-  lives: number;
-  setLives: (lives: number) => void;
-  streak: number;
-  setStreak: (streaks: number) => void;
 }
 
+// Create the context
 const LessonContext = createContext<LessonContextType | undefined>(undefined);
 
+// Custom hook to use the LessonContext
 export function useLessonContext() {
   const context = useContext(LessonContext);
   if (!context) {
-    throw new Error("useLessonContext must be used within a PageProvider");
+    throw new Error("useLessonContext must be used within a LessonProvider");
   }
   return context;
 }
 
+// Define props for LessonProvider
 interface LessonProviderProps {
   children: ReactNode;
 }
 
 export function LessonProvider({ children }: LessonProviderProps) {
+  // Use props for initial state values
   const [farthestPage, setFarthestPage] = useState<number>(0);
   const [isQuestionPage, setIsQuestionPage] = useState(false);
   const [canProgress, setCanProgress] = useState(true);
   const [canCheckAnswers, setCanCheckAnswers] = useState(false);
   const [checkAnswer, setCheckAnswer] = useState(false);
   const [bannerText, setBannerText] = useState("");
-  const [lives, setLives] = useState(3);
-  const [streak, setStreak] = useState(0);
 
   const broadcastCheckAnswer = () => {
     setCheckAnswer((prevState) => !prevState);
@@ -65,10 +64,6 @@ export function LessonProvider({ children }: LessonProviderProps) {
         setCheckAnswer,
         bannerText,
         setBannerText,
-        lives,
-        setLives,
-        streak,
-        setStreak,
       }}
     >
       {children}

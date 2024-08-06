@@ -11,10 +11,7 @@ import Intro from "../../class/Intro";
 import Matching from "../../class/Matching";
 import MultipleChoice from "../../class/MultipleChoice";
 import { useAppSelector, useAppDispatch } from "../../redux/hooks";
-import {
-  setPageNumber,
-  setButtonText,
-} from "../../redux/slices/lessonPageSlice";
+import { setButtonText } from "../../redux/slices/lessonPageSlice";
 import { lessonApi } from "../../api/lessonApi";
 import Information from "../../components/Information/Information";
 import { LessonProvider } from "../../context/LessonProvider";
@@ -22,19 +19,21 @@ import Header from "./header/Header";
 import Body from "./body/Body";
 import * as React from "react";
 import FinishedLesson from "../FinishedLesson/FinishedLesson";
+import { requests } from "../../api/requestTemplate";
 
 function Lesson() {
   const { lessonId } = useParams();
   const token = useAppSelector((state) => state.auth.jwtToken);
   const contentList = useAppSelector((state) => state.fullLesson.contentList);
-  const pageNumber = useAppSelector((state) => state.lessonPage.pageNumber);
   const direction = useAppSelector((state) => state.lessonPage.direction);
   const buttonText = useAppSelector((state) => state.lessonPage.buttonText);
   const fullLesson = useAppSelector((state) => state.fullLesson);
 
-  const [startLives, setStartLives] = useState(3);
-  const [startStreak, setStartStreak] = useState(0);
+  const [lives, setLives] = useState(3);
+  const [streak, setStreak] = useState(0);
   const [chapters, setChapters] = useState({});
+  const [pageNumber, setPageNumber] = useState(0);
+  const [startPage, setStartPage] = useState(0);
 
   const dispatch = useAppDispatch();
 
@@ -47,14 +46,44 @@ function Lesson() {
           "Intro",
           secondChapter.title,
           ...contentList
-            .slice(2)
-            .map((item: any, index: number) => "Question " + (index + 2)),
+            .slice(-3)
+            .map((item: any, index: number) => "Question " + (index + 1)),
         ],
       };
 
       setChapters(currChapter);
     }
   }, [contentList, fullLesson]);
+
+  async function updateLesson() {
+    let updatedLesson = await requests.getRequest(token, `/lesson/${lessonId}`);
+    console.log("fetched lesson", updatedLesson);
+
+    if (startPage <= pageNumber && updatedLesson) {
+      updatedLesson.pageProgress = pageNumber;
+    } else if (updatedLesson.pageProgress > contentList.length - 1) {
+      updatedLesson.pageProgress = contentList.length - 1;
+      console.log(updatedLesson);
+    }
+
+    if (updatedLesson !== null && updatedLesson !== undefined) {
+      try {
+        await requests.patchRequest(token, `/lesson/${lessonId}`, {
+          lesson: { ...updatedLesson },
+        });
+      } catch (error) {
+        console.error("Failed to update lesson:", error);
+      }
+    } else {
+      console.log("lesson null");
+    }
+  }
+
+  useEffect(() => {
+    return () => {
+      updateLesson();
+    };
+  }, [pageNumber]);
 
   useEffect(() => {
     async function fetchLesson() {
@@ -63,8 +92,14 @@ function Lesson() {
           lessonApi.fetchFullLesson({ token, lessonId })
         );
         if (lessonApi.fetchFullLesson.fulfilled.match(resultAction)) {
-          setStartLives(resultAction.payload.lives);
-          setStartStreak(resultAction.payload.streakCount);
+          setLives(resultAction.payload.lives);
+          setStreak(resultAction.payload.streakCount);
+          if (resultAction.payload.pageProgress === -1) {
+            setPageNumber(0);
+          } else {
+            setPageNumber(resultAction.payload.pageProgress);
+          }
+          setStartPage(resultAction.payload.pageProgress);
         } else {
           console.error("Failed to fetch lesson:", resultAction.error);
         }
@@ -78,14 +113,18 @@ function Lesson() {
   }, [lessonId, dispatch, token]);
 
   useEffect(() => {
-    if (contentList.length === 0) {
-      return;
-    } else if (contentList[pageNumber].type === "intro") {
-      dispatch(setButtonText("Let's Go!"));
-    } else if (contentList[pageNumber].type === "info") {
-      dispatch(setButtonText("Next"));
-    } else {
-      dispatch(setButtonText("Submit"));
+    try {
+      if (contentList.length === 0) {
+        return;
+      } else if (contentList[pageNumber].type === "intro") {
+        dispatch(setButtonText("Let's Go!"));
+      } else if (contentList[pageNumber].type === "info") {
+        dispatch(setButtonText("Next"));
+      } else {
+        dispatch(setButtonText("Submit"));
+      }
+    } catch (e: any) {
+      setPageNumber(0);
     }
   }, [pageNumber, contentList, dispatch]);
 
@@ -114,6 +153,11 @@ function Lesson() {
               dispatch(setButtonText(buttonText))
             }
             page={page as DragAndDrop}
+            id={lessonId}
+            lives={lives}
+            setLives={setLives}
+            streak={streak}
+            setStreak={setStreak}
           />
         </div>
       );
@@ -125,6 +169,11 @@ function Lesson() {
               dispatch(setButtonText(buttonText))
             }
             page={page as Matching}
+            id={lessonId}
+            lives={lives}
+            setLives={setLives}
+            streak={streak}
+            setStreak={setStreak}
           />
         </div>
       );
@@ -136,6 +185,11 @@ function Lesson() {
             setButtonText={(buttonText: string) =>
               dispatch(setButtonText(buttonText))
             }
+            id={lessonId}
+            lives={lives}
+            setLives={setLives}
+            streak={streak}
+            setStreak={setStreak}
           />
         </div>
       );
@@ -160,24 +214,22 @@ function Lesson() {
           pageNumber={pageNumber}
           contentList={contentList}
           direction={direction}
-          setPageNumber={(pageNumber: number) =>
-            dispatch(setPageNumber(pageNumber))
-          }
-          startLives={startLives}
-          startStreak={startStreak}
+          setPageNumber={(pageNumber: number) => setPageNumber(pageNumber)}
+          lives={lives}
+          streak={streak}
         />
         <Body
           pageNumber={pageNumber}
           contentList={contentList}
-          setPageNumber={(pageNumber: number) =>
-            dispatch(setPageNumber(pageNumber))
-          }
+          setPageNumber={(pageNumber: number) => setPageNumber(pageNumber)}
           setButtonText={(buttonText: string) =>
             dispatch(setButtonText(buttonText))
           }
           renderedPage={renderedPage}
           buttonText={buttonText}
           chapters={chapters}
+          lives={lives}
+          streak={streak}
         />
       </div>
     </LessonProvider>

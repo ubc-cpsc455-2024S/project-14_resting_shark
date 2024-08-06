@@ -7,6 +7,8 @@ import { useLessonContext } from "../../context/LessonProvider";
 import Line from "./lines/Line";
 import Banner from "../misc/banner/Banner";
 import * as React from "react";
+import { requests } from "../../api/requestTemplate";
+import { useAppSelector } from "../../redux/hooks";
 
 interface Position {
   x: number;
@@ -16,6 +18,11 @@ interface Position {
 export default function MatchingQuestion(props: {
   page: Matching;
   setButtonText: (buttonText: string) => void;
+  id: any;
+  lives: number;
+  streak: number;
+  setLives: React.Dispatch<React.SetStateAction<number>>;
+  setStreak: React.Dispatch<React.SetStateAction<number>>;
 }) {
   const termsObject = props.page.terms;
   const definitionsObject = props.page.definitions;
@@ -24,6 +31,8 @@ export default function MatchingQuestion(props: {
   const definitions = Object.keys(definitionsObject);
 
   const [reorderable, setReorderable] = useState(definitions);
+
+  const token = useAppSelector((state) => state.auth.jwtToken);
 
   const [matchedPairs, setMatchedPairs] = useState<
     { start: string; end: string }[]
@@ -44,10 +53,6 @@ export default function MatchingQuestion(props: {
     checkAnswer,
     canCheckAnswers,
     setCheckAnswer,
-    setLives,
-    lives,
-    streak,
-    setStreak,
   } = useLessonContext();
 
   const [showBanner, setShowBanner] = useState(false);
@@ -64,15 +69,23 @@ export default function MatchingQuestion(props: {
     props.setButtonText("Submit");
   }, []);
 
+  async function updateLesson(lives: number, streak: number) {
+    await requests.patchRequest(token, `/lesson/${props.id}`, {
+      lesson: { lives: lives, streakCount: streak },
+    });
+  }
+
   useEffect(() => {
     if (canCheckAnswers && localCanCheckAnswers) {
       setShowBanner(true);
       setTimeout(() => setShowBanner(false), 2500);
       if (!canProgress) {
-        setStreak(0);
-        setLives(lives - 1);
+        props.setStreak(0);
+        props.setLives(props.lives - 1);
+        updateLesson(props.lives - 1, 0);
       } else {
-        setStreak(streak + 1);
+        props.setStreak(props.streak + 1);
+        updateLesson(props.lives, props.streak + 1);
       }
     }
   }, [localCheck]);
