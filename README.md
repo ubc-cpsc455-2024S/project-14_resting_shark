@@ -96,14 +96,6 @@ Antonia: I primarily helped with developing the components and frontend for the 
 
 Daichi: I created the MultipleChoice component, ensuring it followed the design prototype and project theme. I centralized and streamlined the correctness logic for each question type within the Lesson component. Collaborated with EH on lesson generation using the OpenAI API, including implementation of the UI and backend endpoint for the PDF-to-Text-to-Lesson process with the pdf-parse library. Implemented an AI Helper for virtual assistance using OpenAI's createChat method. Designed the UI for the completed lesson page and debugged the issue in the submission process.
 
-
-
-
-
-
-
-
-
 ## Prototypes
 <img src="images/prototype.jpg" width="400px">
 
