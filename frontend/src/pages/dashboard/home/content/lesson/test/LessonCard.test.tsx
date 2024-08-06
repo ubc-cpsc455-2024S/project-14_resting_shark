@@ -1,8 +1,20 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { BrowserRouter as Router } from "react-router-dom";
 import LessonCard from "../LessonCard";
 import * as React from "react";
+import { Provider } from "react-redux";
+import configureStore from "redux-mock-store";
+import { Store, UnknownAction } from "@reduxjs/toolkit";
+
+const mockStore = configureStore([]);
+
+const mockNavigate = jest.fn();
+
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+  useNavigate: () => mockNavigate,
+}));
 
 jest.mock("react-icons/lu", () => ({
   LuDot: () => <div>LuDot</div>,
@@ -22,11 +34,21 @@ const mockLesson = {
 };
 
 describe("LessonCard Component", () => {
+  let store: Store<unknown, UnknownAction, unknown>;
+
+  beforeEach(() => {
+    store = mockStore({
+      auth: { jwtToken: "mockToken" },
+    });
+  });
+
   test("renders Lesson component with props", () => {
     render(
-      <Router>
-        <LessonCard lesson={mockLesson} isFirst={true} />
-      </Router>
+      <Provider store={store}>
+        <Router>
+          <LessonCard lesson={mockLesson} isFirst={true} />
+        </Router>
+      </Provider>
     );
 
     expect(screen.getByText("Test Lesson")).toBeInTheDocument();
@@ -37,12 +59,17 @@ describe("LessonCard Component", () => {
   });
 
   test("navigates to the correct lesson path on click", () => {
-    const { container } = render(
-      <Router>
-        <LessonCard lesson={mockLesson} isFirst={true} />
-      </Router>
+    render(
+      <Provider store={store}>
+        <Router>
+          <LessonCard lesson={mockLesson} isFirst={true} />
+        </Router>
+      </Provider>
     );
 
-    expect(container.querySelector("a")).toHaveAttribute("href", "/lesson/123");
+    const continueButton = screen.getByText("Continue to learn");
+    fireEvent.click(continueButton);
+
+    expect(mockNavigate).toHaveBeenCalledWith("/lesson/123");
   });
 });

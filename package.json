@@ -15,5 +15,11 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "redux-mock-store": "^1.5.4"
+  },
+  "devDependencies": {
+    "@types/redux-mock-store": "^1.0.6"
+  }
 }
