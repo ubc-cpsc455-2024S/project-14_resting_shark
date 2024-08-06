@@ -5,18 +5,40 @@ import { userApi } from "../../../../api/userApi";
 import { useNavigate } from "react-router-dom";
 import { useAppSelector } from "../../../../redux/hooks";
 import * as React from "react";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
+import { requests } from "../../../../api/requestTemplate";
 
 interface UserEditModalProps {
   isOpen: boolean;
   onClose: () => void;
   user: { username: string; email: string; profilePicture: string };
+  setBase: React.Dispatch<React.SetStateAction<string>>;
+  setItem: React.Dispatch<React.SetStateAction<string>>;
+  setHat: React.Dispatch<React.SetStateAction<string>>;
+  setBackgroundColor: React.Dispatch<React.SetStateAction<string>>;
+  base: string;
+  hat: string;
+  item: string;
+  backgroundColor: string;
 }
 
 const UserEditModal: React.FC<UserEditModalProps> = ({
   isOpen,
   onClose,
   user,
+  setBase,
+  setItem,
+  setHat,
+  setBackgroundColor,
+  base,
+  hat,
+  item,
+  backgroundColor,
 }) => {
+  const bases = ["./images/goose.png"];
+  const hats = ["", "./images/mango.png"];
+  const items = [""];
+
   const [activeTab, setActiveTab] = useState("userInfo");
   const [formData, setFormData] = useState({
     username: user.username,
@@ -25,9 +47,17 @@ const UserEditModal: React.FC<UserEditModalProps> = ({
     profilePicture: user.profilePicture,
   });
   const [unsavedChanges, setUnsavedChanges] = useState(false);
-  const [usernameErrorMessage, setUsernameErrorMessage] = useState<string | null>(null);
-  const [emailErrorMessage, setEmailErrorMessage] = useState<string | null>(null);
+  const [usernameErrorMessage, setUsernameErrorMessage] = useState<
+    string | null
+  >(null);
+  const [emailErrorMessage, setEmailErrorMessage] = useState<string | null>(
+    null
+  );
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
+  const [baseIndex, setBaseIndex] = useState(bases.indexOf(base));
+  const [hatIndex, setHatIndex] = useState(hats.indexOf(hat));
+  const [itemIndex, setItemIndex] = useState(items.indexOf(item));
 
   const token = useAppSelector((state) => state.auth.jwtToken);
   const navigate = useNavigate();
@@ -74,13 +104,26 @@ const UserEditModal: React.FC<UserEditModalProps> = ({
       setTimeout(() => {
         onClose();
       }, 1800);
+
+      await requests.patchRequest(token, `/user/profile`, {
+        profile: {
+          bgColor: backgroundColor,
+          baseImage: base,
+          accessory: hat,
+          heldItem: item,
+        },
+      });
     } catch (error: any) {
       console.error("Failed to update user:", error);
       if (error.message.includes("Username")) {
-        setUsernameErrorMessage("Did not update profile information: " + error.message.split(':')[0]);
+        setUsernameErrorMessage(
+          "Did not update profile information: " + error.message.split(":")[0]
+        );
       } else if (error.message.includes("Email")) {
-        setEmailErrorMessage("Did not update profile information: " + error.message.split(':')[0]);
-       }
+        setEmailErrorMessage(
+          "Did not update profile information: " + error.message.split(":")[0]
+        );
+      }
       setSuccessMessage(null);
     }
   };
@@ -103,6 +146,34 @@ const UserEditModal: React.FC<UserEditModalProps> = ({
   };
 
   if (!isOpen) return null;
+
+  const changeBase = (isLeft: boolean) => {
+    let direction = 1;
+    if (isLeft) {
+      direction = -1;
+    }
+    setBaseIndex((baseIndex + direction + bases.length) % bases.length);
+    setBase(bases[baseIndex]);
+  };
+
+  const changeHat = (isLeft: boolean) => {
+    let direction = 1;
+    if (isLeft) {
+      direction = -1;
+    }
+    setHatIndex((hatIndex + direction + hats.length) % hats.length);
+    setHat(hats[hatIndex]);
+    console.log(hatIndex);
+  };
+
+  const changeItem = (isLeft: boolean) => {
+    let direction = 1;
+    if (isLeft) {
+      direction = -1;
+    }
+    setItemIndex((itemIndex + direction + item.length) % item.length);
+    setItem(items[itemIndex]);
+  };
 
   return (
     <div className={s.overlay}>
@@ -134,36 +205,42 @@ const UserEditModal: React.FC<UserEditModalProps> = ({
         {activeTab === "userInfo" && (
           <div>
             <div className={s.inputContainer}>
-            <label>Username</label>
-            <input
-              type="text"
-              name="username"
-              value={formData.username}
-              onChange={handleChange}
-              className={s.inputField}
-            />
-            {usernameErrorMessage && <p className={s.errorMessage}>{usernameErrorMessage}</p>}
+              <label>Username</label>
+              <input
+                type="text"
+                name="username"
+                value={formData.username}
+                onChange={handleChange}
+                className={s.inputField}
+              />
+              {usernameErrorMessage && (
+                <p className={s.errorMessage}>{usernameErrorMessage}</p>
+              )}
 
-            <label>Email</label>
-            <input
-              type="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              className={s.inputField}
-            />
-            {emailErrorMessage && <p className={s.errorMessage}>{emailErrorMessage}</p>}
+              <label>Email</label>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                className={s.inputField}
+              />
+              {emailErrorMessage && (
+                <p className={s.errorMessage}>{emailErrorMessage}</p>
+              )}
 
-            <label>Password</label>
-            <input
-              type="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
-              className={s.inputField}
-            />
+              <label>Password</label>
+              <input
+                type="password"
+                name="password"
+                value={formData.password}
+                onChange={handleChange}
+                className={s.inputField}
+              />
             </div>
-            {successMessage && <p className={s.successMessage}>{successMessage}</p>}
+            {successMessage && (
+              <p className={s.successMessage}>{successMessage}</p>
+            )}
 
             <div className={s.btnGroup}>
               <button className={s.button} onClick={handleSave}>
@@ -178,13 +255,38 @@ const UserEditModal: React.FC<UserEditModalProps> = ({
         {activeTab === "profilePicture" && (
           <div>
             <label>Profile Picture</label>
-            <input
-              type="text"
-              name="profilePicture"
-              value={formData.profilePicture}
-              onChange={handleChange}
-              className={s.inputField}
-            />
+            <div className={s.pictureContainer}>
+              <div className={s.leftButtons}>
+                <button onClick={() => changeHat(true)}>
+                  <FaArrowLeft />
+                </button>
+                <button onClick={() => changeBase(true)}>
+                  <FaArrowLeft />
+                </button>
+                <button onClick={() => changeItem(true)}>
+                  <FaArrowLeft />
+                </button>
+              </div>
+              <div
+                className={s.pfp}
+                style={{ backgroundColor: backgroundColor }}
+              >
+                <img className={s.img} src={base} alt="goose" />
+                {hat !== "" && <img className={s.hat} src={hat} alt="hat" />}
+                {item !== "" && <img className={s.img} src={item} alt="item" />}
+              </div>
+              <div className={s.rightButtons}>
+                <button onClick={() => changeHat(false)}>
+                  <FaArrowRight />
+                </button>
+                <button onClick={() => changeBase(false)}>
+                  <FaArrowRight />
+                </button>
+                <button onClick={() => changeItem(false)}>
+                  <FaArrowRight />
+                </button>
+              </div>
+            </div>
             <button className={s.button} onClick={handleSave}>
               Save
             </button>

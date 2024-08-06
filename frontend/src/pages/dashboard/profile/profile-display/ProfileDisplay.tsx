@@ -53,8 +53,10 @@ export default function ProfileDisplay() {
   //  setUsername(updatedUserInfo.username);
   //};
 
-  const goose = "./images/goose.png";
-  const hat = "./images/mango.png";
+  const [base, setBase] = useState("./images/goose.png");
+  const [hat, setHat] = useState("");
+  const [item, setItem] = useState("");
+  const [backgroundColor, setBackgroundColor] = useState("#ffc3a3");
 
   const level = Math.floor(totalExp / 1000);
 
@@ -62,8 +64,9 @@ export default function ProfileDisplay() {
     <div className={s.container}>
       <div className={s.header}>
         <div className={s.pfp}>
-          <img className={s.img} src={goose} alt="goose" />
-          <img className={s.hat} src={hat} alt="goose" />
+          <img className={s.img} src={base} alt="goose" />
+          {hat !== "" && <img className={s.hat} src={hat} alt="hat" />}
+          {item !== "" && <img className={s.img} src={item} alt="item" />}
         </div>
         <div className={s.info}>
           <h1>
@@ -85,6 +88,14 @@ export default function ProfileDisplay() {
         isOpen={isUserEditModalOpen}
         onClose={handleCloseModal}
         user={user}
+        setBase={setBase}
+        setHat={setHat}
+        setItem={setItem}
+        base={base}
+        hat={hat}
+        item={item}
+        backgroundColor={backgroundColor}
+        setBackgroundColor={setBackgroundColor}
       />
     </div>
   );
