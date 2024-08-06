@@ -1,6 +1,6 @@
 # Group 14 - Mangoose
 
-We're developing an innovative web application designed for students and learners to enhance their understanding of various subjects. Users can upload images or PDFs to create interactive and personalized lessons featuring true/false, fill-in-the-blank, and multiple-choice questions. The platform includes user authentication, progress tracking, and gamified elements like streaks and levels to make learning engaging and effective.
+We're developing an innovative web application designed for students and learners to enhance their understanding of various subjects. Users can upload PDFs to create interactive and personalized lessons featuring true/false, fill-in-the-blank, and multiple-choice questions. The platform includes user authentication, progress tracking, and gamified elements like streaks and levels to make learning engaging and effective, as well as sharing lessons with other users.
 
 ![Status](https://github.com/ubc-cpsc455-2024S/project-14_resting_shark/actions/workflows/main.yml/badge.svg)
 
@@ -16,36 +16,40 @@ This project aims to be a comprehensive tool for learners to deepen their unders
 
 ## Project task requirements:
 ### 3-5 minimal requirements
-- Working lesson with:
-  - True/false
-  - Fill in the blank
-  - Multiple choice/select all that applies
-- User authentication and Profile
--  Streaks/Leagues (reward system of some kind)
-- Home page/Menu
+- Working lesson with: ✔️
+  - True/false ✔️
+  - Fill in the blank ✔️
+  - Multiple choice/select all that applies ✔️
+- User authentication and Profile ✔️
+- Streaks/Leagues (reward system of some kind) ✔️
+- User levels and exp ✔️
+- Home page/Menu ✔️
 ### 3-7 “standard” requirements
-- Lesson of the day
-- Hints/Explanations
-- Lives
+- Lesson of the day ✔️
+- Hints/Explanations ✔️
+- Lives ✔️
+- Progress tracking ✔️
 ### 2-3 stretch requirements
-- customizable profile picture
-- Community
-- Stats
+- customizable profile picture ✔️
+- Community ✔️
+- User stats ✔️
+- Timer cooldown when lives are used up ✔️
 
-## Minimal Requirement Breakdown
 
-### 1. Have a working lesson for user to learn from.
-- Develop the lesson flow.
-- Create the starting and ending pages.
-- Design the necessary implementation to generate questions using OpenAI.
-- Manage responses for correct and incorrect answers.
+## How tech from Units 1-5 are used in the project
+1. HTML/CSS/JS
 
-### 2. Create dashboard menu for the lessons
-- Design a dashboard interface for accessing different question modes and pages.
-- Display all available lessons to the user.
-- Enable functionalities to add, delete, and optionally edit questions.
-- Show the user profile of the logged-in user.
-- Incorporate a search functionality to find specific lessons from the dashboard.
+2. React and Redux
+
+3. NodeJS/Express
+   - the backend of this project is a RESTful API written using NodeJS and Express.
+   - NodeJS is very unpoinionated, so we could easily design and structure our code the way we want and not be forced to follow a predetermined framework
+       - our code follows a router > services structure, where all business logic is contained in modularized functions and
+
+5. MongoDB
+   - MongoDB 
+
+7. Release Engineering
 
 ## Prototypes
 <img src="images/prototype.jpg" width="400px">
@@ -59,15 +63,7 @@ This project aims to be a comprehensive tool for learners to deepen their unders
 - Maggie Weng: I'm going into my third year as a Computer Science student and I like ducks and digital art.
 - Antonia Tykei: I am second degree BCS student and I absolutely love the outdoors and crafting!
 
-## Images
 
-{You should use this area to add a screenshot of your app or website }
-
-<img src ="images/test.png" width="100px">
-
-## References
-
-{Add your stuff here}
 
 
 
