@@ -59,4 +59,19 @@
 
 .logoutContainer {
   margin-bottom: 6vh;
+  margin-left: 2.5vw;
+  background: #7683fe;
+  color: white;
+  margin-right: 2.5vw;
+  padding: 0.7em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  font-weight: 500;
+}
+
+.logoutContainer .icon {
+  color: white;
+  margin-right: 10%;
 }
