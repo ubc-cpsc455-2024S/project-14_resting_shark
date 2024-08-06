@@ -254,7 +254,6 @@ const UserEditModal: React.FC<UserEditModalProps> = ({
         )}
         {activeTab === "profilePicture" && (
           <div>
-            <label>Profile Picture</label>
             <div className={s.pictureContainer}>
               <div className={s.leftButtons}>
                 <button onClick={() => changeHat(true)}>
@@ -288,6 +287,53 @@ const UserEditModal: React.FC<UserEditModalProps> = ({
                   <FaArrowRight />
                 </button>
               </div>
+            </div>
+            <div className={s.colorContainer}>
+              <button
+                className={s.colorButton}
+                style={
+                  backgroundColor === "#F97E99"
+                    ? { backgroundColor: "#F97E99", border: "2px solid black" }
+                    : { backgroundColor: "#F97E99" }
+                }
+                onClick={() => setBackgroundColor("#F97E99")}
+              ></button>
+              <button
+                className={s.colorButton}
+                style={
+                  backgroundColor === "#ffc3a3"
+                    ? { backgroundColor: "#ffc3a3", border: "2px solid black" }
+                    : { backgroundColor: "#ffc3a3" }
+                }
+                onClick={() => setBackgroundColor("#ffc3a3")}
+              ></button>
+              <button
+                className={s.colorButton}
+                style={
+                  backgroundColor === "#7BCE97"
+                    ? { backgroundColor: "#7BCE97", border: "2px solid black" }
+                    : { backgroundColor: "#7BCE97" }
+                }
+                onClick={() => setBackgroundColor("#7BCE97")}
+              ></button>
+              <button
+                className={s.colorButton}
+                style={
+                  backgroundColor === "#96CDEC"
+                    ? { backgroundColor: "#96CDEC", border: "2px solid black" }
+                    : { backgroundColor: "#96CDEC" }
+                }
+                onClick={() => setBackgroundColor("#96CDEC")}
+              ></button>
+              <button
+                className={s.colorButton}
+                style={
+                  backgroundColor === "#969FEC"
+                    ? { backgroundColor: "#969FEC", border: "2px solid black" }
+                    : { backgroundColor: "#969FEC" }
+                }
+                onClick={() => setBackgroundColor("#969FEC")}
+              ></button>
             </div>
             <button className={s.button} onClick={handleSave}>
               Save

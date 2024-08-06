@@ -43,6 +43,7 @@ export default function ProfileDisplay() {
       setHat(pictureData.accessory);
       setItem(pictureData.heldItem);
       setBackgroundColor(pictureData.bgColor);
+      console.log(pictureData);
     } catch (e: any) {
       console.error(e.message);
     }
@@ -71,7 +72,7 @@ export default function ProfileDisplay() {
   return (
     <div className={s.container}>
       <div className={s.header}>
-        <div className={s.pfp}>
+        <div className={s.pfp} style={{ backgroundColor: backgroundColor }}>
           <img className={s.img} src={base} alt="goose" />
           {hat !== "" && <img className={s.hat} src={hat} alt="hat" />}
           {item !== "" && <img className={s.img} src={item} alt="item" />}
