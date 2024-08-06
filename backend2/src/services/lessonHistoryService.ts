@@ -1,6 +1,7 @@
 import LessonHistory from '../models/LessonHistory';
 import mongoose from 'mongoose';
 import ErrorWithCode from "../errors/ErrorWithCode";
+import Lesson from '../models/Lesson';
 
 class LessonHistoryService {
   public async record(userId: string, lessonId: string) {
@@ -86,6 +87,17 @@ class LessonHistoryService {
       console.log("Generated Dates: ", dates);
       return dates;
   };
+
+  public async findLessonHistory(userId: string, id: string) {
+    const lessonHistory = await LessonHistory.find({
+      userId: new mongoose.Types.ObjectId(userId),
+      lessonId: new mongoose.Types.ObjectId(id),
+    });
+
+    return {
+      hasCompletedBefore: lessonHistory.length > 0,
+    }
+  }
 }
 
 export default new LessonHistoryService();
