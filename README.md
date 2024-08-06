@@ -20,7 +20,7 @@ We're developing an innovative web application designed for students and learner
 - Lives ✔️
 - Progress tracking ✔️
 ### 2-3 stretch requirements
-- customizable profile picture ✔️
+- Customizable profile picture ✔️
 - Community ✔️
 - User stats ✔️
 - Timer cooldown when lives are used up ✔️
@@ -40,7 +40,7 @@ We're developing an innovative web application designed for students and learner
   - Using NodeJS + Express in the backend rather than some other language + framework works very well for us since it allows us to write our entire project (both frontend and backend) in Typescript
   - NodeJS + Express is also very lightweight and does not require a lot of boilerplate code (in comparison to say SpringBoot), making it ideal for this project since it is on the smaller side and we could spin it up very quickly.
 
-5. MongoDB
+4. MongoDB
    - We store all of our User, Lesson, Configuration, Questions, and Profile data inside of the database.
    - This makes it not only so that information can be persisted, but also offers extremely powerful querying capabilities.
          - For example, We have a LessonHistory collection that stores a record with a timestamp every time a user completes a lesson. This allows us to do a varietly of features on the frontend like:
@@ -54,7 +54,7 @@ We're developing an innovative web application designed for students and learner
    - Mongo's aggregation pipelines are easier to debug as the steps happen sequentially so you can look at the result of each step and see if it is correct, compared to SQL which does not excecute its querys "top-down".
    - MondoDB allows nested document structure unlike SQL, which was crucial to our application. We generate complex json objects using chatgpt and are able to store the entire json object into MongoDB instead of having split up the nested components like what we would have to do with a relational database. This saves us both from having to parse the returned JSON and take it apart, save multiple records, manage relationships, and best of all we dont have to perform very complex and expensive joins when fetching a full lesson.
 
-7. Release Engineering
+5.  Release Engineering
    - We have CI Github action running frontend tests to ensure merged code is of good quality
    - we protected the main branch to prevent any direct pushes and occasionally do code reviews to ensure code quality and that everyone has a good understanding of all parts of the codebase
    - We have an internal team guide for project contributions:
@@ -68,11 +68,31 @@ We're developing an innovative web application designed for students and learner
 
 ## Above and Beyond Functionality
 
+TODO:
+From the rubric "Some examples could be: Fully responsive, fully accessible, uses external APIs, implements a complex algorithm, utilizes ML/AI, did research for UX, supports multiple languages and/or timezones, uses location services, integrates with social media."
+
+- Maggie has done a considerable amount of research / has a lot of UX/UI knowledge (maybe we can beef this up with some examples?)
+- use of external API?
+- JWT?
+
+
 ## Next Steps
+
+TODO: I have added some potential next steps but I think they need to be a little meatier with more specifically describing how we might go about incorporating this.. (or scratch all of it)
+
+We have a number of potential improvements and additional features that we would like to add to our project. 
+
+If we continue to develop and work on this project we would consider adding functions and/or features like:
+- Developing additional and extended question formats. There are so many subjects that learners may be interested in which they could benefit from by having more types of questions for example, having long text answers, diagram generation and labelling, or verbal/speech responses for users learning a new language.
+- We would be interested in expanding the community aspect of our project by for example, being able to add friends and see their progress or collaborate on specific topics with friends.
+- We may consider broadening and refining the content that users can upload or share to generate their lessons. For example, users may want to generate a lesson from an image, picture, article or existing webpage so we would like to be able to support this.
+- We would also love to add features like being able to set up notifications to remind you to complete a certain number of lessons or practice a day, having cutomized recommendations for new lessons based on your previous topics/interests.
 
 ## Contributions
 
 Emma: I designed the database schema with Maggie as well as the backend structure. I wrote 21 out of the 24 endpoints we have for this project, including complex JSON object parsing and validation logic for openAI generated lessons, JWT based user authentication and authorizaion, and complex MongoDB aggregation pipelines to compute user lesson stats. For the frontend. I set up a mock server for easier development when the backend isnt ready yet, did some integration to hook up the frontend and backend, and wrote a few components on the dashboard page with Maggie.
+
+Antonia: I primarily helped with developing the components and frontend for the landing, login and registration pages. I ensured there was proper validation for registering the users. I also helped with the profile editing page ensuring we had an update endpoint for the new information. 
 
 
 ## Prototypes
