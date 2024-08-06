@@ -4,16 +4,6 @@ We're developing an innovative web application designed for students and learner
 
 ![Status](https://github.com/ubc-cpsc455-2024S/project-14_resting_shark/actions/workflows/main.yml/badge.svg)
 
-## Describe your topic/interest in about 150-200 words
-
-We are interested in creating a tool for students and learners who want to develop and/or reinforce their understanding and knowledge of various subjects. This web application will allow users to generate interactive lessons from images or PDFs (provided by the user) to support their education and studies through personalized and engaging learning experiences.
-
-The application will store data such as created lessons, user profile information, and progress metrics like streaks and leagues. A user can upload some educational materials in the form of images or PDFs and will receive personalized and gamified lessons on this subject/materials. Users will then be able to learn from these lessons through different question formats including true/false questions, fill in the blanks, multiple choice, and long answer questions. They will also be able to track their progress over time.
-
-Depending on time constraints, other additional functionalities may include diagram-based questions, real-time multiplayer modes, and a community feature for discussion and lessons sharing which may further enhance the learning experience.
-
-This project aims to be a comprehensive tool for learners to deepen their understanding of certain subject matters and retain information more effectively.
-
 ## Project task requirements:
 ### 3-5 minimal requirements
 - Working lesson with: ✔️
@@ -89,6 +79,15 @@ Emma: I designed the database schema with Maggie as well as the backend structur
 <img src="images/prototype.jpg" width="400px">
 
 
+## Describe your topic/interest in about 150-200 words
+
+We are interested in creating a tool for students and learners who want to develop and/or reinforce their understanding and knowledge of various subjects. This web application will allow users to generate interactive lessons from images or PDFs (provided by the user) to support their education and studies through personalized and engaging learning experiences.
+
+The application will store data such as created lessons, user profile information, and progress metrics like streaks and leagues. A user can upload some educational materials in the form of images or PDFs and will receive personalized and gamified lessons on this subject/materials. Users will then be able to learn from these lessons through different question formats including true/false questions, fill in the blanks, multiple choice, and long answer questions. They will also be able to track their progress over time.
+
+Depending on time constraints, other additional functionalities may include diagram-based questions, real-time multiplayer modes, and a community feature for discussion and lessons sharing which may further enhance the learning experience.
+
+This project aims to be a comprehensive tool for learners to deepen their understanding of certain subject matters and retain information more effectively.
 
 ## Team Members
 
