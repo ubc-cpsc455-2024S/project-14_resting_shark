@@ -24,7 +24,7 @@ router.post("/:id", authMiddleware, async (req: Request, res: Response) => {
 /* 
   checks if the current user has completed a given lesson before
   path params:
-  - id: the id of the lesson that you want to record
+  - id: the id of the lesson that you want to check
   returns:
   {
     hasCompletedBefore: boolean
