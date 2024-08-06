@@ -58,6 +58,7 @@ const UserEditModal: React.FC<UserEditModalProps> = ({
   const [baseIndex, setBaseIndex] = useState(bases.indexOf(base));
   const [hatIndex, setHatIndex] = useState(hats.indexOf(hat));
   const [itemIndex, setItemIndex] = useState(items.indexOf(item));
+  const [isLoading, setIsLoading] = useState(false);
 
   const token = useAppSelector((state) => state.auth.jwtToken);
   const navigate = useNavigate();
@@ -87,6 +88,7 @@ const UserEditModal: React.FC<UserEditModalProps> = ({
   };
 
   const handleSave = async () => {
+    setIsLoading(true);
     try {
       const updatedData: Partial<{
         username: string;
@@ -125,6 +127,8 @@ const UserEditModal: React.FC<UserEditModalProps> = ({
         );
       }
       setSuccessMessage(null);
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -336,7 +340,7 @@ const UserEditModal: React.FC<UserEditModalProps> = ({
               ></button>
             </div>
             <button className={s.button} onClick={handleSave}>
-              Save
+              {isLoading ? <div className="loader"></div> : "Save"}
             </button>
           </div>
         )}
