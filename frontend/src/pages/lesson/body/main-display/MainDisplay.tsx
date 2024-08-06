@@ -29,7 +29,7 @@ export default function MainDisplay(props: BodyProps) {
         if (props.pageNumber + 1 <= farthestPage) {
           props.setPageNumber(props.pageNumber + 1);
         } else {
-          if (canCheckAnswers && !canProgress) {
+          if (canCheckAnswers) {
             broadcastCheckAnswer();
             if (canProgress) {
               setFarthestPage(farthestPage + 1);
