@@ -61,11 +61,14 @@ export default function Navbar(props: {
           </div>
         </div>
       </div>
-      <div className={s.logoutContainer}>
+      <div
+        onClick={() => dispatch(logout())}
+        className={`${s.active} ${s.logoutContainer}`}
+      >
         <LuLogOut
-          className={`${s.icon} ${s.active}`}
-          onClick={() => dispatch(logout())}
+          className={`${s.icon} ${page == "profile" ? s.active : ""}`}
         />
+        <span>Logout</span>
       </div>
     </div>
   );
