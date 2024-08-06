@@ -20,6 +20,7 @@ import Body from "./body/Body";
 import * as React from "react";
 import FinishedLesson from "../FinishedLesson/FinishedLesson";
 import { requests } from "../../api/requestTemplate";
+import GameOverModal from "./game-over/GameOverModal";
 
 function Lesson() {
   const { lessonId } = useParams();
@@ -29,13 +30,88 @@ function Lesson() {
   const buttonText = useAppSelector((state) => state.lessonPage.buttonText);
   const fullLesson = useAppSelector((state) => state.fullLesson);
 
-  const [lives, setLives] = useState(3);
+  const [lives, setLives] = useState(0);
   const [streak, setStreak] = useState(0);
   const [chapters, setChapters] = useState({});
   const [pageNumber, setPageNumber] = useState(0);
   const [startPage, setStartPage] = useState(0);
+  const [isGameOver, setIsGameOver] = useState(true);
+  const [time, setTime] = useState<number>(300);
 
   const dispatch = useAppDispatch();
+
+  async function updateLesson() {
+    let updatedLesson = await requests.getRequest(token, `/lesson/${lessonId}`);
+    console.log("fetched lesson", updatedLesson);
+
+    if (startPage <= pageNumber && updatedLesson) {
+      updatedLesson.pageProgress = pageNumber;
+    } else if (updatedLesson.pageProgress > contentList.length - 1) {
+      updatedLesson.pageProgress = contentList.length - 1;
+    }
+
+    if (updatedLesson !== null && updatedLesson !== undefined) {
+      try {
+        await requests.patchRequest(token, `/lesson/${lessonId}`, {
+          lesson: { ...updatedLesson },
+        });
+      } catch (error) {
+        console.error("Failed to update lesson:", error);
+      }
+    } else {
+      console.log("lesson null");
+    }
+  }
+
+  async function fetchLesson() {
+    try {
+      const resultAction = await dispatch(
+        lessonApi.fetchFullLesson({ token, lessonId })
+      );
+      if (lessonApi.fetchFullLesson.fulfilled.match(resultAction)) {
+        setLives(resultAction.payload.lives);
+        setStreak(resultAction.payload.streakCount);
+        if (resultAction.payload.pageProgress === -1) {
+          setPageNumber(0);
+        } else {
+          setPageNumber(resultAction.payload.pageProgress);
+        }
+        setStartPage(resultAction.payload.pageProgress);
+        setTime(new Date(resultAction.payload.livesLastZeroTime).getTime());
+        console.log(
+          "got old date: " +
+            new Date(resultAction.payload.livesLastZeroTime).getTime()
+        );
+      } else {
+        console.error("Failed to fetch lesson:", resultAction.error);
+      }
+    } catch (error) {
+      console.error("Error in fetchLesson:", error);
+    }
+  }
+
+  useEffect(() => {
+    if (lives <= 0 && !isGameOver) {
+      const currTime = new Date().getTime();
+      requests.patchRequest(token, `/lesson/${lessonId}`, {
+        lesson: { livesLastZeroTime: currTime },
+      });
+      setTime(currTime);
+      setIsGameOver(true);
+      console.log("updated lesson time");
+    } else {
+      setIsGameOver(false);
+    }
+  }, [lives]);
+
+  useEffect(() => {
+    if (!isGameOver) {
+      setLives(3);
+      requests.patchRequest(token, `/lesson/${lessonId}`, {
+        lesson: { lives: 3 },
+      });
+    }
+  }, [isGameOver]);
 
   useEffect(() => {
     if (contentList.length != 0 && fullLesson) {
@@ -55,30 +131,6 @@ function Lesson() {
     }
   }, [contentList, fullLesson]);
 
-  async function updateLesson() {
-    let updatedLesson = await requests.getRequest(token, `/lesson/${lessonId}`);
-    console.log("fetched lesson", updatedLesson);
-
-    if (startPage <= pageNumber && updatedLesson) {
-      updatedLesson.pageProgress = pageNumber;
-    } else if (updatedLesson.pageProgress > contentList.length - 1) {
-      updatedLesson.pageProgress = contentList.length - 1;
-      console.log(updatedLesson);
-    }
-
-    if (updatedLesson !== null && updatedLesson !== undefined) {
-      try {
-        await requests.patchRequest(token, `/lesson/${lessonId}`, {
-          lesson: { ...updatedLesson },
-        });
-      } catch (error) {
-        console.error("Failed to update lesson:", error);
-      }
-    } else {
-      console.log("lesson null");
-    }
-  }
-
   useEffect(() => {
     return () => {
       updateLesson();
@@ -86,27 +138,6 @@ function Lesson() {
   }, [pageNumber]);
 
   useEffect(() => {
-    async function fetchLesson() {
-      try {
-        const resultAction = await dispatch(
-          lessonApi.fetchFullLesson({ token, lessonId })
-        );
-        if (lessonApi.fetchFullLesson.fulfilled.match(resultAction)) {
-          setLives(resultAction.payload.lives);
-          setStreak(resultAction.payload.streakCount);
-          if (resultAction.payload.pageProgress === -1) {
-            setPageNumber(0);
-          } else {
-            setPageNumber(resultAction.payload.pageProgress);
-          }
-          setStartPage(resultAction.payload.pageProgress);
-        } else {
-          console.error("Failed to fetch lesson:", resultAction.error);
-        }
-      } catch (error) {
-        console.error("Error in fetchLesson:", error);
-      }
-    }
     if (lessonId) {
       fetchLesson();
     }
@@ -209,6 +240,9 @@ function Lesson() {
   // Main Page
   return (
     <LessonProvider>
+      {isGameOver ? (
+        <GameOverModal time={time} setIsGameOver={setIsGameOver} />
+      ) : null}
       <div className="container">
         <Header
           pageNumber={pageNumber}

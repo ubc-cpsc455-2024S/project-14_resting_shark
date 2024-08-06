@@ -36,7 +36,7 @@ export default function MainDisplay(props: BodyProps) {
               props.setPageNumber(props.pageNumber + 1);
               props.setButtonText("Next");
             }
-          } else {
+          } else if (props.pageNumber + 1 == props.contentList.length) {
             navigate("/finished", {
               state: { title: "title", lives: 3, streak: 0 },
             });
