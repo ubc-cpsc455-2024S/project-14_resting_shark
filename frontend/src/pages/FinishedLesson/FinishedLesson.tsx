@@ -3,8 +3,6 @@ import { useNavigate, useLocation } from "react-router-dom";
 import Confetti from "react-confetti";
 import { motion } from "framer-motion";
 import s from "./FinishedLesson.module.css";
-import { requests } from "../../api/requestTemplate";
-import { useAppSelector } from "../../redux/hooks";
 
 interface FinishedLessonProps {
   title: string;
@@ -14,7 +12,6 @@ interface FinishedLessonProps {
 }
 
 export default function FinishedLesson() {
-  const token = useAppSelector((state) => state.auth.jwtToken);
   const [windowSize, setWindowSize] = useState({
     width: window.innerWidth,
     height: window.innerHeight,
@@ -22,34 +19,9 @@ export default function FinishedLesson() {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const { lives, streak, lessonId } = location.state as FinishedLessonProps;
-
-  const updateLessonHistory = async () => {
-    const hasCompleted = await requests.getRequest(
-      token,
-      `/lessonHistory/${lessonId}`
-    );
-
-    if (!hasCompleted) {
-      await requests.postRequest(token, `/lessonHistory/${lessonId}`);
-      console.log("updated history");
-
-      const user = await requests.patchRequest(token, `/user`, { user: {} });
-      const exp = user.totalExp;
-      console.log(exp);
-
-      const newUser = await requests.patchRequest(token, `/user`, {
-        user: { totalExp: exp + 100 },
-      });
-      console.log(newUser);
-    } else {
-      console.log("already completed");
-    }
-  };
+  const { lives, streak } = location.state as FinishedLessonProps;
 
   useEffect(() => {
-    updateLessonHistory();
-
     const handleResize = () => {
       setWindowSize({
         width: window.innerWidth,

@@ -3,6 +3,8 @@ import { useLessonContext } from "../../../../context/LessonProvider";
 import { BodyProps } from "../Body.d";
 import * as React from "react";
 import { useNavigate } from "react-router-dom";
+import { requests } from "../../../../api/requestTemplate";
+import { useAppSelector } from "../../../../redux/hooks";
 
 export default function MainDisplay(props: BodyProps) {
   const {
@@ -15,6 +17,27 @@ export default function MainDisplay(props: BodyProps) {
   } = useLessonContext();
 
   const navigate = useNavigate();
+  const token = useAppSelector((state) => state.auth.jwtToken);
+
+  const updateLessonHistory = async () => {
+    const hasCompleted = await requests.getRequest(
+      token,
+      `/lessonHistory/${props.lessonId}`
+    );
+
+    if (!hasCompleted.hasCompletedBefore) {
+      await requests.postRequest(token, `/lessonHistory/${props.lessonId}`);
+      console.log("updated history");
+
+      const user = await requests.patchRequest(token, `/user`, { user: {} });
+      const exp = user.totalExp;
+      console.log(exp);
+
+      await requests.patchRequest(token, `/user`, {
+        user: { totalExp: exp + 100 },
+      });
+    }
+  };
 
   const onNextButtonPress = () => {
     setTimeout(() => {
@@ -42,6 +65,7 @@ export default function MainDisplay(props: BodyProps) {
                     lessonId: props.lessonId,
                   },
                 });
+                updateLessonHistory();
               } else {
                 setFarthestPage(farthestPage + 1);
                 props.setPageNumber(props.pageNumber + 1);
