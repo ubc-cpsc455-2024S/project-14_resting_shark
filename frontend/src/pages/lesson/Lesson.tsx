@@ -46,7 +46,7 @@ function Lesson() {
           "Intro",
           secondChapter.title,
           ...contentList
-            .slice(2)
+            .slice(-3)
             .map((item: any, index: number) => "Question " + (index + 1)),
         ],
       };
@@ -61,6 +61,9 @@ function Lesson() {
 
     if (startPage <= pageNumber && updatedLesson) {
       updatedLesson.pageProgress = pageNumber;
+    } else if (updatedLesson.pageProgress > contentList.length - 1) {
+      updatedLesson.pageProgress = contentList.length - 1;
+      console.log(updatedLesson);
     }
 
     if (updatedLesson !== null && updatedLesson !== undefined) {
@@ -92,7 +95,7 @@ function Lesson() {
           setLives(resultAction.payload.lives);
           setStreak(resultAction.payload.streakCount);
           if (resultAction.payload.pageProgress === -1) {
-            setPageNumber(resultAction.payload.pageProgress + 1);
+            setPageNumber(0);
           } else {
             setPageNumber(resultAction.payload.pageProgress);
           }
@@ -110,14 +113,18 @@ function Lesson() {
   }, [lessonId, dispatch, token]);
 
   useEffect(() => {
-    if (contentList.length === 0) {
-      return;
-    } else if (contentList[pageNumber].type === "intro") {
-      dispatch(setButtonText("Let's Go!"));
-    } else if (contentList[pageNumber].type === "info") {
-      dispatch(setButtonText("Next"));
-    } else {
-      dispatch(setButtonText("Submit"));
+    try {
+      if (contentList.length === 0) {
+        return;
+      } else if (contentList[pageNumber].type === "intro") {
+        dispatch(setButtonText("Let's Go!"));
+      } else if (contentList[pageNumber].type === "info") {
+        dispatch(setButtonText("Next"));
+      } else {
+        dispatch(setButtonText("Submit"));
+      }
+    } catch (e: any) {
+      setPageNumber(0);
     }
   }, [pageNumber, contentList, dispatch]);
 
@@ -221,6 +228,8 @@ function Lesson() {
           renderedPage={renderedPage}
           buttonText={buttonText}
           chapters={chapters}
+          lives={lives}
+          streak={streak}
         />
       </div>
     </LessonProvider>

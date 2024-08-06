@@ -2,6 +2,7 @@ import { motion } from "framer-motion";
 import { useLessonContext } from "../../../../context/LessonProvider";
 import { BodyProps } from "../Body.d";
 import * as React from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function MainDisplay(props: BodyProps) {
   const {
@@ -12,6 +13,8 @@ export default function MainDisplay(props: BodyProps) {
     canCheckAnswers,
     broadcastCheckAnswer,
   } = useLessonContext();
+
+  const navigate = useNavigate();
 
   const onNextButtonPress = () => {
     setTimeout(() => {
@@ -26,13 +29,17 @@ export default function MainDisplay(props: BodyProps) {
         if (props.pageNumber + 1 <= farthestPage) {
           props.setPageNumber(props.pageNumber + 1);
         } else {
-          if (canCheckAnswers) {
+          if (canCheckAnswers && !canProgress) {
             broadcastCheckAnswer();
             if (canProgress) {
               setFarthestPage(farthestPage + 1);
               props.setPageNumber(props.pageNumber + 1);
               props.setButtonText("Next");
             }
+          } else {
+            navigate("/finished", {
+              state: { title: "title", lives: 3, streak: 0 },
+            });
           }
         }
       }

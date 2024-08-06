@@ -22,6 +22,8 @@ export default function Body(props: BodyProps) {
           setButtonText={props.setButtonText}
           renderedPage={props.renderedPage}
           buttonText={props.buttonText}
+          lives={props.lives}
+          streak={props.streak}
         />
       </div>
       <div className="right-body">
