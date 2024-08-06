@@ -3,14 +3,18 @@ import { useNavigate, useLocation } from "react-router-dom";
 import Confetti from "react-confetti";
 import { motion } from "framer-motion";
 import s from "./FinishedLesson.module.css";
+import { requests } from "../../api/requestTemplate";
+import { useAppSelector } from "../../redux/hooks";
 
 interface FinishedLessonProps {
   title: string;
   lives: number;
   streak: number;
+  lessonId: string | undefined;
 }
 
 export default function FinishedLesson() {
+  const token = useAppSelector((state) => state.auth.jwtToken);
   const [windowSize, setWindowSize] = useState({
     width: window.innerWidth,
     height: window.innerHeight,
@@ -18,9 +22,25 @@ export default function FinishedLesson() {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const { title, lives, streak } = location.state as FinishedLessonProps;
+  const { lives, streak, lessonId } = location.state as FinishedLessonProps;
+
+  const updateLessonHistory = async () => {
+    const hasCompleted = await requests.getRequest(
+      token,
+      `/lessonHistory/${lessonId}`
+    );
+
+    if (!hasCompleted) {
+      await requests.postRequest(token, `/lessonHistory/${lessonId}`);
+      console.log("updated history");
+    } else {
+      console.log("already completed");
+    }
+  };
 
   useEffect(() => {
+    updateLessonHistory();
+
     const handleResize = () => {
       setWindowSize({
         width: window.innerWidth,
@@ -37,7 +57,11 @@ export default function FinishedLesson() {
 
   return (
     <div className={s.finishedLessonContainer}>
-      <Confetti width={windowSize.width} height={windowSize.height} recycle={false} />
+      <Confetti
+        width={windowSize.width}
+        height={windowSize.height}
+        recycle={false}
+      />
       <motion.div
         className={s.celebrationLogoContainer}
         initial={{ opacity: 0, scale: 0.5 }}
@@ -58,16 +82,15 @@ export default function FinishedLesson() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <h1 className={s.congratsMessage}>Congratulations! You have successfully completed the lesson.</h1>
+        <h1 className={s.congratsMessage}>
+          Congratulations! You have successfully completed the lesson.
+        </h1>
         <motion.div
           className={s.detailsBox}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
         >
-          <p className={s.detailsMessage}>
-            Lesson Title: <strong>{title}</strong>
-          </p>
           <p className={s.detailsMessage}>
             Remaining Lives: <strong>{lives}</strong>
           </p>

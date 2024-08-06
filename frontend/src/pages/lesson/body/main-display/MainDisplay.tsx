@@ -32,14 +32,22 @@ export default function MainDisplay(props: BodyProps) {
           if (canCheckAnswers) {
             broadcastCheckAnswer();
             if (canProgress) {
-              setFarthestPage(farthestPage + 1);
-              props.setPageNumber(props.pageNumber + 1);
-              props.setButtonText("Next");
+              if (props.pageNumber + 1 == props.contentList.length) {
+                props.setButtonText("Next");
+                navigate("/finished", {
+                  state: {
+                    title: "title",
+                    lives: 3,
+                    streak: 0,
+                    lessonId: props.lessonId,
+                  },
+                });
+              } else {
+                setFarthestPage(farthestPage + 1);
+                props.setPageNumber(props.pageNumber + 1);
+                props.setButtonText("Next");
+              }
             }
-          } else if (props.pageNumber + 1 == props.contentList.length) {
-            navigate("/finished", {
-              state: { title: "title", lives: 3, streak: 0 },
-            });
           }
         }
       }
