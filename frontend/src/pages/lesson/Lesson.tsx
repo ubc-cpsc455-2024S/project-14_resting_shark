@@ -67,7 +67,6 @@ function Lesson() {
         lessonApi.fetchFullLesson({ token, lessonId })
       );
       if (lessonApi.fetchFullLesson.fulfilled.match(resultAction)) {
-        console.log(resultAction.payload);
         setLives(resultAction.payload.lives);
         setStreak(resultAction.payload.streakCount);
         if (resultAction.payload.pageProgress === -1) {

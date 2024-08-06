@@ -33,6 +33,15 @@ export default function FinishedLesson() {
     if (!hasCompleted) {
       await requests.postRequest(token, `/lessonHistory/${lessonId}`);
       console.log("updated history");
+
+      const user = await requests.patchRequest(token, `/user`, { user: {} });
+      const exp = user.totalExp;
+      console.log(exp);
+
+      const newUser = await requests.patchRequest(token, `/user`, {
+        user: { totalExp: exp + 100 },
+      });
+      console.log(newUser);
     } else {
       console.log("already completed");
     }
