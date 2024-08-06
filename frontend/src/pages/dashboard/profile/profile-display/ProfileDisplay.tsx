@@ -4,7 +4,6 @@ import { LuPencil } from "react-icons/lu";
 import { useState, useEffect } from "react";
 import { useAppSelector } from "../../../../redux/hooks";
 import { userApi } from "../../../../api/userApi";
-import { useNavigate } from "react-router-dom";
 import UserEditModal from "../user-edit/UserEditModal";
 import * as React from "react";
 
@@ -12,7 +11,6 @@ export default function ProfileDisplay() {
   const token = useAppSelector((state) => state.auth.jwtToken);
   const [username, setUsername] = useState("");
   const [totalExp, setTotalExp] = useState(0);
-  const navigate = useNavigate();
 
   const [isUserEditModalOpen, setUserEditModalOpen] = useState(false);
   const [user, setUser] = useState({

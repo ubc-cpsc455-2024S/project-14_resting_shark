@@ -1,5 +1,4 @@
 import ExploreLesson from "../../../../../explore/lessonCard/ExploreLesson";
-import Lesson from "../../../content/lesson/LessonCard";
 import s from "./Cards.module.css";
 import * as React from "react";
 

@@ -20,7 +20,7 @@ export default function ExploreLesson(props: { name: string; id: string; length:
       );
 
       await response;
-      navigate(`/lesson/${props.id}`);
+      navigate(`/lesson/${response._id}`);
     } catch (error: any) {
       console.error("Error duplicating lesson:", error.message);
     } finally {
