@@ -92,6 +92,7 @@
   width: 100%;
   position: absolute;
   z-index: 5;
+  bottom: 0;
 }
 
 .hat {
