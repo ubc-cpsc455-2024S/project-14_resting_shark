@@ -10,4 +10,5 @@ export type BodyProps = {
   chapters?: any;
   lives: number;
   streak: number;
+  lessonId: string | undefined;
 };

@@ -6,6 +6,7 @@ import { useAppSelector } from "../../../../redux/hooks";
 import { userApi } from "../../../../api/userApi";
 import UserEditModal from "../user-edit/UserEditModal";
 import * as React from "react";
+import { requests } from "../../../../api/requestTemplate";
 
 export default function ProfileDisplay() {
   const token = useAppSelector((state) => state.auth.jwtToken);
@@ -19,6 +20,11 @@ export default function ProfileDisplay() {
     profilePicture: "",
   });
 
+  const [base, setBase] = useState("./images/goose.png");
+  const [hat, setHat] = useState("");
+  const [item, setItem] = useState("");
+  const [backgroundColor, setBackgroundColor] = useState("#ffc3a3");
+
   // TODO: move this to the outside component, since this api call will return both the user data and the graph data
   const fetchData = async () => {
     try {
@@ -30,6 +36,13 @@ export default function ProfileDisplay() {
         profilePicture: profileData.profilePicture,
       });
       setTotalExp(profileData.totalExp);
+
+      const pictureData = await requests.getRequest(token, "/user/profile");
+
+      setBase(pictureData.baseImage);
+      setHat(pictureData.accessory);
+      setItem(pictureData.heldItem);
+      setBackgroundColor(pictureData.bgColor);
     } catch (e: any) {
       console.error(e.message);
     }
@@ -53,17 +66,15 @@ export default function ProfileDisplay() {
   //  setUsername(updatedUserInfo.username);
   //};
 
-  const goose = "./images/goose.png";
-  const hat = "./images/mango.png";
-
   const level = Math.floor(totalExp / 1000);
 
   return (
     <div className={s.container}>
       <div className={s.header}>
         <div className={s.pfp}>
-          <img className={s.img} src={goose} alt="goose" />
-          <img className={s.hat} src={hat} alt="goose" />
+          <img className={s.img} src={base} alt="goose" />
+          {hat !== "" && <img className={s.hat} src={hat} alt="hat" />}
+          {item !== "" && <img className={s.img} src={item} alt="item" />}
         </div>
         <div className={s.info}>
           <h1>
@@ -85,6 +96,14 @@ export default function ProfileDisplay() {
         isOpen={isUserEditModalOpen}
         onClose={handleCloseModal}
         user={user}
+        setBase={setBase}
+        setHat={setHat}
+        setItem={setItem}
+        base={base}
+        hat={hat}
+        item={item}
+        backgroundColor={backgroundColor}
+        setBackgroundColor={setBackgroundColor}
       />
     </div>
   );

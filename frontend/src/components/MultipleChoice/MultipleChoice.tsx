@@ -103,7 +103,6 @@ export default function MultipleChoiceQuestion(props: {
         allCorrect = false;
       } else {
         allCorrect = options[selectedChoice];
-        console.log(options[selectedChoice]);
       }
 
       if (allCorrect) {

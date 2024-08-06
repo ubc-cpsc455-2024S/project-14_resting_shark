@@ -8,6 +8,7 @@ interface FinishedLessonProps {
   title: string;
   lives: number;
   streak: number;
+  lessonId: string | undefined;
 }
 
 export default function FinishedLesson() {
@@ -18,7 +19,7 @@ export default function FinishedLesson() {
 
   const navigate = useNavigate();
   const location = useLocation();
-  const { title, lives, streak } = location.state as FinishedLessonProps;
+  const { lives, streak } = location.state as FinishedLessonProps;
 
   useEffect(() => {
     const handleResize = () => {
@@ -37,7 +38,11 @@ export default function FinishedLesson() {
 
   return (
     <div className={s.finishedLessonContainer}>
-      <Confetti width={windowSize.width} height={windowSize.height} recycle={false} />
+      <Confetti
+        width={windowSize.width}
+        height={windowSize.height}
+        recycle={false}
+      />
       <motion.div
         className={s.celebrationLogoContainer}
         initial={{ opacity: 0, scale: 0.5 }}
@@ -58,16 +63,15 @@ export default function FinishedLesson() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5 }}
       >
-        <h1 className={s.congratsMessage}>Congratulations! You have successfully completed the lesson.</h1>
+        <h1 className={s.congratsMessage}>
+          Congratulations! You have successfully completed the lesson.
+        </h1>
         <motion.div
           className={s.detailsBox}
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
         >
-          <p className={s.detailsMessage}>
-            Lesson Title: <strong>{title}</strong>
-          </p>
           <p className={s.detailsMessage}>
             Remaining Lives: <strong>{lives}</strong>
           </p>

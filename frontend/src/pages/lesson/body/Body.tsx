@@ -24,6 +24,7 @@ export default function Body(props: BodyProps) {
           buttonText={props.buttonText}
           lives={props.lives}
           streak={props.streak}
+          lessonId={props.lessonId}
         />
       </div>
       <div className="right-body">

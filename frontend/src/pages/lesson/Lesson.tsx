@@ -34,7 +34,6 @@ function Lesson() {
   const [streak, setStreak] = useState(0);
   const [chapters, setChapters] = useState({});
   const [pageNumber, setPageNumber] = useState(0);
-  const [startPage, setStartPage] = useState(0);
   const [isGameOver, setIsGameOver] = useState(true);
   const [time, setTime] = useState<number>(300);
 
@@ -42,9 +41,8 @@ function Lesson() {
 
   async function updateLesson() {
     let updatedLesson = await requests.getRequest(token, `/lesson/${lessonId}`);
-    console.log("fetched lesson", updatedLesson);
 
-    if (startPage <= pageNumber && updatedLesson) {
+    if (updatedLesson.pageProgress <= pageNumber) {
       updatedLesson.pageProgress = pageNumber;
     } else if (updatedLesson.pageProgress > contentList.length - 1) {
       updatedLesson.pageProgress = contentList.length - 1;
@@ -76,12 +74,7 @@ function Lesson() {
         } else {
           setPageNumber(resultAction.payload.pageProgress);
         }
-        setStartPage(resultAction.payload.pageProgress);
         setTime(new Date(resultAction.payload.livesLastZeroTime).getTime());
-        console.log(
-          "got old date: " +
-            new Date(resultAction.payload.livesLastZeroTime).getTime()
-        );
       } else {
         console.error("Failed to fetch lesson:", resultAction.error);
       }
@@ -264,6 +257,7 @@ function Lesson() {
           chapters={chapters}
           lives={lives}
           streak={streak}
+          lessonId={lessonId}
         />
       </div>
     </LessonProvider>
