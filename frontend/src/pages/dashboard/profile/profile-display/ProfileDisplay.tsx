@@ -6,6 +6,7 @@ import { useAppSelector } from "../../../../redux/hooks";
 import { userApi } from "../../../../api/userApi";
 import UserEditModal from "../user-edit/UserEditModal";
 import * as React from "react";
+import { requests } from "../../../../api/requestTemplate";
 
 export default function ProfileDisplay() {
   const token = useAppSelector((state) => state.auth.jwtToken);
@@ -19,6 +20,11 @@ export default function ProfileDisplay() {
     profilePicture: "",
   });
 
+  const [base, setBase] = useState("./images/goose.png");
+  const [hat, setHat] = useState("");
+  const [item, setItem] = useState("");
+  const [backgroundColor, setBackgroundColor] = useState("#ffc3a3");
+
   // TODO: move this to the outside component, since this api call will return both the user data and the graph data
   const fetchData = async () => {
     try {
@@ -30,6 +36,13 @@ export default function ProfileDisplay() {
         profilePicture: profileData.profilePicture,
       });
       setTotalExp(profileData.totalExp);
+
+      const pictureData = await requests.getRequest(token, "/user/profile");
+
+      setBase(pictureData.baseImage);
+      setHat(pictureData.accessory);
+      setItem(pictureData.heldItem);
+      setBackgroundColor(pictureData.bgColor);
     } catch (e: any) {
       console.error(e.message);
     }
@@ -52,11 +65,6 @@ export default function ProfileDisplay() {
   //  // Handle saving the updated user info (e.g., update state, make API call)
   //  setUsername(updatedUserInfo.username);
   //};
-
-  const [base, setBase] = useState("./images/goose.png");
-  const [hat, setHat] = useState("");
-  const [item, setItem] = useState("");
-  const [backgroundColor, setBackgroundColor] = useState("#ffc3a3");
 
   const level = Math.floor(totalExp / 1000);
 

@@ -169,6 +169,13 @@
   z-index: 10;
 }
 
+.item {
+  width: 100%;
+  position: absolute;
+  z-index: 10;
+  bottom: 0;
+}
+
 .leftButtons {
   display: flex;
   flex-direction: column;

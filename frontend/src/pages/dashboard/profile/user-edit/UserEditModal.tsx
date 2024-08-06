@@ -35,9 +35,9 @@ const UserEditModal: React.FC<UserEditModalProps> = ({
   item,
   backgroundColor,
 }) => {
-  const bases = ["./images/goose.png"];
-  const hats = ["", "./images/mango.png"];
-  const items = [""];
+  const bases = ["./images/goose.png", "./images/canada.png"];
+  const hats = ["", "./images/mango.png", "./images/top-hat.png"];
+  const items = ["", "./images/bowtie.png", "./images/shark.png"];
 
   const [activeTab, setActiveTab] = useState("userInfo");
   const [formData, setFormData] = useState({
@@ -171,7 +171,7 @@ const UserEditModal: React.FC<UserEditModalProps> = ({
     if (isLeft) {
       direction = -1;
     }
-    setItemIndex((itemIndex + direction + item.length) % item.length);
+    setItemIndex((itemIndex + direction + items.length) % items.length);
     setItem(items[itemIndex]);
   };
 
@@ -273,7 +273,9 @@ const UserEditModal: React.FC<UserEditModalProps> = ({
               >
                 <img className={s.img} src={base} alt="goose" />
                 {hat !== "" && <img className={s.hat} src={hat} alt="hat" />}
-                {item !== "" && <img className={s.img} src={item} alt="item" />}
+                {item !== "" && (
+                  <img className={s.item} src={item} alt="item" />
+                )}
               </div>
               <div className={s.rightButtons}>
                 <button onClick={() => changeHat(false)}>
