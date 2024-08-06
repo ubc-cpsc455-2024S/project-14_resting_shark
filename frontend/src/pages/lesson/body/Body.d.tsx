@@ -8,4 +8,6 @@ export type BodyProps = {
   renderedPage: JSX.Element | null;
   buttonText: string;
   chapters?: any;
+  lives: number;
+  streak: number;
 };

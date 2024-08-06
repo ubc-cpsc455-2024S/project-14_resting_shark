@@ -6,7 +6,7 @@ import Cards from "./cards/Cards";
 import * as React from "react";
 
 export default function LessonOfTheDay() {
-  const [lesson, setLesson] = useState({name: "", _id: ""});
+  const [lesson, setLesson] = useState({ name: "", _id: "" });
 
   // get the lesson name of lesson of the day
   useEffect(() => {
@@ -32,7 +32,6 @@ export default function LessonOfTheDay() {
 }
 
 function LessonsDisplay({ lesson }: any) {
-  console.log(lesson)
   return (
     <div className={s.lessonDisplay}>
       <Cards lesson={lesson} />
@@ -61,7 +60,10 @@ function LessonInfo({ lesson }: any) {
         <LuSparkles className={s.icon} />
         <div>Lesson Of The Day</div>
       </div>
-      <div className={s.title}>{date.toLocaleDateString("en-US", { month: "long", day: "numeric" })}: {lesson.name}</div>
+      <div className={s.title}>
+        {date.toLocaleDateString("en-US", { month: "long", day: "numeric" })}:{" "}
+        {lesson.name}
+      </div>
       <div className={s.streakContainer}>{streakIndicator}</div>
     </div>
   );

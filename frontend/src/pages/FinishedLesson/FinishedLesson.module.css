@@ -1,40 +1,73 @@
 .finishedLessonContainer {
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
-  background-color: #f7f9fc;
+  min-height: 100vh;
+  background: linear-gradient(to right, #4369ee , #7683fe);
+  padding: 20px;
+  overflow: hidden;
+}
+
+.celebrationLogoContainer {
+  position: absolute;
+  top: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.celebrationLogoWrapper {
+  background: #fff;
+  padding: 21px;
+  border-radius: 50%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  z-index: 1;
+}
+
+.celebrationLogo {
+  width: 100px;
+  height: 100px;
 }
 
 .messageContainer {
   text-align: center;
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
 
 .congratsMessage {
-  font-size: 2.5rem;
+  font-size: 28px;
   color: #4caf50;
-  margin-bottom: 1rem;
+  margin-bottom: 20px;
 }
 
-.detailsMessage, .lessonTitle, .lessonDetails {
-  font-size: 1.25rem;
-  color: #555;
-  margin: 0.5rem 0;
+.detailsBox {
+  background: #e2f0fd;
+  padding: 20px;
+  border-radius: 12px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.detailsMessage {
+  font-size: 20px;
+  color: #424242;
 }
 
 .returnButton {
-  margin-top: 1.5rem;
-  padding: 0.75rem 1.5rem;
-  font-size: 1rem;
-  background-color: #007bff;
+  background: #4369ee;
   color: white;
+  padding: 12px 25px;
   border: none;
-  border-radius: 0.25rem;
+  border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.3s;
+  font-size: 18px;
 }
 
 .returnButton:hover {
-  background-color: #0056b3;
+  background: #7683fe;
 }

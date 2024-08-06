@@ -15,9 +15,9 @@ import * as React from "react";
 
 // A page introducing content to users before they do questions
 export default function Information({ page }: { page: Info | Intro }) {
-  const title = page.title; // a single string representing the header
-  const content = page.content; // a list of strings, each list item represents a paragraph
-  const fact = page.fact; // a string representing the fun fact
+  const title = page.title;
+  const content = page.content;
+  const fact = page.fact;
 
   const { setCanProgress, setIsQuestionPage } = useLessonContext();
 

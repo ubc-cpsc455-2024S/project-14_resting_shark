@@ -47,7 +47,7 @@ function Lesson() {
           "Intro",
           secondChapter.title,
           ...contentList
-            .slice(2)
+            .slice(-3)
             .map((_: any, index: number) => "Question " + (index + 2)),
         ],
       };

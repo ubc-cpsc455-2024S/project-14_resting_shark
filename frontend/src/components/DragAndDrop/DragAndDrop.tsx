@@ -7,10 +7,17 @@ import { useLessonContext } from "../../context/LessonProvider";
 import Banner from "../misc/banner/Banner";
 import { AnimatePresence } from "framer-motion";
 import * as React from "react";
+import { useAppSelector } from "../../redux/hooks";
+import { requests } from "../../api/requestTemplate";
 
 function DragAndDropQuestion(props: {
   page: DragAndDrop;
   setButtonText: (buttonText: string) => void;
+  id: any;
+  lives: number;
+  streak: number;
+  setLives: React.Dispatch<React.SetStateAction<number>>;
+  setStreak: React.Dispatch<React.SetStateAction<number>>;
 }) {
   const content = props.page.content;
   const draggableObject = props.page.draggable;
@@ -30,10 +37,6 @@ function DragAndDropQuestion(props: {
     checkAnswer,
     canCheckAnswers,
     setCheckAnswer,
-    lives,
-    streak,
-    setLives,
-    setStreak,
   } = useLessonContext();
 
   useEffect(() => {
@@ -44,8 +47,6 @@ function DragAndDropQuestion(props: {
     setShowBanner(false);
     setCheckAnswer(false);
     props.setButtonText("Submit");
-    setLives(lives);
-    setStreak(streak);
   }, []);
 
   const [isCorrectList, setIsCorrectList] = useState<{
@@ -54,6 +55,14 @@ function DragAndDropQuestion(props: {
 
   const [localCheck, setLocalCheck] = useState(false);
   const [localCanCheckAnswers, setLocalCanCheckAnswers] = useState(false);
+
+  const token = useAppSelector((state) => state.auth.jwtToken);
+
+  async function updateLesson(lives: number, streak: number) {
+    await requests.patchRequest(token, `/lesson/${props.id}`, {
+      lesson: { lives: lives, streakCount: streak },
+    });
+  }
 
   useEffect(() => {
     if (canCheckAnswers && localCanCheckAnswers) {
@@ -90,11 +99,13 @@ function DragAndDropQuestion(props: {
       if (allCorrect) {
         setBannerText("Amazing!");
         props.setButtonText("Next");
-        setStreak(streak + 1);
+        props.setStreak(props.streak + 1);
+        updateLesson(props.lives, props.streak + 1);
       } else {
         setBannerText("Try Again!");
-        setLives(lives - 1);
-        setStreak(0);
+        props.setLives(props.lives - 1);
+        props.setStreak(0);
+        updateLesson(props.lives - 1, 0);
       }
 
       setIsCorrectList(newCorrectList);
