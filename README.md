@@ -43,13 +43,47 @@ This project aims to be a comprehensive tool for learners to deepen their unders
 
 3. NodeJS/Express
    - the backend of this project is a RESTful API written using NodeJS and Express.
-   - NodeJS is very unpoinionated, so we could easily design and structure our code the way we want and not be forced to follow a predetermined framework
-       - our code follows a router > services structure, where all business logic is contained in modularized functions and
+   - Express is very unpoinionated, so we could easily design and structure our code the way we want and not be forced to follow a predetermined framework
+       - our code follows a Routers > Services structure, where all business logic is contained in the service layer to keep the router layer clean 
+       - This made it so that our router layer acts like an interface for all the endpoints we have, with clear comments on each one
+  - Express uses customizable middleware, allowing us to write our own authentication and authorization middleware which uses JWT based authentication. This was a very good exprerience for us as it allows us to understand the underlying principals of JWT based auth instead of relying on frameworks or third party sources.
+  - Using NodeJS + Express in the backend rather than some other language + framework works very well for us since it allows us to write our entire project (both frontend and backend) in Typescript
+  - NodeJS + Express is also very lightweight and does not require a lot of boilerplate code (in comparison to say SpringBoot), making it ideal for this project since it is on the smaller side and we could spin it up very quickly.
 
 5. MongoDB
-   - MongoDB 
+   - We store all of our User, Lesson, Configuration, Questions, and Profile data inside of the database.
+   - This makes it not only so that information can be persisted, but also offers extremely powerful querying capabilities.
+         - For example, We have a LessonHistory collection that stores a record with a timestamp every time a user completes a lesson. This allows us to do a varietly of features on the frontend like:
+             - display stats on how many lessons the user has completed and at what time
+             - lesson streaks
+             - avg lessons completed per day over a set time period
+             - whether a certain lessons has been completed before or not
+             - etc
+   - We used Mongoose, and all of our models are defined within the models folder, and we utilized domain driven design when thinking of any endpoints we want to write in the backend.
+   - MongoDB offers JSON querying, which is very suitable for us since we are using Typescipt backend
+   - Mongo's aggregation pipelines are easier to debug as the steps happen sequentially so you can look at the result of each step and see if it is correct, compared to SQL which does not excecute its querys "top-down".
+   - MondoDB allows nested document structure unlike SQL, which was crucial to our application. We generate complex json objects using chatgpt and are able to store the entire json object into MongoDB instead of having split up the nested components like what we would have to do with a relational database. This saves us both from having to parse the returned JSON and take it apart, save multiple records, manage relationships, and best of all we dont have to perform very complex and expensive joins when fetching a full lesson.
 
 7. Release Engineering
+   - We have CI Github action running frontend tests to ensure merged code is of good quality
+   - we protected the main branch to prevent any direct pushes and occasionally do code reviews to ensure code quality and that everyone has a good understanding of all parts of the codebase
+   - We have an internal team guide for project contributions:
+       1. ensure new code does not break anything by performing extensive testing
+       2. merge main into your branch and resolve conflicts
+       3. test again to make sure code is good quality
+       4. run eslint
+       5. make a PR and request a review if necessary
+    - We deployed our project using Render
+
+
+## Above and Beyond Functionality
+
+## Next Steps
+
+## Contributions
+
+Emma: I designed the database schema with Maggie as well as the backend structure. I wrote 21 out of the 24 endpoints we have for this project, including complex JSON object parsing and validation logic for openAI generated lessons, JWT based user authentication and authorizaion, and complex MongoDB aggregation pipelines to compute user lesson stats. For the frontend. I set up a mock server for easier development when the backend isnt ready yet, did some integration to hook up the frontend and backend, and wrote a few components on the dashboard page with Maggie.
+
 
 ## Prototypes
 <img src="images/prototype.jpg" width="400px">
