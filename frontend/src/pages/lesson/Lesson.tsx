@@ -98,7 +98,7 @@ function Lesson() {
       });
       setTime(currTime);
       setIsGameOver(true);
-    } else {
+    } else if (lives > 0) {
       setIsGameOver(false);
     }
   }, [lives]);
