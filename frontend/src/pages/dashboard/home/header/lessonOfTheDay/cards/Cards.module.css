@@ -24,7 +24,7 @@
   position: absolute;
   top: 100%;
   left: 0;
-  width: 100%;
+  width: 500px;
   height: 200px; /* height of the hidden overflow area */
   background-color: #f7f9fe; /* or match the container's background */
   z-index: 0;
