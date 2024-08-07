@@ -27,7 +27,6 @@ export default function UploadSection() {
   const handleUpload = async () => {
     if (!file) {
       setUploadStatus("No file selected.");
-      console.log("No file selected for upload");
       return;
     }
 
@@ -52,7 +51,6 @@ export default function UploadSection() {
       if (uploadResponse.ok) {
         setUploadStatus("File uploaded successfully!");
         setExtractedText(uploadResult.text);
-        console.log("Upload successful:", uploadResult);
 
         // Start loading screen before the second request
         setLoading(true);
@@ -70,7 +68,6 @@ export default function UploadSection() {
         const lessonResult = await lessonResponse.json();
 
         if (lessonResponse.ok) {
-          console.log("HERE IS THE GENERATED LESSON:", lessonResult);
           // Redirect to the new lesson
           navigate(`/lesson/${lessonResult._id}`);
         } else {

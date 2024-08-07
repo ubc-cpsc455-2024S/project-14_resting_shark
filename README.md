@@ -2,6 +2,8 @@
 
 We're developing an innovative web application designed for students and learners to enhance their understanding of various subjects. Users can upload PDFs to create interactive and personalized lessons featuring true/false, fill-in-the-blank, and multiple-choice questions. The platform includes user authentication, progress tracking, and gamified elements like streaks and levels to make learning engaging and effective, as well as sharing lessons with other users.
 
+Website url: https://project-14-resting-shark-frontend.onrender.com/
+
 ![Status](https://github.com/ubc-cpsc455-2024S/project-14_resting_shark/actions/workflows/main.yml/badge.svg)
 
 ## Project task requirements:
@@ -28,10 +30,19 @@ We're developing an innovative web application designed for students and learner
 
 ## How tech from Units 1-5 are used in the project
 1. HTML/CSS/JS
+   - CSS was used to style our components so that they aligned with the UI design that we created beforehand on Figma via extensive UX research. Without CSS, we would not have been able to incorporate our UX research and UI designs into this project.
+   - We tried to follow the best CSS practices, and inline CSS was only ever used when the CSS involved a variable inside of a TSX file.
+   - Although we used TypeScript instead of JavaScript for this project (close enough), TypeScript was the programming language that allowed us to bring our project to life. We wrote a lot of helper functions in Typescript to help us on the frontend, created Typescript classes such as Lesson.ts and User.ts, and our entire backend was built using Typescript.
 
-2. React and Redux
+3. React and Redux
+   - React allowed us to make reusable components, which was very helpful for components that repeated across the page such as our LessonCard component in our dashboard and explore.
+   - React hooks were helpful because we had so many dynamic variables that kept changing, especially in our lesson flow: lives, streak, currentPage, whether the user has provided an answer to every question, etc. UseState was used a lot for dynamic variables, and useEffect was called a lot for functions that needed to run on mount, functions that ran on unmount, and updating things with dependencies. For example, one of our useEffects keeps track of whether our current page number has changed and updates our farthestPage variable if we've progressed past our previous farthest page. This lets us update the progress bar that displays the user's progress on the dashboard, so that our users can know much of each lesson they've done without needing to navigate into the lesson. These are some things that wouldn't have been so convenient to implement if we were using plain HTML with no access to React hooks.
+   - In our lesson component, useContext was especially helpful since it allowed us to have global variables that all of our tiny components inside of the lesson could have access to. This was a lot easier than passing everything down as a prop in multiple different areas, especially since we had to keep track of many states (whether the current page a question, whether the user can progress past the question, etc).
+   - Since our lesson is very interactive and we had so many components updating themselves constantly at different times, React's ability to only update parts of the DOM that changed made our user experience a lot smoother. With HTML, the entire page would've been updating itself too many times, slowing down the performance.
+   - We used Redux to handle our Auth token, which we would normally do using a context. This made it easier to manage and access authentication tokens alongside other global state variables.
+   - All of our dashboard lessons were kept track of using Redux as well, and so was most of the variables inside of each lesson. As mentioned above, we had a lot of everchanging variables to keep track of so redux helped us keep our states clean.
 
-3. NodeJS/Express
+5. NodeJS/Express
    - the backend of this project is a RESTful API written using NodeJS and Express.
    - Express is very unpoinionated, so we could easily design and structure our code the way we want and not be forced to follow a predetermined framework
        - our code follows a Routers > Services structure, where all business logic is contained in the service layer to keep the router layer clean 
@@ -68,18 +79,11 @@ We're developing an innovative web application designed for students and learner
 
 ## Above and Beyond Functionality
 
-TODO:
-From the rubric "Some examples could be: Fully responsive, fully accessible, uses external APIs, implements a complex algorithm, utilizes ML/AI, did research for UX, supports multiple languages and/or timezones, uses location services, integrates with social media."
-
-- Maggie has done a considerable amount of research / has a lot of UX/UI knowledge (maybe we can beef this up with some examples?)
-- use of external API?
-- JWT?
-
+- We have integrated our application with OpenAI in order to generate lessons from pdfs provided by the user. A lesson is represented by a very complex and rigid JSON sttructure, that needs to follow our defined lesson interface exactly in order to be rendered properly on the frontend. This isn't just a simple call to the API, but we have complex logic on validation and parsing of the JSON structure returned by OpenAI, and made many design changes to our database and how we would query, fetch, and store a lesson in order to most effectively ensure a smooth user experience when generating lessons. For example, we first decided to store all our objects inside of a lesson as seperate documents (normalized), but found out that it would be incredibly difficult to get OpenAI to generate multiple objects while keeping context, or to perform extensive joins when trying to fetch a full lesson. We leveraged MongoDB's feature of allowing nested objects to introduce some redundancy into our storage format and store one full lesson per document, increasing both speed of storage and retrieval, requiring less parsing and validation, and resulting in better quality of generated answers.
+- Our lessons are fully interactive, instead of just displaying data on a screen, we have answer correctness checking, progress checking, AI assistant helper, progress blocking (you can't progress to a new question if you dont finish an old one), lives and streaks, a stats graph to show lesson activity data, and a cooldown timer that locks you out of the lesson if you lose all your lives to encourage users to not randomly guess answers.
+- We implemented our own authentication and authorization with JWT tokens. We also hash our passwords when storing in the DB for best security practices.
 
 ## Next Steps
-
-TODO: I have added some potential next steps but I think they need to be a little meatier with more specifically describing how we might go about incorporating this.. (or scratch all of it)
-
 We have a number of potential improvements and additional features that we would like to add to our project. 
 
 If we continue to develop and work on this project we would consider adding functions and/or features like:
@@ -90,7 +94,9 @@ If we continue to develop and work on this project we would consider adding func
 
 ## Contributions
 
-Emma: I designed the database schema with Maggie as well as the backend structure. I wrote 21 out of the 24 endpoints we have for this project, including complex JSON object parsing and validation logic for openAI generated lessons, JWT based user authentication and authorizaion, and complex MongoDB aggregation pipelines to compute user lesson stats. For the frontend. I set up a mock server for easier development when the backend isnt ready yet, did some integration to hook up the frontend and backend, and wrote a few components on the dashboard page with Maggie.
+Maggie: I designed most of the UI, coded the lessons page and almost all of the lesson logic, developed the profile page and the profile customization feature, drew the profile picture images with Emma, coded the explore page, and contributed to frontend and backend integration. I implemented drag and drop for our fill-in-the-blank question, the ability for users to connect two components with an svg line and drag components to reorder them in the matching question, and the timer that locks users out of lessons upon losing all their lives. I also designed the database schema with Emma and pair programmed the dashboard with her. Finally, I set up CI/CD, deployed the frontend application, wrote a few frontend tests, and helped my team members with general questions and debugging.
+
+Emma: I designed the database schema with Maggie as well as the backend structure, explained the design to the rest of the team with Maggie, helped team members with general questions and debugging their code whenever they requested my help, and pair programed with every team member. I wrote 20 out of the 23 endpoints we have for this project, including complex JSON object parsing and validation logic for openAI generated lessons, JWT based user authentication and authorizaion, and complex MongoDB aggregation pipelines to compute user lesson stats. For the frontend. I set up a mock server for easier development when the backend isnt ready yet, did some integration to hook up the frontend and backend, and wrote a few components on the dashboard page with Maggie.
 
 Antonia: I primarily helped with developing the components and frontend for the landing, login and registration pages. I ensured there was proper validation for registering the users. I also helped with the profile editing page ensuring we had an update endpoint for the new information. 
 

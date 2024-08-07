@@ -27,11 +27,9 @@ export default function MainDisplay(props: BodyProps) {
 
     if (!hasCompleted.hasCompletedBefore) {
       await requests.postRequest(token, `/lessonHistory/${props.lessonId}`);
-      console.log("updated history");
 
       const user = await requests.patchRequest(token, `/user`, { user: {} });
       const exp = user.totalExp;
-      console.log(exp);
 
       await requests.patchRequest(token, `/user`, {
         user: { totalExp: exp + 100 },

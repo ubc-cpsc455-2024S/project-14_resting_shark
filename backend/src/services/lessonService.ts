@@ -100,7 +100,6 @@ class LessonService {
     // save new lesson
     try {
       const savedLesson = await newLesson.save();
-      console.log('New lesson saved:', savedLesson);
     } catch (error) {
       console.error('Error saving new lesson:', error);
     }
@@ -156,7 +155,6 @@ class LessonService {
     // save
     try {
       const savedLesson = await copiedLesson.save();
-      console.log('New lesson saved:', savedLesson);
     } catch (error) {
       console.error('Error saving new lesson:', error);
     }

@@ -64,7 +64,7 @@ function Lesson() {
         console.error("Failed to update lesson:", error);
       }
     } else {
-      console.log("lesson null");
+      // lesson is null, do nothing
     }
   }
 
@@ -98,8 +98,7 @@ function Lesson() {
       });
       setTime(currTime);
       setIsGameOver(true);
-      console.log("updated lesson time");
-    } else if (lives > 0) {
+    } else {
       setIsGameOver(false);
     }
   }, [lives]);

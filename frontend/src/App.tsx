@@ -3,10 +3,7 @@ import "./App.css";
 import Dashboard from "./pages/dashboard/Dashboard";
 import Lesson from "./pages/lesson/Lesson";
 import PageNotFound from "./pages/pagenotfound/PageNotFound";
-import Test from "./api/mock/Test";
-// import Login from "./pages/Auth/Login";
 import RegisterLogin from "./pages/Auth/RegisterLogin";
-// import Register from "./pages/Auth/Register";
 import ProtectedRoute from "./pages/Auth/ProtectedRoute";
 import BackgroundUpdater from "./context/BackgroundUpdater";
 import LandingPage from "./pages/landingPage/LandingPage";
@@ -24,8 +21,6 @@ function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="*" element={<PageNotFound />} />
           <Route path="/finished" element={<FinishedLesson />} />
-          <Route path="/test" element={<Test />} />
-
           <Route element={<ProtectedRoute />}>
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/lesson/:lessonId" element={<Lesson />} />

@@ -40,7 +40,6 @@ async function getRequest(token?: string, url?: string) {
 // performs a post request to the given url with the given jwt token and body. Throws an error on faliure
 // body must be a json object
 async function postRequest(token?: string, url?: string, body?: any) {
-  console.log("post")
   // req headers
   const headers = {
     'Authorization': `Bearer ${token}`,

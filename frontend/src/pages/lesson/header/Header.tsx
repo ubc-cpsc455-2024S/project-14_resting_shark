@@ -4,7 +4,6 @@ import {
   LuX,
   LuChevronLeft,
   LuChevronRight,
-  LuPenSquare,
 } from "react-icons/lu";
 import { Link } from "react-router-dom";
 import Content from "../../../class/Content";
@@ -28,7 +27,6 @@ export default function Header(props: HeaderProps) {
         />
       </div>
       <div className="right-head">
-        <EditButton />
       </div>
     </div>
   );
@@ -149,11 +147,3 @@ function ProgressBar(props: {
   );
 }
 
-function EditButton() {
-  return (
-    <button className="edit-button">
-      <LuPenSquare size={23} />
-      <span>Edit Lesson</span>
-    </button>
-  );
-}

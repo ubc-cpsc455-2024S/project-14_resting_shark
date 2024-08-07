@@ -167,7 +167,6 @@ const UserEditModal: React.FC<UserEditModalProps> = ({
     }
     setHatIndex((hatIndex + direction + hats.length) % hats.length);
     setHat(hats[hatIndex]);
-    console.log(hatIndex);
   };
 
   const changeItem = (isLeft: boolean) => {

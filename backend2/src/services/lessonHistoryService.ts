@@ -4,6 +4,7 @@ import ErrorWithCode from "../errors/ErrorWithCode";
 import Lesson from '../models/Lesson';
 
 class LessonHistoryService {
+  // make a record of a user completing a lesson
   public async record(userId: string, lessonId: string) {
     const userObjId = new mongoose.Types.ObjectId(userId);
     const lessonObjId = new mongoose.Types.ObjectId(lessonId);
@@ -77,6 +78,7 @@ class LessonHistoryService {
     }
   }
 
+  // generates a an array of dates with the given range
   private generateDateRange(start: Date, end: Date){
     const dates: string[] = [];
       const current = new Date(start);
@@ -88,6 +90,7 @@ class LessonHistoryService {
       return dates;
   };
 
+  // finds a lesson history matching the given userid and lessonid
   public async findLessonHistory(userId: string, id: string) {
     const lessonHistory = await LessonHistory.find({
       userId: new mongoose.Types.ObjectId(userId),
