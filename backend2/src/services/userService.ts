@@ -3,6 +3,7 @@ import crypto from 'crypto';
 import ErrorWithCode from "../errors/ErrorWithCode";
 
 class UserService {
+  // deletes given user
   public async deleteUser(userId : string) {
     try {
       const user = await User.findByIdAndDelete(userId);
@@ -21,6 +22,7 @@ class UserService {
     }
   }
 
+  // gets a user
   public async getUser(userId : string) {
     try {
       const user = await User.findById(userId);

@@ -99,6 +99,7 @@ class LessonService {
     }
   }
 
+  // fetches the current lesson of the day depending on what day it is
   public async getLessonOfTheDay() {
     try {
       const SYSTEM_USER = process.env.SYSTEM_USERID as string;
@@ -140,7 +141,7 @@ class LessonService {
   // uses openai to generate, validate, parse, save, and return lesson
   public async generateLesson(userId: string, content: string) {
     try {
-      const response = await openAIService.generateLesson(userId, content);
+      const response = await openAIService.generateLesson(content);
       const lesson = await this.createAndSaveNewLesson(userId, response);
       return lesson;
     } catch (error: any) {

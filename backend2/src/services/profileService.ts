@@ -5,6 +5,7 @@ import ErrorWithCode from "../errors/ErrorWithCode";
 import mongoose from "mongoose";
 
 class ProfileService {
+  // get the global profile configurations
   public async getProfileConfigs() {
     try {
       const configs = await Profile.findOne();
@@ -41,6 +42,7 @@ class ProfileService {
     }
   }
 
+  // gets the profile for the given user
   public async getProfile(userId: string) {
     try {
       const user = await User.findById(userId);
