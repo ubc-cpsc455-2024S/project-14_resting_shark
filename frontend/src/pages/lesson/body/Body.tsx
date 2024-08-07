@@ -5,8 +5,6 @@ import "./AiHelper.css";
 import MainDisplay from "./main-display/MainDisplay";
 import { LuBot } from "react-icons/lu";
 import * as React from "react";
-import { useAppDispatch } from "../../../redux/hooks";
-import { setPageNumber } from "../../../redux/slices/lessonPageSlice";
 
 export default function Body(props: BodyProps) {
   return (
@@ -35,12 +33,6 @@ export default function Body(props: BodyProps) {
 }
 
 function ChaptersNav(props: { chapters: any; pageNumber: number }) {
-  const dispatch = useAppDispatch();
-
-  const navigate = (page: number) => {
-    dispatch(setPageNumber(page));
-  };
-
   return (
     <div className="left-container">
       <div className="chapters">
@@ -51,7 +43,6 @@ function ChaptersNav(props: { chapters: any; pageNumber: number }) {
               props.chapters.chapters.map((item: string, index: number) => (
                 <li
                   className={props.pageNumber == index ? "active" : ""}
-                  onClick={() => navigate(index)}
                   key={index}
                 >
                   {item}
