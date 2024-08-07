@@ -43,7 +43,6 @@ export default function ProfileDisplay() {
       setHat(pictureData.accessory);
       setItem(pictureData.heldItem);
       setBackgroundColor(pictureData.bgColor);
-      console.log(pictureData);
     } catch (e: any) {
       console.error(e.message);
     }

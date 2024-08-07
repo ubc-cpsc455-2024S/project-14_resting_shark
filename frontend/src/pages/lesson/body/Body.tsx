@@ -78,7 +78,6 @@ const AIHelper = () => {
         prompt,
       });
       const botMessage: Message = { user: "bot", text: data.reply };
-      // console.log("Here is the AI Helper messge: ", botMessage);
       setChatLog((prevLog) => [...prevLog, botMessage]);
       setPrompt("");
     } catch (error) {

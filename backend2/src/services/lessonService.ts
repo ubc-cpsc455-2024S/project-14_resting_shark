@@ -102,7 +102,6 @@ class LessonService {
   public async getLessonOfTheDay() {
     try {
       const SYSTEM_USER = process.env.SYSTEM_USERID as string;
-      console.log(SYSTEM_USER);
       const systemUserId = new mongoose.Types.ObjectId(SYSTEM_USER);
       const lessons = await Lesson.find({ author: systemUserId }).sort({
         date: 1,
@@ -245,7 +244,6 @@ class LessonService {
     // save
     try {
       const savedLesson = await copiedLesson.save();
-      console.log("New lesson saved:", savedLesson);
     } catch (error) {
       console.error("Error saving new lesson:", error);
     }

@@ -39,7 +39,6 @@ const authSlice = createSlice({
         state.isAuthenticated = true;
         localStorage.setItem('jwtToken', state.jwtToken);
       }
-      console.log(state.isAuthenticated);
     })
     .addCase(authApi.login.rejected, (state, action) => {
       state.tokenStatus = "failed";

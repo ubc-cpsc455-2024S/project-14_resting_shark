@@ -14,7 +14,6 @@ const router: Router = express.Router();
 router.get("/config", async (req: Request, res: Response) => {
   try {
     const configs = await LessonConfig.find();
-    console.log(configs);
     res.status(200).json(configs[0]);
   } catch (error: any) {
     res.status(error.code || 500).json({ message: error.message });

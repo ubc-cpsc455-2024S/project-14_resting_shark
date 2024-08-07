@@ -26,8 +26,6 @@ router.get('/stats', authMiddleware, async (req: Request, res: Response) => {
   try {
     const userId = req.user.id;
     const stats = await userService.getUserStats(userId);
-    console.log(userId)
-    console.log(stats)
     res.status(200).json(stats);
   } catch (error: any) {
     res.status(error.code || 500).json({ message: error.message });
