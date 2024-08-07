@@ -71,15 +71,11 @@ We're developing an innovative web application designed for students and learner
 TODO:
 From the rubric "Some examples could be: Fully responsive, fully accessible, uses external APIs, implements a complex algorithm, utilizes ML/AI, did research for UX, supports multiple languages and/or timezones, uses location services, integrates with social media."
 
-- Maggie has done a considerable amount of research / has a lot of UX/UI knowledge (maybe we can beef this up with some examples?)
-- use of external API?
-- JWT?
-
+- We have integrated our application with OpenAI in order to generate lessons from pdfs provided by the user. A lesson is represented by a very complex and rigid JSON sttructure, that needs to follow our defined lesson interface exactly in order to be rendered properly on the frontend. This isn't just a simple call to the API, but we have complex logic on validation and parsing of the JSON structure returned by OpenAI, and made many design changes to our database and how we would query, fetch, and store a lesson in order to most effectively ensure a smooth user experience when generating lessons. For example, we first decided to store all our objects inside of a lesson as seperate documents (normalized), but found out that it would be incredibly difficult to get OpenAI to generate multiple objects while keeping context, or to perform extensive joins when trying to fetch a full lesson. We leveraged MongoDB's feature of allowing nested objects to introduce some redundancy into our storage format and store one full lesson per document, increasing both speed of storage and retrieval, requiring less parsing and validation, and resulting in better quality of generated answers.
+- Our lessons are fully interactive, instead of just displaying data on a screen, we have answer correctness checking, progress checking, AI assistant helper, progress blocking (you can't progress to a new question if you dont finish an old one), lives and streaks, a stats graph to show lesson activity data, and a cooldown timer that locks you out of the lesson if you lose all your lives to encourage users to not randomly guess answers.
+- We implemented our own authentication and authorization with JWT tokens. We also hash our passwords when storing in the DB for best security practices.
 
 ## Next Steps
-
-TODO: I have added some potential next steps but I think they need to be a little meatier with more specifically describing how we might go about incorporating this.. (or scratch all of it)
-
 We have a number of potential improvements and additional features that we would like to add to our project. 
 
 If we continue to develop and work on this project we would consider adding functions and/or features like:
