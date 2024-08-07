@@ -60,8 +60,8 @@ export default function MainDisplay(props: BodyProps) {
                 navigate("/finished", {
                   state: {
                     title: "title",
-                    lives: 3,
-                    streak: 0,
+                    lives: props.lives,
+                    streak: props.streak,
                     lessonId: props.lessonId,
                   },
                 });
