@@ -7,4 +7,5 @@ export type HeaderProps = {
   setPageNumber: (pageNumber: number) => void;
   lives: number;
   streak: number;
+  farthestPage: number;
 };

@@ -24,6 +24,7 @@ export default function Header(props: HeaderProps) {
           setPageNumber={props.setPageNumber}
           lives={props.lives}
           streak={props.streak}
+          farthestPage={props.farthestPage}
         />
       </div>
       <div className="right-head">
@@ -53,6 +54,7 @@ function ProgressHeader(props: {
   setPageNumber: (pageNumber: number) => void;
   lives: number;
   streak: number;
+  farthestPage: number;
 }) {
   return (
     <div className="progress-container">
@@ -75,6 +77,7 @@ function ProgressHeader(props: {
         contentList={props.contentList}
         direction={props.direction}
         setPageNumber={props.setPageNumber}
+        farthestPage={props.farthestPage}
       />
     </div>
   );
@@ -85,9 +88,13 @@ function ProgressBar(props: {
   contentList: Content[];
   direction: string;
   setPageNumber: (pageNumber: number) => void;
+  farthestPage: number;
 }) {
   const onNextButtonPress = () => {
-    if (props.pageNumber + 1 < props.contentList.length) {
+    if (
+      props.pageNumber + 1 < props.contentList.length &&
+      props.farthestPage > props.pageNumber
+    ) {
       props.setPageNumber(props.pageNumber + 1);
     }
   };
@@ -130,7 +137,8 @@ function ProgressBar(props: {
       <button onClick={onNextButtonPress}>
         <LuChevronRight
           className={
-            props.pageNumber + 1 == props.contentList.length
+            props.pageNumber + 1 == props.contentList.length ||
+            props.pageNumber >= props.farthestPage
               ? "inactive-icon"
               : "active-icon"
           }

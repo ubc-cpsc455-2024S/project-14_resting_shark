@@ -36,6 +36,13 @@ function Lesson() {
   const [pageNumber, setPageNumber] = useState(0);
   const [isGameOver, setIsGameOver] = useState(true);
   const [time, setTime] = useState<number>(300);
+  const [farthestPage, setFarthestPage] = useState(0);
+
+  useEffect(() => {
+    if (pageNumber > farthestPage) {
+      setFarthestPage(pageNumber);
+    }
+  }, [pageNumber]);
 
   const dispatch = useAppDispatch();
 
@@ -244,6 +251,7 @@ function Lesson() {
           setPageNumber={(pageNumber: number) => setPageNumber(pageNumber)}
           lives={lives}
           streak={streak}
+          farthestPage={farthestPage}
         />
         <Body
           pageNumber={pageNumber}

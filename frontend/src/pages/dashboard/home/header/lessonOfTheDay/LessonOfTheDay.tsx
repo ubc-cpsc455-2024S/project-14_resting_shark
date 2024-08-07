@@ -1,4 +1,4 @@
-import { LuCheck, LuSparkles } from "react-icons/lu";
+import { LuSparkles } from "react-icons/lu";
 import { useState, useEffect } from "react";
 import { lessonApi } from "../../../../../api/lessonApi";
 import s from "./LessonOfTheDay.module.css";
@@ -40,19 +40,7 @@ function LessonsDisplay({ lesson }: any) {
 }
 
 function LessonInfo({ lesson }: any) {
-  const activity = [true, true, false, false, false, false, false];
   const date = new Date();
-  const streakIndicator = activity.map((item, key) => {
-    if (item) {
-      return (
-        <div key={key} className={`${s.streakIndicator} ${s.completed}`}>
-          <LuCheck />
-        </div>
-      );
-    } else {
-      return <div key={key} className={`${s.streakIndicator}`}></div>;
-    }
-  });
 
   return (
     <div className={s.lessonInfoContainer}>
@@ -64,7 +52,6 @@ function LessonInfo({ lesson }: any) {
         {date.toLocaleDateString("en-US", { month: "long", day: "numeric" })}:{" "}
         {lesson.name}
       </div>
-      <div className={s.streakContainer}>{streakIndicator}</div>
     </div>
   );
 }
