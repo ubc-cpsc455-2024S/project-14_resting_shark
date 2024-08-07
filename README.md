@@ -86,7 +86,7 @@ If we continue to develop and work on this project we would consider adding func
 
 ## Contributions
 
-Emma: I designed the database schema with Maggie as well as the backend structure. I wrote 21 out of the 24 endpoints we have for this project, including complex JSON object parsing and validation logic for openAI generated lessons, JWT based user authentication and authorizaion, and complex MongoDB aggregation pipelines to compute user lesson stats. For the frontend. I set up a mock server for easier development when the backend isnt ready yet, did some integration to hook up the frontend and backend, and wrote a few components on the dashboard page with Maggie.
+Emma: I designed the database schema with Maggie as well as the backend structure, explained the design to the rest of the team with Maggie, helped team members with general questions and debugging their code whenever they requested my help, and pair programed with every team member. I wrote 20 out of the 23 endpoints we have for this project, including complex JSON object parsing and validation logic for openAI generated lessons, JWT based user authentication and authorizaion, and complex MongoDB aggregation pipelines to compute user lesson stats. For the frontend. I set up a mock server for easier development when the backend isnt ready yet, did some integration to hook up the frontend and backend, and wrote a few components on the dashboard page with Maggie.
 
 Antonia: I primarily helped with developing the components and frontend for the landing, login and registration pages. I ensured there was proper validation for registering the users. I also helped with the profile editing page ensuring we had an update endpoint for the new information. 
 
