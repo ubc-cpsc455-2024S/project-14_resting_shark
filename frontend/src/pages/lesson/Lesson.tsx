@@ -99,7 +99,7 @@ function Lesson() {
       setTime(currTime);
       setIsGameOver(true);
       console.log("updated lesson time");
-    } else {
+    } else if (lives > 0) {
       setIsGameOver(false);
     }
   }, [lives]);
