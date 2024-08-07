@@ -38,6 +38,8 @@ function Lesson() {
   const [time, setTime] = useState<number>(300);
   const [farthestPage, setFarthestPage] = useState(0);
 
+  const [isLoading, setIsLoading] = useState(true);
+
   useEffect(() => {
     if (pageNumber > farthestPage) {
       setFarthestPage(pageNumber);
@@ -69,6 +71,7 @@ function Lesson() {
   }
 
   async function fetchLesson() {
+    setIsLoading(true);
     try {
       const resultAction = await dispatch(
         lessonApi.fetchFullLesson({ token, lessonId })
@@ -87,6 +90,8 @@ function Lesson() {
       }
     } catch (error) {
       console.error("Error in fetchLesson:", error);
+    } finally {
+      setIsLoading(false);
     }
   }
 
@@ -239,7 +244,12 @@ function Lesson() {
   // Main Page
   return (
     <LessonProvider>
-      {isGameOver ? (
+      {isLoading && (
+        <div className="isLoadingModal">
+          <div className="loader"></div>
+        </div>
+      )}
+      {isGameOver && !isLoading ? (
         <GameOverModal time={time} setIsGameOver={setIsGameOver} />
       ) : null}
       <div className="container">
