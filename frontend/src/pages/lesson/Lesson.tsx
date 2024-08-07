@@ -109,7 +109,7 @@ function Lesson() {
   }, [lives]);
 
   useEffect(() => {
-    if (!isGameOver) {
+    if (!isGameOver && lives <= 0) {
       setLives(3);
       requests.patchRequest(token, `/lesson/${lessonId}`, {
         lesson: { lives: 3 },
